@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Hook Visuals — Premium Wellness Marketing Agentur</title>
+  <meta name="description" content="Hook Visuals ist die führende Marketing-Agentur für Wellness-Hotels und Luxus-Resorts. Wir verwandeln Ihr Haus in eine digitale Sehnsucht — mit cineastischem Content, Social Media und messbaren Ergebnissen." />
+  <meta name="keywords" content="Wellness Marketing, Hotel Marketing, Luxury Spa Marketing, Social Media Agentur, TikTok Hotel, Instagram Wellness" />
+  <meta name="author" content="Hook Visuals" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hookvisuals.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://hookvisuals.com/" />
+  <meta property="og:title" content="Hook Visuals — Premium Wellness Marketing" />
+  <meta property="og:description" content="Cineastisches Marketing für außergewöhnliche Wellness-Hotels. Sichtbarkeit, die bucht." />
+  <meta property="og:image" content="https://hookvisuals.com/hero.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary:    '#004B49',
+            'primary-dark': '#003635',
+            secondary:  '#C5A059',
+            'secondary-light': '#F5E6CC',
+            surface:    '#F9F8F5',
+            'surface-low': '#f4f3f0',
+            'on-surface': '#1a1c1a',
+            'on-muted':   '#5a5e5a',
+          },
+          fontFamily: {
+            serif: ['Noto Serif', 'Georgia', 'serif'],
+            sans:  ['Manrope', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    /* ── Base ── */
+    body { font-family: 'Manrope', sans-serif; background: #F9F8F5; color: #1a1c1a; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Noto Serif', Georgia, serif; }
+
+    /* ── Nav glassmorphism ── */
+    .glass {
+      background: rgba(249,248,245,0.70);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    /* ── Hero ── */
+    .hero-img  { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(160deg, rgba(0,75,73,0.55) 0%, rgba(0,30,29,0.70) 100%); }
+
+    /* ── Labels ── */
+    .label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+    }
+
+    /* ── Portfolio hover ── */
+    .porto-img { transition: transform 1s cubic-bezier(0.25,0.46,0.45,0.94); }
+    .porto-wrap:hover .porto-img { transform: scale(1.06); }
+
+    /* ── iPhone frame ── */
+    .iphone {
+      width: 260px; height: 540px;
+      border: 7px solid #1e2120;
+      border-radius: 2.5rem;
+      position: relative; overflow: hidden;
+      box-shadow: 0 32px 64px -12px rgba(0,0,0,0.30);
+      flex-shrink: 0;
+    }
+    .iphone-notch {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 22px;
+      background: #1e2120;
+      border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem;
+      z-index: 20;
+    }
+
+    /* ── Pricing card hover ── */
+    .plan-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
+    .plan-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,0.09); }
+
+    /* ── Form underline inputs ── */
+    .field { position: relative; }
+    .field input, .field textarea, .field select {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid #d4d3d0;
+      padding: 0.75rem 0; outline: none;
+      font-family: 'Manrope', sans-serif; font-size: 0.875rem; color: #1a1c1a;
+      transition: border-color 0.25s;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus { border-bottom-color: #C5A059; }
+    .field label {
+      position: absolute; top: 0.75rem; left: 0;
+      font-family: 'Manrope', sans-serif; font-size: 0.625rem;
+      font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #5a5e5a; pointer-events: none;
+      transition: top 0.2s, color 0.2s;
+    }
+    .field input:focus ~ label,
+    .field input:not(:placeholder-shown) ~ label,
+    .field textarea:focus ~ label,
+    .field textarea:not(:placeholder-shown) ~ label { top: -1rem; color: #C5A059; }
+    .field select ~ label { top: -1rem; color: #C5A059; }
+
+    /* ── Scroll arrow bounce ── */
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+    .bounce { animation: bounce 2s ease-in-out infinite; }
+  </style>
+</head>
+
+<body>
+
+<!-- ════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════ -->
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-4">
+  <nav class="glass w-full max-w-7xl rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex items-center justify-between px-8 py-3.5">
+
+    <!-- Logo -->
+    <a href="index.html" class="text-xl font-serif font-bold text-on-surface tracking-tight select-none">Hook Visuals</a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#portfolio"  class="label text-secondary border-b border-secondary/40 pb-0.5 hover:opacity-70 transition-opacity">Portfolio</a>
+      <a href="#social"     class="label text-on-muted hover:text-primary transition-colors">Social Media</a>
+      <a href="#pricing"    class="label text-on-muted hover:text-primary transition-colors">Abomodelle</a>
+      <a href="#contact"    class="label text-on-muted hover:text-primary transition-colors">Partnerschaft</a>
+    </div>
+
+    <!-- CTA -->
+    <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block">
+      Jetzt starten
+    </a>
+
+    <!-- Mobile hamburger (visual only — menu below) -->
+    <button id="menu-btn" class="sm:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
+      <span class="block w-5 h-0.5 bg-on-surface"></span>
+      <span class="block w-5 h-0.5 bg-on-surface"></span>
+      <span class="block w-5 h-0.5 bg-on-surface"></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile menu dropdown -->
+<div id="mobile-menu" class="fixed top-[78px] left-4 right-4 z-40 bg-white rounded-2xl shadow-2xl border border-stone-100 flex-col hidden overflow-hidden">
+  <a href="#portfolio" onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Portfolio</a>
+  <a href="#social"    onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Social Media</a>
+  <a href="#pricing"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Abomodelle</a>
+  <a href="#contact"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Partnerschaft</a>
+  <div class="px-6 py-4">
+    <a href="#contact" onclick="closeMenu()" class="label bg-primary text-white px-6 py-3 rounded-full block text-center hover:bg-primary-dark transition-colors">Jetzt starten</a>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  <img src="hero.png" alt="Luxuriöser Wellness-Bereich" class="hero-img" />
+  <div class="hero-overlay"></div>
+
+  <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-28 pb-20">
+    <p class="label text-secondary mb-6 tracking-[0.3em]" style="text-shadow:0 2px 8px rgba(0,0,0,0.4)">
+      Exzellenz im Marketing
+    </p>
+    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white leading-[1.05] tracking-tight mb-8"
+        style="text-shadow:0 4px 24px rgba(0,0,0,0.45)">
+      Ihre Exzellenz verdient<br class="hidden sm:block" /> Sichtbarkeit.
+    </h1>
+    <p class="text-base sm:text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed font-light mb-12"
+       style="text-shadow:0 2px 12px rgba(0,0,0,0.35)">
+      Herausragendes Marketing für außergewöhnliche Wellness-Ziele. Wir verwandeln die Ruhe Ihres Hauses in eine digitale Sehnsucht, die messbare Ergebnisse liefert.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#contact"
+         class="label bg-primary text-white px-10 py-5 rounded-md hover:bg-primary-dark transition-all duration-300 shadow-xl">
+        Jetzt starten
+      </a>
+      <a href="#portfolio"
+         class="label text-white border-b-2 border-secondary px-6 py-5 hover:text-secondary transition-colors duration-300"
+         style="text-shadow:0 2px 8px rgba(0,0,0,0.35)">
+        Unsere Vision entdecken
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll arrow -->
+  <a href="#portfolio" class="absolute bottom-10 left-1/2 -translate-x-1/2 bounce text-white/70 hover:text-white transition-colors z-10">
+    <span class="material-symbols-outlined text-3xl">expand_more</span>
+  </a>
+</section>
+
+<!-- ════════════════════════════════════════════
+     PORTFOLIO
+════════════════════════════════════════════ -->
+<section id="portfolio" class="py-28 md:py-36 bg-surface">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <!-- Heading row -->
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20">
+      <div>
+        <p class="label text-secondary mb-4">Ästhetik &amp; Resultate</p>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Unser Portfolio</h2>
+      </div>
+      <p class="max-w-sm text-on-muted leading-relaxed text-sm lg:text-base">
+        Wir gestalten visuelle Geschichten, die Sehnsüchte wecken. Jedes Video und Foto ist eine Einladung zur Entspannung.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- Large -->
+      <div class="porto-wrap md:col-span-8 relative overflow-hidden rounded-xl h-72 sm:h-96 md:h-[480px]">
+        <img src="portfolio-1.png" alt="Luxuriöse Sauna" class="porto-img w-full h-full object-cover" />
+      </div>
+
+      <!-- Tall right -->
+      <div class="porto-wrap md:col-span-4 relative overflow-hidden rounded-xl h-72 sm:h-96 md:h-[480px]">
+        <img src="portfolio-2.png" alt="Spa-Ambiente" class="porto-img w-full h-full object-cover" />
+      </div>
+
+      <!-- Short left -->
+      <div class="porto-wrap md:col-span-4 relative overflow-hidden rounded-xl h-56 sm:h-72 md:h-[360px]">
+        <img src="portfolio-3.png" alt="Wellness Pool" class="porto-img w-full h-full object-cover" />
+      </div>
+
+      <!-- Short right wide -->
+      <div class="porto-wrap md:col-span-8 relative overflow-hidden rounded-xl h-56 sm:h-72 md:h-[360px]">
+        <img src="portfolio-4.png" alt="Gourmet Bergpanorama" class="porto-img w-full h-full object-cover" />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     SOCIAL MEDIA
+════════════════════════════════════════════ -->
+<section id="social" class="py-28 md:py-36 bg-surface-low">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="text-center mb-20">
+      <p class="label text-secondary mb-4">Digitale Präsenz</p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Social Media</h2>
+    </div>
+
+    <!-- Phone mockups — stack on mobile, row on desktop -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-12 lg:gap-24">
+
+      <!-- Instagram -->
+      <div class="iphone bg-white flex flex-col">
+        <div class="iphone-notch"></div>
+
+        <!-- Status bar -->
+        <div class="flex justify-between items-center px-4 pt-7 pb-0.5">
+          <span class="text-[8px] font-semibold">23:56</span>
+          <div class="flex items-center gap-1">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><rect x="0" y="3" width="2" height="5" rx="0.5" fill="#1a1c1a"/><rect x="2.5" y="2" width="2" height="6" rx="0.5" fill="#1a1c1a"/><rect x="5" y="1" width="2" height="7" rx="0.5" fill="#1a1c1a"/><rect x="7.5" y="0" width="2" height="8" rx="0.5" fill="#1a1c1a"/></svg>
+            <svg width="10" height="8" viewBox="0 0 12 9" fill="none"><path d="M6 1.5C8.2 1.5 10.1 2.5 11.3 4L12 3.2C10.6 1.6 8.4 0.5 6 0.5C3.6 0.5 1.4 1.6 0 3.2L0.7 4C1.9 2.5 3.8 1.5 6 1.5Z" fill="#1a1c1a"/><path d="M6 3.5C7.6 3.5 9 4.2 10 5.3L10.7 4.5C9.5 3.2 7.8 2.5 6 2.5C4.2 2.5 2.5 3.2 1.3 4.5L2 5.3C3 4.2 4.4 3.5 6 3.5Z" fill="#1a1c1a"/><circle cx="6" cy="7.5" r="1.2" fill="#1a1c1a"/></svg>
+            <svg width="16" height="8" viewBox="0 0 20 10" fill="none"><rect x="0" y="1" width="17" height="8" rx="2" stroke="#1a1c1a" stroke-width="1"/><rect x="1" y="2" width="12" height="6" rx="1" fill="#1a1c1a"/><path d="M18 3.5V6.5C18.8 6.2 19.5 5.4 19.5 5C19.5 4.6 18.8 3.8 18 3.5Z" fill="#1a1c1a"/></svg>
+          </div>
+        </div>
+
+        <!-- Top bar -->
+        <div class="flex items-center justify-between px-3 py-1.5 border-b border-stone-100">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="text-[10px] font-bold tracking-tight">alpine_hideaway</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </div>
+
+        <!-- Profile row -->
+        <div class="flex items-center gap-2 px-3 pt-2.5 pb-1.5">
+          <!-- Avatar with gradient ring -->
+          <div class="p-[2px] rounded-full flex-shrink-0" style="background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-white">
+              <img src="hero.png" alt="Profile" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <!-- Stats -->
+          <div class="flex flex-1 justify-around text-center">
+            <div><p class="text-[10px] font-bold leading-tight">95</p><p class="text-[8px] text-stone-500 leading-tight">Posts</p></div>
+            <div><p class="text-[10px] font-bold leading-tight">4 008</p><p class="text-[8px] text-stone-500 leading-tight">Followers</p></div>
+            <div><p class="text-[10px] font-bold leading-tight">184</p><p class="text-[8px] text-stone-500 leading-tight">Following</p></div>
+          </div>
+        </div>
+
+        <!-- Bio -->
+        <div class="px-3 pb-1.5">
+          <p class="text-[9px] font-bold leading-tight">ALPINE HIDEAWAY</p>
+          <p class="text-[8px] text-stone-400 leading-tight">Hotel</p>
+          <p class="text-[8px] leading-snug mt-0.5">🏔️ Luxury Alpine Wellness Resort<br/>✨ Spa &amp; Gourmet auf höchstem Niveau.</p>
+          <p class="text-[8px] text-blue-700 mt-0.5 leading-tight">alpine-hideaway.com</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-1 px-3 pb-2">
+          <button class="flex-1 bg-[#0095f6] text-white text-[8px] font-bold py-1 rounded-lg">Follow</button>
+          <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200">Message</button>
+          <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200">Contact</button>
+          <button class="bg-stone-100 text-stone-600 text-[8px] font-bold px-1.5 py-1 rounded-lg border border-stone-200">▾</button>
+        </div>
+
+        <!-- Story highlights -->
+        <div class="flex gap-3 px-3 pb-2 overflow-x-hidden">
+          <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+            <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-200">
+              <img src="ig-pool.png" alt="" class="w-full h-full object-cover"/>
+            </div>
+            <span class="text-[7px] text-stone-600">Pool</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+            <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-200">
+              <img src="portfolio-1.png" alt="" class="w-full h-full object-cover"/>
+            </div>
+            <span class="text-[7px] text-stone-600">Spa</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+            <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-200">
+              <img src="ig-food.png" alt="" class="w-full h-full object-cover"/>
+            </div>
+            <span class="text-[7px] text-stone-600">Food</span>
+          </div>
+          <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center">
+              <span class="text-base">❓</span>
+            </div>
+            <span class="text-[7px] text-stone-600">Q&amp;A</span>
+          </div>
+        </div>
+
+        <!-- Grid / Reels / Tagged tabs -->
+        <div class="flex border-t border-stone-200">
+          <button class="flex-1 flex justify-center py-1.5 border-b-[1.5px] border-stone-800">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="flex-1 flex justify-center py-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="#9ca3af"/></svg>
+          </button>
+          <button class="flex-1 flex justify-center py-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </button>
+        </div>
+
+        <!-- Photo grid -->
+        <div class="grid grid-cols-3 gap-0 flex-1 overflow-hidden">
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="ig-pool.png"  alt="" class="w-full h-full object-cover"/></div>
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="ig-sauna.png" alt="" class="w-full h-full object-cover"/></div>
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="ig-food.png"  alt="" class="w-full h-full object-cover"/></div>
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="portfolio-1.png" alt="" class="w-full h-full object-cover"/></div>
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="portfolio-2.png" alt="" class="w-full h-full object-cover"/></div>
+          <div class="overflow-hidden" style="aspect-ratio:1"><img src="portfolio-4.png" alt="" class="w-full h-full object-cover"/></div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><path d="M22 11H2"/></svg>
+          <div class="w-5 h-5 rounded-full overflow-hidden border border-stone-300"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div>
+        </div>
+      </div>
+
+      <!-- TikTok -->
+      <div class="iphone bg-stone-900">
+        <div class="iphone-notch"></div>
+        <div class="absolute inset-0">
+          <img src="ig-pool.png" alt="TikTok video" class="w-full h-full object-cover brightness-[0.65]" />
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-4 pb-14">
+            <p class="text-white font-bold text-xs">@alpine_hideaway</p>
+            <p class="text-white/80 text-[10px] mt-1 leading-snug">
+              Tauchen Sie ein in eine Welt der Stille. Unser Infinity Pool... #wellness #spa #alpinehideaway
+            </p>
+            <div class="flex items-center gap-1.5 mt-2 text-white/70">
+              <span class="material-symbols-outlined text-xs">music_note</span>
+              <span class="text-[9px]">Originalton - Alpine Hideaway</span>
+            </div>
+          </div>
+
+          <!-- Right actions -->
+          <div class="absolute right-2.5 bottom-20 flex flex-col items-center gap-4 text-white">
+            <div class="flex flex-col items-center">
+              <div class="w-9 h-9 rounded-full border-2 border-white overflow-hidden mb-0.5">
+                <img src="portfolio-2.png" alt="" class="w-full h-full object-cover" />
+              </div>
+              <span class="material-symbols-outlined bg-red-500 rounded-full text-[10px] p-0.5 -mt-2 z-10">add</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">favorite</span>
+              <span class="text-[9px]">42.5k</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">chat_bubble</span>
+              <span class="text-[9px]">856</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">bookmark</span>
+              <span class="text-[9px]">12.1k</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">reply</span>
+              <span class="text-[9px]">Teilen</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="absolute bottom-0 left-0 right-0 h-11 bg-black border-t border-white/10 flex items-center justify-around text-white/60 px-2">
+          <div class="flex flex-col items-center"><span class="material-symbols-outlined text-lg text-white">home</span><span class="text-[7px] text-white">Home</span></div>
+          <div class="flex flex-col items-center"><span class="material-symbols-outlined text-lg">group</span><span class="text-[7px]">Friends</span></div>
+          <div class="w-9 h-5 bg-gradient-to-r from-cyan-400 via-white to-red-400 rounded flex items-center justify-center"><span class="material-symbols-outlined text-black text-sm">add</span></div>
+          <div class="flex flex-col items-center"><span class="material-symbols-outlined text-lg">mail</span><span class="text-[7px]">Inbox</span></div>
+          <div class="flex flex-col items-center"><span class="material-symbols-outlined text-lg">person</span><span class="text-[7px]">Profile</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════ -->
+<section id="pricing" class="py-28 md:py-36 bg-surface">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="text-center mb-20">
+      <p class="label text-secondary mb-4">Wachstumsstrategien</p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Unsere Abomodelle</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+
+      <!-- Light -->
+      <div class="plan-card bg-white p-10 rounded-xl border-t-4 border-transparent hover:border-secondary shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col">
+        <h3 class="text-2xl text-primary mb-2">Light</h3>
+        <p class="text-on-muted text-sm mb-8">Grundlegende digitale Präsenz.</p>
+        <div class="mb-10">
+          <span class="text-4xl text-primary font-serif font-bold">89 €</span>
+          <span class="label text-on-muted ml-1">/ Monat</span>
+        </div>
+        <ul class="space-y-4 mb-10 flex-1">
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>5 Instagram Posts</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Vorhandenes Material</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Basis Reporting</li>
+        </ul>
+        <a onclick="selectPlan('light')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
+          Plan wählen
+        </a>
+      </div>
+
+      <!-- Plus (featured) -->
+      <div class="plan-card bg-primary p-10 rounded-xl shadow-2xl relative flex flex-col">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-white px-5 py-1 rounded-full label whitespace-nowrap">
+          Empfohlen
+        </div>
+        <h3 class="text-3xl text-white mb-2">Plus</h3>
+        <p class="text-white/70 text-sm mb-8">Umfassendes Marketing.</p>
+        <div class="mb-10">
+          <span class="text-5xl text-white font-serif font-bold">299 €</span>
+          <span class="label text-white/60 ml-1">/ Monat</span>
+        </div>
+        <ul class="space-y-4 mb-10 flex-1">
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 Instagram Posts</li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>5 Mini-Videos (TikTok)</li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>2 Premium TikTok-Videos</li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Content Creation inkludiert</li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Erweitertes Reporting</li>
+        </ul>
+        <a onclick="selectPlan('plus')" href="#contact" class="label block w-full text-center py-4 bg-secondary text-white rounded-md hover:opacity-90 transition-opacity mt-auto cursor-pointer">
+          Plan wählen
+        </a>
+      </div>
+
+      <!-- Premium -->
+      <div class="plan-card bg-white p-10 rounded-xl border-t-4 border-transparent hover:border-secondary shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col">
+        <h3 class="text-2xl text-primary mb-2">Premium</h3>
+        <p class="text-on-muted text-sm mb-8">Full-Service für maximale Expansion.</p>
+        <div class="mb-10">
+          <span class="text-4xl text-primary font-serif font-bold">589 €</span><sup class="text-secondary text-lg font-bold align-super">*</sup>
+          <span class="label text-on-muted ml-1">/ Monat</span>
+        </div>
+        <ul class="space-y-4 mb-10 flex-1">
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>20 Instagram Posts</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 Mini-Videos (TikTok)</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>5 Premium TikTok-Videos</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Google Ads Betreuung</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Strategiereporting</li>
+        </ul>
+        <a onclick="selectPlan('premium')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
+          Plan wählen
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Disclaimer -->
+    <p class="mt-8 text-center text-on-muted" style="font-size:0.72rem;">
+      <span class="text-secondary font-bold">*</span> Preis des Premium-Abos exklusive Domain- und Hostinggebühren der Website.
+    </p>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════════ -->
+<section id="contact" class="py-28 md:py-36 bg-surface-low">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex flex-col lg:flex-row gap-16 xl:gap-28">
+
+      <!-- Left -->
+      <div class="lg:w-5/12">
+        <p class="label text-secondary mb-4">Partnerschaft</p>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-8 leading-tight">Lassen Sie uns wachsen</h2>
+        <p class="text-on-muted text-base md:text-lg leading-relaxed mb-12">
+          Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.
+        </p>
+        <div class="space-y-7">
+          <div class="flex items-center gap-5">
+            <div class="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-secondary">mail</span>
+            </div>
+            <div>
+              <p class="label text-on-muted mb-1">E-Mail</p>
+              <a href="mailto:hookvisuals@gmail.com" class="text-primary font-semibold hover:text-secondary transition-colors">hookvisuals@gmail.com</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-5">
+            <div class="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+              <span class="material-symbols-outlined text-secondary">location_on</span>
+            </div>
+            <div>
+              <p class="label text-on-muted mb-1">Office</p>
+              <p class="text-primary font-semibold">Im Zentrum von München</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="lg:w-7/12 bg-white p-8 md:p-12 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.05)] border border-stone-100">
+
+        <!-- Success message (hidden by default) -->
+        <div id="form-success" class="hidden flex-col items-center justify-center text-center py-12 gap-6">
+          <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-secondary text-3xl">check_circle</span>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl text-primary mb-2">Nachricht erhalten!</h3>
+            <p class="text-on-muted text-sm leading-relaxed">Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+          </div>
+        </div>
+
+        <!-- Error message (hidden by default) -->
+        <div id="form-error" class="hidden mb-6 p-4 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm"></div>
+
+        <form id="contact-form" class="space-y-10">
+          <div class="field">
+            <input type="text"  id="name"    name="name"    placeholder=" " required />
+            <label for="name">Name des Hotels</label>
+          </div>
+          <div class="field">
+            <input type="email" id="email"   name="email"   placeholder=" " required />
+            <label for="email">E-Mail Adresse</label>
+          </div>
+          <div class="field">
+            <select id="plan" name="plan">
+              <option value="">Gewünschtes Modell wählen</option>
+              <option value="light">Light — 89 €/Monat</option>
+              <option value="plus">Plus — 299 €/Monat</option>
+              <option value="premium">Premium — 589 €/Monat</option>
+            </select>
+            <label for="plan">Interesse</label>
+          </div>
+          <div class="field">
+            <textarea id="message" name="message" placeholder=" " rows="3"></textarea>
+            <label for="message">Ihre Nachricht</label>
+          </div>
+          <button type="submit" id="submit-btn"
+            class="label w-full py-5 bg-primary text-white rounded-md flex items-center justify-center gap-2 hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl">
+            <span id="btn-text">Nachricht senden</span>
+            <span id="btn-icon" class="material-symbols-outlined text-sm">arrow_forward</span>
+            <svg id="btn-spinner" class="hidden animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" stroke-dasharray="40" stroke-dashoffset="10"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="bg-primary pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <p class="text-3xl font-serif text-white mb-4">Hook Visuals</p>
+        <p class="text-white/50 text-sm leading-relaxed mb-6">Die spezialisierte Agentur für Wellness-Marketing.</p>
+        <div class="flex gap-3">
+          <!-- Instagram -->
+          <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-secondary hover:border-secondary transition-all">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <!-- TikTok -->
+          <a href="#" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-secondary hover:border-secondary transition-all">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.89a8.18 8.18 0 004.78 1.52V7a4.85 4.85 0 01-1.01-.31z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Agentur -->
+      <div>
+        <p class="label text-white/40 mb-6">Agentur</p>
+        <div class="flex flex-col gap-3">
+          <a href="#pricing" class="text-white/60 text-sm hover:text-secondary transition-colors">Abomodelle</a>
+          <a href="#contact" class="text-white/60 text-sm hover:text-secondary transition-colors">Kontakt</a>
+        </div>
+      </div>
+
+      <!-- Ressourcen -->
+      <div>
+        <p class="label text-white/40 mb-6">Ressourcen</p>
+        <div class="flex flex-col gap-3">
+          <a href="#portfolio" class="text-white/60 text-sm hover:text-secondary transition-colors">Portfolio</a>
+          <a href="#social"    class="text-white/60 text-sm hover:text-secondary transition-colors">Social Media</a>
+        </div>
+      </div>
+
+      <!-- Rechtliches -->
+      <div>
+        <p class="label text-white/40 mb-6">Rechtliches</p>
+        <div class="flex flex-col gap-3">
+          <a href="impressum.html"       class="text-white/60 text-sm hover:text-secondary transition-colors">Impressum</a>
+          <a href="privacy-policy.html"  class="text-white/60 text-sm hover:text-secondary transition-colors">Privacy Policy</a>
+          <a href="cookie-policy.html"   class="text-white/60 text-sm hover:text-secondary transition-colors">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-white/10 pt-8 flex justify-center">
+      <p class="label text-white/30">© 2026 Hook Visuals. The Refined Sanctuary.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Contact form AJAX ──────────────────────────
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn  = document.getElementById('submit-btn');
+      const btnText    = document.getElementById('btn-text');
+      const btnIcon    = document.getElementById('btn-icon');
+      const btnSpinner = document.getElementById('btn-spinner');
+      const errorBox   = document.getElementById('form-error');
+      const successBox = document.getElementById('form-success');
+
+      // Loading state
+      submitBtn.disabled = true;
+      btnText.textContent = 'Wird gesendet…';
+      btnIcon.classList.add('hidden');
+      btnSpinner.classList.remove('hidden');
+      errorBox.classList.add('hidden');
+
+      try {
+        const data = new FormData(contactForm);
+        const res  = await fetch('send-mail.php', { method: 'POST', body: data });
+        const json = await res.json();
+
+        if (json.success) {
+          contactForm.classList.add('hidden');
+          successBox.classList.remove('hidden');
+          successBox.classList.add('flex');
+        } else {
+          errorBox.textContent = json.message || 'Ein Fehler ist aufgetreten.';
+          errorBox.classList.remove('hidden');
+          // Reset button
+          submitBtn.disabled = false;
+          btnText.textContent = 'Nachricht senden';
+          btnIcon.classList.remove('hidden');
+          btnSpinner.classList.add('hidden');
+        }
+      } catch (err) {
+        errorBox.textContent = 'Verbindungsfehler. Bitte versuche es erneut oder schreib uns direkt an hookvisuals@gmail.com.';
+        errorBox.classList.remove('hidden');
+        submitBtn.disabled = false;
+        btnText.textContent = 'Nachricht senden';
+        btnIcon.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+      }
+    });
+  }
+
+  // ── Mobile nav ─────────────────────────────────
+  const btn  = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    const isHidden = menu.classList.contains('hidden');
+    menu.classList.toggle('hidden', !isHidden);
+    menu.classList.toggle('flex', isHidden);
+  });
+  function closeMenu() {
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+  }
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+  });
+
+  function selectPlan(plan) {
+    document.getElementById('plan').value = plan;
+  }
+</script>
+
+</body>
+</html>

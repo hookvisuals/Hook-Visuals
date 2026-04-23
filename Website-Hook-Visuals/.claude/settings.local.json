@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/User/Downloads/**)",
+      "Bash(unzip -o \"stitch_hook_studios_wellness_marketing \\(1\\).zip\" -d stitch_extracted)",
+      "Bash(mv \"image hero.png\" \"hero.png\")",
+      "Bash(mv \"image portfolio 1.png\" \"portfolio-1.png\")",
+      "Bash(mv \"image portfolio 2.png\" \"portfolio-2.png\")",
+      "Bash(mv \"image portfolio 3.png\" \"portfolio-3.png\")",
+      "Bash(mv \"image portfolio 4.png\" \"portfolio-4.png\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npx:*)",
+      "Bash(where node:*)",
+      "Bash(cmd /c \"where npx\")",
+      "Bash(cmd /c \"where node\")",
+      "Bash(cmd /c \"where python\")",
+      "Bash(cmd /c \"where python3\")",
+      "Bash(ls /c/Python*)",
+      "Read(//c/Users/User/AppData/Local/Programs//**)",
+      "Bash(mkdir -p \"/c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals\")",
+      "Bash(cp -r \"/c/Users/User/Downloads/Hook Visuals Images/.\" \"/c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals/\")",
+      "Read(//c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals//**)"
+    ]
+  }
+}

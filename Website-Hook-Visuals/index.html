@@ -19,8 +19,9 @@
   <meta property="og:description" content="Cineastisches Marketing für außergewöhnliche Wellness-Hotels. Sichtbarkeit, die bucht." />
   <meta property="og:image" content="https://hookvisuals.com/hero.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="Hook-Logo-klein.png" />
+  <!-- Favicon — hell/dunkel-adaptiv -->
+  <link rel="icon" type="image/png" href="Hook-Logo-klein.png"       media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/png" href="Hook-Logo-klein-weiß.png"  media="(prefers-color-scheme: dark)"  />
   <link rel="apple-touch-icon" href="Hook-Logo-klein.png" />
 
   <!-- Preload critical assets -->
@@ -353,7 +354,7 @@
             </div>
             <div class="flex flex-1 justify-around text-center">
               <div><p class="text-[10px] font-bold leading-tight">95</p><p class="text-[8px] text-stone-500 leading-tight">Posts</p></div>
-              <div><p class="text-[10px] font-bold leading-tight">4 008</p><p class="text-[8px] text-stone-500 leading-tight">Followers</p></div>
+              <div><p id="ig-follower-count" class="text-[10px] font-bold leading-tight">4 008</p><p class="text-[8px] text-stone-500 leading-tight">Followers</p></div>
               <div><p class="text-[10px] font-bold leading-tight">184</p><p class="text-[8px] text-stone-500 leading-tight">Following</p></div>
             </div>
           </div>
@@ -368,9 +369,8 @@
 
           <!-- Buttons -->
           <div class="flex gap-1 px-3 pb-2 flex-shrink-0">
-            <button class="flex-1 bg-[#0095f6] text-white text-[8px] font-bold py-1 rounded-lg">Follow</button>
-            <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200">Message</button>
-            <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200">Contact</button>
+            <button id="ig-follow-btn" onclick="toggleFollow()" class="flex-1 text-white text-[8px] font-bold py-1 rounded-lg transition-colors" style="background:#0095f6">Folgen</button>
+            <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Kontakt</button>
             <button class="bg-stone-100 text-stone-600 text-[8px] font-bold px-1.5 py-1 rounded-lg border border-stone-200">▾</button>
           </div>
 
@@ -387,10 +387,6 @@
             <div class="flex flex-col items-center gap-0.5 flex-shrink-0 cursor-pointer" onclick="openStory('ig-food.png','Food')">
               <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-200"><img src="ig-food.png" alt="" class="w-full h-full object-cover"/></div>
               <span class="text-[7px] text-stone-600">Food</span>
-            </div>
-            <div class="flex flex-col items-center gap-0.5 flex-shrink-0 cursor-pointer" onclick="openStory('ig-sauna.png','Q&amp;A')">
-              <div class="w-10 h-10 rounded-full bg-stone-100 border border-stone-200 flex items-center justify-center"><span class="text-base">❓</span></div>
-              <span class="text-[7px] text-stone-600">Q&amp;A</span>
             </div>
           </div>
 
@@ -491,7 +487,7 @@
                 </div>
                 <div>
                   <p class="text-[9px] font-bold leading-tight">alpine_hideaway</p>
-                  <p class="text-[7px] text-stone-400 leading-tight">Lauterbrunnen, Switzerland</p>
+                  <p id="ig-post-location" class="text-[7px] text-stone-400 leading-tight">Lauterbrunnen, Switzerland</p>
                 </div>
               </div>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
@@ -525,9 +521,9 @@
             <div class="px-3 pb-2">
               <p class="text-[9px] leading-snug">
                 <span class="font-bold">alpine_hideaway</span>
-                <span class="text-stone-700"> Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨</span>
+                <span id="ig-post-caption" class="text-stone-700"> Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨</span>
               </p>
-              <p class="text-[9px] text-[#3d7dc8] mt-1">#wellness #alpinehideaway #infinitypool #luxuryhotel #spa</p>
+              <p id="ig-post-hashtags" class="text-[9px] text-[#3d7dc8] mt-1">#wellness #alpinehideaway #infinitypool #luxuryhotel #spa</p>
               <p class="text-[8px] text-stone-400 mt-1.5">Alle 48 Kommentare ansehen</p>
             </div>
 
@@ -995,15 +991,41 @@
     observer.observe(video);
   })();
 
+  // ── Per-post data ───────────────────────────────
+  const igPosts = {
+    'ig-pool.png':     { likes: '3.412', location: 'Lauterbrunnen, Switzerland',
+      caption:  ' Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨',
+      hashtags: '#wellness #alpinehideaway #infinitypool #luxuryhotel #spa' },
+    'ig-sauna.png':    { likes: '2.187', location: 'Alpine Hideaway Spa',
+      caption:  ' Die Seele atmet auf. Unsere Sauna lädt zur tiefen Entspannung — Stille, Wärme, pures Wohlbefinden. 🧖‍♀️🌿',
+      hashtags: '#sauna #wellness #alpinehideaway #spa #luxurylife' },
+    'ig-food.png':     { likes: '4.891', location: 'Alpine Hideaway Restaurant',
+      caption:  ' Gourmet auf höchstem Niveau. Unser Küchenchef verwandelt alpine Zutaten in kleine Kunstwerke. 🍽️✨',
+      hashtags: '#gourmet #finedining #alpinehideaway #luxuryhotel #foodlover' },
+    'portfolio-1.png': { likes: '1.956', location: 'Alpine Hideaway Wellness',
+      caption:  ' Licht, Ruhe und Eleganz. Unsere Wellness-Welt — ein Refugium der Stille inmitten der Alpen. 🤍🌿',
+      hashtags: '#spa #luxury #wellness #alpinehideaway #design' },
+    'portfolio-2.png': { likes: '5.234', location: 'Österreichische Alpen',
+      caption:  ' Wo die Berge sprechen und die Zeit stillsteht. Erwachen Sie jeden Morgen mit diesem Ausblick. 🏔️🌅',
+      hashtags: '#alpinehideaway #mountains #luxurytravel #nature #wanderlust' },
+    'portfolio-4.png': { likes: '2.743', location: 'Alpine Hideaway',
+      caption:  ' Zwischen Genuss und Natur. Jeder Moment bei uns ist ein unvergessliches Erlebnis. ✨',
+      hashtags: '#wellnesshotel #luxuryliving #alpinehideaway #retreat #moments' }
+  };
+
   // ── Instagram in-mockup screen navigation ──────
   function openIgPost(imgSrc) {
-    // Update the post image
     if (imgSrc) document.getElementById('ig-post-img').src = imgSrc;
-    // Reset like/save state for new post
+    // Fill in per-post data
+    const data = igPosts[imgSrc] || igPosts['ig-pool.png'];
+    document.getElementById('ig-likes').textContent      = data.likes + ' Gefällt mir-Angaben';
+    document.getElementById('ig-post-caption').textContent  = data.caption;
+    document.getElementById('ig-post-hashtags').textContent = data.hashtags;
+    document.getElementById('ig-post-location').textContent = data.location;
+    // Reset like/save state
     liked = false; saved = false;
     const heart = document.getElementById('ig-heart');
     heart.setAttribute('fill','none'); heart.setAttribute('stroke','#1a1c1a');
-    document.getElementById('ig-likes').textContent = '3.412 Gefällt mir-Angaben';
     const bm = document.getElementById('ig-bookmark');
     bm.setAttribute('fill','none'); bm.setAttribute('stroke','#1a1c1a');
     // Slide screens
@@ -1029,6 +1051,30 @@
       heart.setAttribute('stroke', '#1a1c1a');
       likes.textContent = '3.412 Gefällt mir-Angaben';
     }
+  }
+
+  // ── Follow button ───────────────────────────────
+  let following = false;
+  let followerCount = 4008;
+  function toggleFollow() {
+    following = !following;
+    const btn = document.getElementById('ig-follow-btn');
+    const el  = document.getElementById('ig-follower-count');
+    if (following) {
+      btn.textContent    = 'Gefolgt';
+      btn.style.background  = '#f3f4f6';
+      btn.style.color       = '#1f2937';
+      btn.style.border      = '1px solid #e5e7eb';
+      followerCount++;
+    } else {
+      btn.textContent    = 'Folgen';
+      btn.style.background  = '#0095f6';
+      btn.style.color       = 'white';
+      btn.style.border      = 'none';
+      followerCount--;
+    }
+    // format with space as thousands separator: 4009 → "4 009"
+    el.textContent = String(followerCount).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
   }
 
   let saved = false;

@@ -183,15 +183,15 @@
 
     <!-- Logo -->
     <a href="index.html" class="select-none flex items-center">
-      <img src="Hook-Logo-transparent.png" alt="Hook Visuals" class="h-12 w-auto" />
+      <img src="Hook-Logo-transparent.png" alt="Hook Visuals" class="h-16 w-auto" />
     </a>
 
     <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-8">
-      <a href="#portfolio"  class="label text-on-muted hover:text-secondary transition-colors">Portfolio</a>
-      <a href="#social"     class="label text-on-muted hover:text-secondary transition-colors">Social Media</a>
-      <a href="#pricing"    class="label text-on-muted hover:text-secondary transition-colors">Abomodelle</a>
-      <a href="#contact"    class="label text-on-muted hover:text-secondary transition-colors">Partnerschaft</a>
+      <a href="#portfolio"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Portfolio</a>
+      <a href="#social"     class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Social Media</a>
+      <a href="#pricing"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Abomodelle</a>
+      <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Partnerschaft</a>
     </div>
 
     <!-- CTA -->
@@ -1054,21 +1054,37 @@
   };
 
   // ── Instagram in-mockup screen navigation ──────
+  // Per-post persistent state
+  const igState = {}; // { 'filename.png': { liked: bool, saved: bool } }
+  let currentPost = null;
+
   function openIgPost(imgSrc) {
+    currentPost = imgSrc;
     if (imgSrc) document.getElementById('ig-post-img').src = imgSrc;
     // Fill in per-post data
     const data = igPosts[imgSrc] || igPosts['ig-pool.png'];
     baseLikes = parseInt(data.likes.replace(/\./g, '')); // "3.412" → 3412
-    document.getElementById('ig-likes').textContent      = data.likes + ' Gefällt mir-Angaben';
     document.getElementById('ig-post-caption').textContent  = data.caption;
     document.getElementById('ig-post-hashtags').textContent = data.hashtags;
     document.getElementById('ig-post-location').textContent = data.location;
-    // Reset like/save state
-    liked = false; saved = false;
+    // Restore or initialise per-post like/save state
+    if (!igState[imgSrc]) igState[imgSrc] = { liked: false, saved: false };
+    liked = igState[imgSrc].liked;
+    saved = igState[imgSrc].saved;
     const heart = document.getElementById('ig-heart');
-    heart.setAttribute('fill','none'); heart.setAttribute('stroke','#1a1c1a');
+    if (liked) {
+      heart.setAttribute('fill', '#e0245e'); heart.setAttribute('stroke', '#e0245e');
+    } else {
+      heart.setAttribute('fill', 'none'); heart.setAttribute('stroke', '#1a1c1a');
+    }
     const bm = document.getElementById('ig-bookmark');
-    bm.setAttribute('fill','none'); bm.setAttribute('stroke','#1a1c1a');
+    if (saved) {
+      bm.setAttribute('fill', '#1a1c1a'); bm.setAttribute('stroke', '#1a1c1a');
+    } else {
+      bm.setAttribute('fill', 'none'); bm.setAttribute('stroke', '#1a1c1a');
+    }
+    const count = liked ? baseLikes + 1 : baseLikes;
+    document.getElementById('ig-likes').textContent = count.toLocaleString('de-DE') + ' Gefällt mir-Angaben';
     // Slide screens
     document.getElementById('ig-profile').style.transform = 'translateX(-100%)';
     document.getElementById('ig-post').style.transform    = 'translateX(0)';
@@ -1082,6 +1098,7 @@
   let baseLikes = 3412; // updated each time a post is opened
   function toggleHeart() {
     liked = !liked;
+    if (currentPost) igState[currentPost].liked = liked;
     const heart = document.getElementById('ig-heart');
     const likes = document.getElementById('ig-likes');
     if (liked) {
@@ -1138,6 +1155,7 @@
   let saved = false;
   function toggleSave() {
     saved = !saved;
+    if (currentPost) igState[currentPost].saved = saved;
     const bm = document.getElementById('ig-bookmark');
     if (saved) {
       bm.setAttribute('fill', '#1a1c1a');

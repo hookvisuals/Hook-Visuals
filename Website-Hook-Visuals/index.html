@@ -167,6 +167,22 @@
     @keyframes storyProg { from { width: 0% } to { width: 100% } }
     .story-bar-anim { animation: storyProg 5s linear forwards; }
 
+    /* ── Tap hint animation ── */
+    @keyframes tapPulse {
+      0%   { transform: scale(1);    opacity: 0.9; }
+      40%  { transform: scale(0.82); opacity: 1;   }
+      60%  { transform: scale(0.82); opacity: 1;   }
+      100% { transform: scale(1);    opacity: 0.9; }
+    }
+    @keyframes tapRipple {
+      0%   { transform: scale(0.6); opacity: 0.6; }
+      100% { transform: scale(2.2); opacity: 0;   }
+    }
+    #tap-hint          { transition: opacity 0.4s ease; }
+    #tap-hint.hidden-hint { opacity: 0; pointer-events: none; }
+    #tap-finger        { animation: tapPulse 1.6s ease-in-out infinite; }
+    #tap-ripple        { animation: tapRipple 1.6s ease-in-out infinite; }
+
     /* ── Scroll arrow bounce ── */
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
     .bounce { animation: bounce 2s ease-in-out infinite; }
@@ -451,6 +467,19 @@
             <div class="w-5 h-5 rounded-full overflow-hidden border border-stone-300"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div>
           </div>
         </div><!-- end #ig-profile -->
+
+        <!-- ── Tap hint overlay ── -->
+        <div id="tap-hint" class="absolute pointer-events-none" style="bottom:28%;left:50%;transform:translateX(-50%);z-index:15;">
+          <div class="relative flex items-center justify-center w-12 h-12">
+            <!-- ripple ring -->
+            <div id="tap-ripple" class="absolute inset-0 rounded-full" style="background:rgba(0,75,73,0.25);"></div>
+            <!-- finger icon -->
+            <div id="tap-finger" class="relative z-10 w-8 h-8 rounded-full bg-primary/80 flex items-center justify-center shadow-lg">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.42z"/></svg>
+            </div>
+          </div>
+          <p class="text-center text-white font-bold mt-1 drop-shadow" style="font-size:7px;letter-spacing:0.08em;">TIPPEN</p>
+        </div>
 
         <!-- ── SCREEN 2: Post view (slides in from right) ── -->
         <div id="ig-post" class="absolute inset-0 bg-white flex flex-col transition-transform duration-300" style="transform:translateX(100%)">
@@ -1105,7 +1134,27 @@
   function closeIgPost() {
     document.getElementById('ig-profile').style.transform = 'translateX(0)';
     document.getElementById('ig-post').style.transform    = 'translateX(100%)';
+    resumeTapHint(); // show tap hint again when returning to grid
   }
+
+  // ── Tap hint pause / resume ─────────────────────
+  let tapHintTimer = null;
+  const igIphone = document.querySelector('.iphone.bg-white');
+  const tapHint  = document.getElementById('tap-hint');
+
+  function pauseTapHint() {
+    tapHint.classList.add('hidden-hint');
+    clearTimeout(tapHintTimer);
+    tapHintTimer = setTimeout(resumeTapHint, 10000);
+  }
+  function resumeTapHint() {
+    // only show on profile screen
+    if (document.getElementById('ig-post').style.transform !== 'translateX(100%)') return;
+    tapHint.classList.remove('hidden-hint');
+  }
+
+  igIphone.addEventListener('mouseenter', pauseTapHint);
+  igIphone.addEventListener('click',      pauseTapHint);
 
   let liked = false;
   let baseLikes = 3412; // updated each time a post is opened

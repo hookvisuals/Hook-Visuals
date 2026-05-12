@@ -169,19 +169,27 @@
 
     /* ── Tap hint animation ── */
     @keyframes tapPulse {
-      0%   { transform: scale(1);    opacity: 0.9; }
-      40%  { transform: scale(0.82); opacity: 1;   }
-      60%  { transform: scale(0.82); opacity: 1;   }
-      100% { transform: scale(1);    opacity: 0.9; }
+      0%,100% { transform: scale(1);    opacity: 1; }
+      35%     { transform: scale(0.78); opacity: 1; }
+      55%     { transform: scale(0.78); opacity: 1; }
     }
-    @keyframes tapRipple {
-      0%   { transform: scale(0.6); opacity: 0.6; }
-      100% { transform: scale(2.2); opacity: 0;   }
+    @keyframes tapRipple1 {
+      0%   { transform: scale(0.5); opacity: 0.55; }
+      100% { transform: scale(2.6); opacity: 0; }
     }
-    #tap-hint          { transition: opacity 0.4s ease; }
-    #tap-hint.hidden-hint { opacity: 0; pointer-events: none; }
-    #tap-finger        { animation: tapPulse 1.6s ease-in-out infinite; }
-    #tap-ripple        { animation: tapRipple 1.6s ease-in-out infinite; }
+    @keyframes tapRipple2 {
+      0%   { transform: scale(0.5); opacity: 0.35; }
+      100% { transform: scale(3.4); opacity: 0; }
+    }
+    @keyframes tapFadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    #tap-hint             { transition: opacity 0.5s ease; animation: tapFadeIn 0.8s ease forwards; }
+    #tap-hint.hidden-hint { opacity: 0 !important; pointer-events: none; }
+    #tap-finger           { animation: tapPulse 1.8s ease-in-out infinite; }
+    #tap-ripple1          { animation: tapRipple1 1.8s ease-out infinite; }
+    #tap-ripple2          { animation: tapRipple2 1.8s ease-out 0.35s infinite; }
 
     /* ── Scroll arrow bounce ── */
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
@@ -328,9 +336,12 @@
 <section id="social" class="py-28 md:py-36 bg-surface-low">
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
-    <div class="text-center mb-20">
+    <div class="text-center mb-16">
       <p class="label text-secondary mb-4">Digitale Präsenz</p>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Social Media</h2>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-6">Social Media</h2>
+      <p class="text-on-muted text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+        Erleben Sie unseren Instagram-Account interaktiv — tippen Sie auf Fotos, Stories und Buttons genau wie auf dem echten Profil.
+      </p>
     </div>
 
     <!-- Phone mockups — stack on mobile, row on desktop -->

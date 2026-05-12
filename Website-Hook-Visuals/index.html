@@ -489,19 +489,55 @@
 
           <!-- Bottom nav -->
           <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
-            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
-            <button class="p-1.5 active:scale-90 transition-transform" style="border:2px solid #1a1c1a;border-radius:50%;padding:1px;"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
+            <button class="p-1 active:scale-90 transition-transform"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
+          </div>
+
+          <!-- Reels grid overlay (shown when reels tab active) -->
+          <div id="ig-reels-grid" style="position:absolute;top:280px;left:0;right:0;bottom:44px;background:white;display:none;overflow-y:auto;">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#e5e7eb;">
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="ig-pool.png" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">42,5k</span></div>
+              </div>
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="ig-sauna.png" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">18,3k</span></div>
+              </div>
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="ig-food.png" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">9,7k</span></div>
+              </div>
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="portfolio-1.png" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">31,2k</span></div>
+              </div>
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="portfolio-2.png" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">52,9k</span></div>
+              </div>
+              <div onclick="openReelView()" style="aspect-ratio:9/16;position:relative;cursor:pointer;background:#000;overflow:hidden;">
+                <img src="ruheraum wellnesshotel.jpeg" style="width:100%;height:100%;object-fit:cover;opacity:0.82;"/>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:22px;height:22px;background:rgba(255,255,255,0.88);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="9" height="9" viewBox="0 0 24 24" fill="#1a1c1a"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+                <div style="position:absolute;bottom:4px;left:4px;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg><span style="color:white;font-size:7px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,0.8);">7,1k</span></div>
+              </div>
+            </div>
           </div>
 
           <!-- Follower / Following list overlay -->
           <div id="ig-followlist" class="absolute inset-0 bg-white flex flex-col" style="z-index:38;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);">
             <div class="flex justify-center pt-2 pb-0.5 flex-shrink-0"><div class="w-8 h-1 bg-stone-300 rounded-full"></div></div>
-            <div class="flex items-center justify-between px-3 py-1.5 border-b border-stone-100 flex-shrink-0">
+            <div class="flex items-center justify-between px-3 border-b border-stone-100 flex-shrink-0" style="padding-top:14px;padding-bottom:10px;">
               <div style="width:18px"></div>
-              <span id="ig-followlist-title" class="text-[10px] font-bold">Follower</span>
+              <span id="ig-followlist-title" class="text-[11px] font-bold">Follower</span>
               <button onclick="closeFollowList()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
             </div>
             <div id="ig-followlist-body" class="flex-1 ig-scroll overflow-y-auto px-3 py-2 space-y-3"></div>
@@ -514,7 +550,7 @@
         </div>
 
         <!-- ── Tap hint overlay ── -->
-        <div id="tap-hint" class="absolute pointer-events-none" style="bottom:26%;left:50%;transform:translateX(-50%);z-index:15;">
+        <div id="tap-hint" class="absolute pointer-events-none" style="top:310px;left:43px;transform:translate(-50%,-50%);z-index:15;">
           <div class="relative flex items-center justify-center" style="width:64px;height:64px;">
             <!-- outer ripple -->
             <div id="tap-ripple2" class="absolute rounded-full" style="inset:0;background:rgba(197,160,89,0.18);"></div>
@@ -632,37 +668,13 @@
 
           <!-- Bottom nav -->
           <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
-            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
-            <button onclick="closeIgPost()" class="p-0.5 active:scale-90 transition-transform" style="border:2px solid #1a1c1a;border-radius:50%;"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
+            <button onclick="closeIgPost()" class="p-1 active:scale-90 transition-transform"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
           </div>
 
-          <!-- ── Comment sheet (slides up) ── -->
-          <div id="ig-comment-sheet" class="absolute inset-0 bg-white flex flex-col" style="z-index:12;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);">
-            <div class="flex justify-center pt-2 pb-0.5 flex-shrink-0"><div class="w-8 h-1 bg-stone-300 rounded-full"></div></div>
-            <div class="flex items-center justify-between px-3 py-1.5 border-b border-stone-100 flex-shrink-0">
-              <div style="width:18px"></div>
-              <span class="text-[10px] font-bold">Kommentare</span>
-              <button onclick="closeCommentSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-            </div>
-            <div class="flex-1 ig-scroll overflow-y-auto px-3 py-2 space-y-3.5">
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#6366f1;">SO</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">wanderlust_sophia</span> <span class="text-stone-700">Absolut traumhaft! Der Pool ist ein Traum 🏔️</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">3 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#22c55e;">TK</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">travel_tim</span> <span class="text-stone-700">Schon für den Sommer gebucht! 🙌</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#ec4899;">AL</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">alpine_anna</span> <span class="text-stone-700">Das Spa ist einfach unglaublich 💆‍♀️</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#f97316;">MH</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">maxreist</span> <span class="text-stone-700">Toller Pool! Die Aussicht ist atemberaubend ⭐</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">1 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#8b5cf6;">LB</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">lisa.luxe</span> <span class="text-stone-700">So eine Ruhe und Eleganz — definitiv 5 Sterne! 🌟</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">5 Tage</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#0ea5e9;">FW</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">felix.travels</span> <span class="text-stone-700">Can't wait to come back! Absolutely stunning 😍</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">3 Tage</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 bg-stone-200 overflow-hidden"><img src="portfolio-2.png" alt="" class="w-full h-full object-cover"/></div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">resort_lovers</span> <span class="text-stone-700">Absolut traumhaft! 😍</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 bg-stone-200 overflow-hidden"><img src="ruheraum wellnesshotel.jpeg" alt="" class="w-full h-full object-cover"/></div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">travel.diary.lu</span> <span class="text-stone-700">Auf meiner Bucket List! 🙌</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
-            </div>
-            <div class="flex items-center gap-2 px-3 py-2 border-t border-stone-100 flex-shrink-0">
-              <div class="w-6 h-6 rounded-full overflow-hidden flex-shrink-0"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div>
-              <p class="text-[8px] text-stone-400 flex-1">Kommentar hinzufügen …</p>
-              <button onclick="igPostComment(this)" class="text-[8px] text-[#3d7dc8] font-semibold">Posten</button>
-            </div>
-          </div>
         </div><!-- end #ig-post -->
 
         <!-- ── SCREEN 3: Story (slides up from bottom) ── -->
@@ -700,9 +712,35 @@
             <div class="flex-1 border border-white/30 rounded-full px-3 py-1.5">
               <p class="text-white/40 text-[7px]">Antworten …</p>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <button onclick="openShareSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
           </div>
         </div><!-- end #ig-story -->
+
+        <!-- ── Global comment sheet (half-screen, slides up) ── -->
+        <div id="ig-comment-backdrop" onclick="closeCommentSheet()" style="position:absolute;inset:0;z-index:48;background:rgba(0,0,0,0.35);display:none;"></div>
+        <div id="ig-comment-sheet" style="position:absolute;bottom:0;left:0;right:0;height:55%;z-index:49;background:white;border-radius:12px 12px 0 0;box-shadow:0 -4px 20px rgba(0,0,0,0.12);transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);display:flex;flex-direction:column;">
+          <div style="display:flex;justify-content:center;padding:8px 0 2px;flex-shrink:0;"><div style="width:32px;height:4px;background:#d1d5db;border-radius:2px;"></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 12px 6px;border-bottom:1px solid #f1f5f9;flex-shrink:0;">
+            <div style="width:18px;"></div>
+            <span style="font-size:10px;font-weight:700;font-family:'Manrope',sans-serif;">Kommentare</span>
+            <button onclick="closeCommentSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+          </div>
+          <div class="ig-scroll" style="flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#6366f1;">SO</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">wanderlust_sophia</span> <span style="color:#374151;">Absolut traumhaft! Der Pool ist ein Traum 🏔️</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">3 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#22c55e;">TK</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">travel_tim</span> <span style="color:#374151;">Schon für den Sommer gebucht! 🙌</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">2 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#ec4899;">AL</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">alpine_anna</span> <span style="color:#374151;">Das Spa ist einfach unglaublich 💆‍♀️</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">2 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#f97316;">MH</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">maxreist</span> <span style="color:#374151;">Toller Pool! Die Aussicht ist atemberaubend ⭐</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">1 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#8b5cf6;">LB</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">lisa.luxe</span> <span style="color:#374151;">So eine Ruhe und Eleganz — definitiv 5 Sterne! 🌟</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">5 Tage</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:6px;background:#0ea5e9;">FW</div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">felix.travels</span> <span style="color:#374151;">Can't wait to come back! Absolutely stunning 😍</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">3 Tage</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;background:#e7e5e4;overflow:hidden;"><img src="portfolio-2.png" style="width:100%;height:100%;object-fit:cover;"/></div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">resort_lovers</span> <span style="color:#374151;">Absolut traumhaft! 😍</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">2 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;"><div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;background:#e7e5e4;overflow:hidden;"><img src="ruheraum wellnesshotel.jpeg" style="width:100%;height:100%;object-fit:cover;"/></div><div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">travel.diary.lu</span> <span style="color:#374151;">Auf meiner Bucket List! 🙌</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">2 Wo.</span><button style="font-size:7px;color:#9ca3af;font-weight:600;font-family:'Manrope',sans-serif;">Antworten</button></div></div><button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid #f1f5f9;flex-shrink:0;">
+            <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;flex-shrink:0;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></div>
+            <p style="font-size:8px;color:#9ca3af;flex:1;font-family:'Manrope',sans-serif;">Kommentar hinzufügen …</p>
+            <button onclick="igPostComment(this)" style="font-size:8px;color:#3d7dc8;font-weight:600;font-family:'Manrope',sans-serif;">Posten</button>
+          </div>
+        </div>
 
         <!-- ── Share sheet ── -->
         <div id="ig-share-sheet" style="position:absolute;inset:0;z-index:45;display:none;">
@@ -731,41 +769,42 @@
           </div>
         </div>
 
-        <!-- ── SCREEN 4: Reels ── -->
+        <!-- ── SCREEN 4: Reel detail view ── -->
         <div id="ig-reels" class="absolute inset-0 bg-black flex flex-col transition-transform duration-300" style="transform:translateX(100%);z-index:5;">
-          <div class="flex justify-between items-center px-3 pt-8 pb-2 flex-shrink-0">
-            <button onclick="closeIgReels()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <span class="text-white text-[11px] font-bold">Reels</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-          </div>
-          <div class="flex-1 relative overflow-hidden">
-            <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
-              <source src="outdoorpool_video.mp4" type="video/mp4"/>
-            </video>
-            <!-- Overlay info -->
-            <div class="absolute bottom-14 left-3 right-12 z-10">
-              <div class="flex items-center gap-2 mb-2">
-                <div class="w-7 h-7 rounded-full overflow-hidden border border-white"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div>
-                <span class="text-white text-[9px] font-bold">alpine_hideaway_resort</span>
-                <span class="text-white/60 text-[8px]">·</span>
-                <span class="text-white text-[8px] border border-white rounded px-1.5 py-0.5">Folgen</span>
-              </div>
-              <p class="text-white text-[8px] leading-snug">🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨<br/><span class="text-white/70">#wellness #alpinehideaway #luxuryresort</span></p>
+          <!-- Back -->
+          <button onclick="closeReelView()" style="position:absolute;top:28px;left:10px;z-index:20;background:rgba(0,0,0,0.3);border-radius:50%;padding:5px;line-height:0;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <!-- Video -->
+          <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
+            <source src="outdoorpool_video.mp4" type="video/mp4"/>
+          </video>
+          <!-- Bottom info -->
+          <div style="position:absolute;bottom:14px;left:12px;right:52px;z-index:10;">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">
+              <button onclick="closeReelView()" style="width:26px;height:26px;border-radius:50%;overflow:hidden;border:1.5px solid white;flex-shrink:0;padding:0;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></button>
+              <span style="color:white;font-size:9px;font-weight:700;font-family:'Manrope',sans-serif;">alpine_hideaway_resort</span>
             </div>
-            <!-- Right actions -->
-            <div class="absolute right-2 bottom-16 flex flex-col items-center gap-4 z-10">
-              <button onclick="toggleTikTokLike(this)" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 0">favorite</span><span class="text-[8px]">42.5k</span></button>
-              <button onclick="openCommentSheet()" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl">chat_bubble</span><span class="text-[8px]">856</span></button>
-              <button onclick="openShareSheet()" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl">send</span><span class="text-[8px]">Teilen</span></button>
+            <p style="color:white;font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;">🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨<br/><span style="color:rgba(255,255,255,0.65);">#wellness #alpinehideaway #luxuryresort</span></p>
+            <div style="margin-top:5px;display:flex;align-items:center;gap:4px;">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3z"/></svg>
+              <span style="color:rgba(255,255,255,0.75);font-size:7px;font-family:'Manrope',sans-serif;">Originalton · Alpine Hideaway</span>
             </div>
           </div>
-          <!-- Bottom nav -->
-          <div class="h-11 bg-black/50 border-t border-white/10 flex items-center justify-around px-3 flex-shrink-0">
-            <button onclick="closeIgReels()" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
-            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
-            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><path d="M22 11H2"/></svg></button>
-            <button onclick="igNavFlash(this)" class="p-1.5"><div class="w-5 h-5 rounded-full overflow-hidden border border-white/50"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div></button>
+          <!-- Right actions -->
+          <div style="position:absolute;right:8px;bottom:55px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:16px;">
+            <button onclick="toggleReelLike(this)" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:white;cursor:pointer;">
+              <svg id="reel-heart" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span id="reel-like-count" style="font-size:8px;font-family:'Manrope',sans-serif;">42,5k</span>
+            </button>
+            <button onclick="openCommentSheet()" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:white;cursor:pointer;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span style="font-size:8px;font-family:'Manrope',sans-serif;">856</span>
+            </button>
+            <button onclick="openShareSheet()" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:white;cursor:pointer;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+              <span style="font-size:8px;font-family:'Manrope',sans-serif;">Teilen</span>
+            </button>
           </div>
         </div>
 
@@ -1292,27 +1331,34 @@
     const active = document.getElementById(tabs[tab]);
     active.style.borderBottom = '1.5px solid #1a1c1a';
     active.querySelector('svg').setAttribute('stroke', '#1a1c1a');
-    // Show/hide tagged overlay
-    const taggedOverlay = document.getElementById('ig-tagged-overlay');
-    taggedOverlay.style.display = tab === 'tagged' ? 'flex' : 'none';
-    // Open reels screen
-    if (tab === 'reels') openIgReels();
+    document.getElementById('ig-tagged-overlay').style.display = tab === 'tagged' ? 'flex' : 'none';
+    document.getElementById('ig-reels-grid').style.display   = tab === 'reels'   ? 'block' : 'none';
   }
 
-  function openIgReels() {
+  function openReelView() {
     document.getElementById('ig-reels').style.transform = 'translateX(0)';
   }
-  function closeIgReels() {
+  function closeReelView() {
     document.getElementById('ig-reels').style.transform = 'translateX(100%)';
-    igSwitchTab('grid');
+  }
+
+  function toggleReelLike(btn) {
+    const heart = document.getElementById('reel-heart');
+    const count = document.getElementById('reel-like-count');
+    const liked = heart.getAttribute('fill') === 'white';
+    heart.setAttribute('fill', liked ? 'none' : 'white');
+    heart.setAttribute('stroke', liked ? 'white' : 'white');
+    count.textContent = liked ? '42,5k' : '42,6k';
   }
 
   // ── Comment sheet ──────────────────────────────
   function openCommentSheet() {
+    document.getElementById('ig-comment-backdrop').style.display = 'block';
     document.getElementById('ig-comment-sheet').style.transform = 'translateY(0)';
   }
   function closeCommentSheet() {
     document.getElementById('ig-comment-sheet').style.transform = 'translateY(100%)';
+    document.getElementById('ig-comment-backdrop').style.display = 'none';
   }
   function toggleCommentLike(btn) {
     const svg = btn.querySelector('svg');
@@ -1460,24 +1506,30 @@
             tapFinger(() => {
               if (demoStopped) return;
               openIgPost('ig-pool.png');
-              // Step 2: after 5s tap back button (x=20, y=53)
+              // Step 2: wiggle after 2s, then tap back button (x=20, y=53)
               demoTimer = setTimeout(() => {
                 if (demoStopped) return;
-                showFinger(20, 53, () => {
+                wigglePhone(() => {
                   if (demoStopped) return;
-                  tapFinger(() => {
+                  demoTimer = setTimeout(() => {
                     if (demoStopped) return;
-                    closeIgPost();
-                    // restart cycle after transition settles
-                    demoTimer = setTimeout(runDemo, 1800);
-                  });
+                    showFinger(20, 53, () => {
+                      if (demoStopped) return;
+                      tapFinger(() => {
+                        if (demoStopped) return;
+                        closeIgPost();
+                        tapHint.classList.remove('hidden-hint');
+                        demoTimer = setTimeout(runDemo, 800);
+                      });
+                    });
+                  }, 300);
                 });
-              }, 5000);
+              }, 2000);
             });
           });
         }, 300);
       });
-    }, 5000);
+    }, 2000);
   }
 
   igIphone.addEventListener('mouseenter', stopDemo);

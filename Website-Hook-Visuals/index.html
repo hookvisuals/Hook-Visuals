@@ -194,6 +194,17 @@
     /* ── Scroll arrow bounce ── */
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
     .bounce { animation: bounce 2s ease-in-out infinite; }
+
+    /* ── iPhone demo wiggle ── */
+    @keyframes igWiggle {
+      0%,100% { transform: translateZ(0) rotate(0deg); }
+      15%     { transform: translateZ(0) rotate(-2.8deg) scale(1.01); }
+      30%     { transform: translateZ(0) rotate(2.8deg) scale(1.01); }
+      50%     { transform: translateZ(0) rotate(-1.6deg); }
+      70%     { transform: translateZ(0) rotate(1.6deg); }
+      85%     { transform: translateZ(0) rotate(-0.7deg); }
+    }
+    .iphone.ig-wiggle { animation: igWiggle 0.7s ease-in-out; }
   </style>
 </head>
 
@@ -338,10 +349,8 @@
 
     <div class="text-center mb-16">
       <p class="label text-secondary mb-4">Digitale Präsenz</p>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-6">Social Media</h2>
-      <p class="text-on-muted text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-        Erleben Sie unseren Instagram-Account interaktiv — tippen Sie auf Fotos, Stories und Buttons genau wie auf dem echten Profil.
-      </p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-5">Social Media</h2>
+      <p class="label text-secondary" style="letter-spacing:0.22em;">Interaktiv erkunden — tippen &amp; entdecken</p>
     </div>
 
     <!-- Phone mockups — stack on mobile, row on desktop -->
@@ -380,8 +389,8 @@
             </div>
             <div class="flex flex-1 justify-around text-center">
               <div><p class="text-[10px] font-bold leading-tight">95</p><p class="text-[8px] text-stone-500 leading-tight">Posts</p></div>
-              <div><p id="ig-follower-count" class="text-[10px] font-bold leading-tight">4 008</p><p class="text-[8px] text-stone-500 leading-tight">Followers</p></div>
-              <div><p class="text-[10px] font-bold leading-tight">184</p><p class="text-[8px] text-stone-500 leading-tight">Following</p></div>
+              <div onclick="openFollowList('followers')" class="cursor-pointer"><p id="ig-follower-count" class="text-[10px] font-bold leading-tight">4 008</p><p class="text-[8px] text-stone-500 leading-tight">Followers</p></div>
+              <div onclick="openFollowList('following')" class="cursor-pointer"><p class="text-[10px] font-bold leading-tight">184</p><p class="text-[8px] text-stone-500 leading-tight">Following</p></div>
             </div>
           </div>
 
@@ -397,7 +406,6 @@
           <div class="flex gap-1 px-3 pb-2 flex-shrink-0">
             <button id="ig-follow-btn" onclick="toggleFollow()" class="flex-1 text-white text-[8px] font-bold py-1 rounded-lg transition-colors" style="background:#0095f6">Folgen</button>
             <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Kontakt</button>
-            <button class="bg-stone-100 text-stone-600 text-[8px] font-bold px-1.5 py-1 rounded-lg border border-stone-200">▾</button>
           </div>
 
           <!-- Story highlights -->
@@ -418,13 +426,13 @@
 
           <!-- Tabs -->
           <div class="flex border-t border-stone-200 flex-shrink-0">
-            <button class="flex-1 flex justify-center py-1.5 border-b-[1.5px] border-stone-800">
+            <button id="tab-grid" onclick="igSwitchTab('grid')" class="flex-1 flex justify-center py-1.5 border-b-[1.5px] border-stone-800 transition-opacity active:opacity-50">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
             </button>
-            <button class="flex-1 flex justify-center py-1.5">
+            <button id="tab-reels" onclick="igSwitchTab('reels')" class="flex-1 flex justify-center py-1.5 transition-opacity active:opacity-50">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><polygon points="10,8 16,12 10,16" fill="#9ca3af"/></svg>
             </button>
-            <button class="flex-1 flex justify-center py-1.5">
+            <button id="tab-tagged" onclick="igSwitchTab('tagged')" class="flex-1 flex justify-center py-1.5 transition-opacity active:opacity-50">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </button>
           </div>
@@ -469,15 +477,41 @@
             </div>
           </div>
 
+          <!-- Tagged overlay (hidden by default) — covers only the grid area -->
+          <div id="ig-tagged-overlay" class="bg-white flex-col items-center justify-center hidden" style="position:absolute;top:280px;left:0;right:0;bottom:44px;">
+            <div class="flex flex-col items-center justify-center h-full gap-3">
+              <div class="w-14 h-14 rounded-full border-2 border-stone-800 flex items-center justify-center">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <p class="text-[11px] font-bold text-stone-900">Keine Fotos</p>
+            </div>
+          </div>
+
           <!-- Bottom nav -->
           <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><path d="M22 11H2"/></svg>
-            <div class="w-5 h-5 rounded-full overflow-hidden border border-stone-300"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+            <button class="p-1.5 active:scale-90 transition-transform" style="border:2px solid #1a1c1a;border-radius:50%;padding:1px;"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
+          </div>
+
+          <!-- Follower / Following list overlay -->
+          <div id="ig-followlist" class="absolute inset-0 bg-white flex flex-col" style="z-index:38;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);">
+            <div class="flex justify-center pt-2 pb-0.5 flex-shrink-0"><div class="w-8 h-1 bg-stone-300 rounded-full"></div></div>
+            <div class="flex items-center justify-between px-3 py-1.5 border-b border-stone-100 flex-shrink-0">
+              <div style="width:18px"></div>
+              <span id="ig-followlist-title" class="text-[10px] font-bold">Follower</span>
+              <button onclick="closeFollowList()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </div>
+            <div id="ig-followlist-body" class="flex-1 ig-scroll overflow-y-auto px-3 py-2 space-y-3"></div>
           </div>
         </div><!-- end #ig-profile -->
+
+        <!-- ── Demo finger ── -->
+        <div id="ig-demo-finger" style="position:absolute;z-index:100;pointer-events:none;display:none;transform:translate(-50%,-50%);">
+          <div id="ig-demo-circle" style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.88);border:2px solid rgba(0,0,0,0.22);box-shadow:0 4px 18px rgba(0,0,0,0.30);transition:transform 0.13s ease,opacity 0.3s ease;"></div>
+        </div>
 
         <!-- ── Tap hint overlay ── -->
         <div id="tap-hint" class="absolute pointer-events-none" style="bottom:26%;left:50%;transform:translateX(-50%);z-index:15;">
@@ -545,8 +579,12 @@
                 <button id="ig-heart-btn" onclick="toggleHeart()" class="transition-transform active:scale-125">
                   <svg id="ig-heart" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
                 </button>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                <button onclick="igScrollToComment()" class="transition-transform active:scale-125">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </button>
+                <button onclick="openShareSheet()" class="transition-transform active:scale-125">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
               </div>
               <button id="ig-bookmark-btn" onclick="toggleSave()" class="transition-transform active:scale-125">
                 <svg id="ig-bookmark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
@@ -561,11 +599,11 @@
             <!-- Caption -->
             <div class="px-3 pb-2">
               <p class="text-[9px] leading-snug">
-                <span class="font-bold">alpine_hideaway_resort</span>
+                <button onclick="closeIgPost()" class="font-bold">alpine_hideaway_resort</button>
                 <span id="ig-post-caption" class="text-stone-700"> Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨</span>
               </p>
               <p id="ig-post-hashtags" class="text-[9px] text-[#3d7dc8] mt-1">#wellness #alpinehideaway #infinitypool #luxuryhotel #spa</p>
-              <p class="text-[8px] text-stone-400 mt-1.5">Alle 48 Kommentare ansehen</p>
+              <button onclick="igScrollToComment()" class="text-[8px] text-stone-400 mt-1.5 hover:text-stone-600 transition-colors">Alle 48 Kommentare ansehen</button>
             </div>
 
             <!-- Comments -->
@@ -586,20 +624,44 @@
             </div>
 
             <!-- Add comment -->
-            <div class="flex items-center gap-2 px-3 py-2 border-t border-stone-100">
+            <div class="flex items-center gap-2 px-3 py-2 border-t border-stone-100 cursor-pointer" onclick="openCommentSheet()">
               <div class="w-6 h-6 rounded-full overflow-hidden flex-shrink-0 border border-stone-200"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div>
               <p class="text-[8px] text-stone-400 flex-1">Kommentar hinzufügen …</p>
-              <p class="text-[8px] text-[#3d7dc8] font-semibold">Posten</p>
             </div>
           </div><!-- end scrollable -->
 
           <!-- Bottom nav -->
           <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><path d="M22 11H2"/></svg>
-            <div class="w-5 h-5 rounded-full overflow-hidden border border-stone-300"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+            <button onclick="closeIgPost()" class="p-0.5 active:scale-90 transition-transform" style="border:2px solid #1a1c1a;border-radius:50%;"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div></button>
+          </div>
+
+          <!-- ── Comment sheet (slides up) ── -->
+          <div id="ig-comment-sheet" class="absolute inset-0 bg-white flex flex-col" style="z-index:12;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);">
+            <div class="flex justify-center pt-2 pb-0.5 flex-shrink-0"><div class="w-8 h-1 bg-stone-300 rounded-full"></div></div>
+            <div class="flex items-center justify-between px-3 py-1.5 border-b border-stone-100 flex-shrink-0">
+              <div style="width:18px"></div>
+              <span class="text-[10px] font-bold">Kommentare</span>
+              <button onclick="closeCommentSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+            </div>
+            <div class="flex-1 ig-scroll overflow-y-auto px-3 py-2 space-y-3.5">
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#6366f1;">SO</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">wanderlust_sophia</span> <span class="text-stone-700">Absolut traumhaft! Der Pool ist ein Traum 🏔️</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">3 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#22c55e;">TK</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">travel_tim</span> <span class="text-stone-700">Schon für den Sommer gebucht! 🙌</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#ec4899;">AL</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">alpine_anna</span> <span class="text-stone-700">Das Spa ist einfach unglaublich 💆‍♀️</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#f97316;">MH</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">maxreist</span> <span class="text-stone-700">Toller Pool! Die Aussicht ist atemberaubend ⭐</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">1 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#8b5cf6;">LB</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">lisa.luxe</span> <span class="text-stone-700">So eine Ruhe und Eleganz — definitiv 5 Sterne! 🌟</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">5 Tage</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:6px;background:#0ea5e9;">FW</div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">felix.travels</span> <span class="text-stone-700">Can't wait to come back! Absolutely stunning 😍</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">3 Tage</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 bg-stone-200 overflow-hidden"><img src="portfolio-2.png" alt="" class="w-full h-full object-cover"/></div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">resort_lovers</span> <span class="text-stone-700">Absolut traumhaft! 😍</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+              <div class="flex items-start gap-2"><div class="w-6 h-6 rounded-full flex-shrink-0 bg-stone-200 overflow-hidden"><img src="ruheraum wellnesshotel.jpeg" alt="" class="w-full h-full object-cover"/></div><div class="flex-1"><p class="text-[8px] leading-snug"><span class="font-bold">travel.diary.lu</span> <span class="text-stone-700">Auf meiner Bucket List! 🙌</span></p><div class="flex gap-3 mt-0.5"><p class="text-[7px] text-stone-400">2 Wo.</p><button class="text-[7px] text-stone-400 font-semibold">Antworten</button></div></div><button onclick="toggleCommentLike(this)" class="flex-shrink-0 pt-0.5"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button></div>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-2 border-t border-stone-100 flex-shrink-0">
+              <div class="w-6 h-6 rounded-full overflow-hidden flex-shrink-0"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div>
+              <p class="text-[8px] text-stone-400 flex-1">Kommentar hinzufügen …</p>
+              <button onclick="igPostComment(this)" class="text-[8px] text-[#3d7dc8] font-semibold">Posten</button>
+            </div>
           </div>
         </div><!-- end #ig-post -->
 
@@ -641,6 +703,71 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </div>
         </div><!-- end #ig-story -->
+
+        <!-- ── Share sheet ── -->
+        <div id="ig-share-sheet" style="position:absolute;inset:0;z-index:45;display:none;">
+          <div onclick="closeShareSheet()" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>
+          <div id="ig-share-panel" style="position:absolute;bottom:0;left:0;right:0;background:#1c1c1e;border-radius:12px 12px 0 0;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);">
+            <div style="display:flex;justify-content:center;padding:8px 0 2px;"><div style="width:32px;height:3px;background:rgba(255,255,255,0.2);border-radius:2px;"></div></div>
+            <div style="margin:6px 10px 8px;background:#2c2c2e;border-radius:10px;display:flex;align-items:center;padding:5px 10px;gap:6px;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <span style="font-size:8px;color:#8e8e93;font-family:'Manrope',sans-serif;">Suchen</span>
+            </div>
+            <!-- People -->
+            <div style="display:flex;gap:12px;padding:0 10px 12px;overflow-x:hidden;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:48px;"><div style="width:40px;height:40px;border-radius:50%;background:#6366f1;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:10px;font-family:'Manrope',sans-serif;">SM</div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;text-align:center;">Sophie M.</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:48px;"><div style="width:40px;height:40px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:10px;font-family:'Manrope',sans-serif;">TK</div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;text-align:center;">Tim K.</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:48px;"><div style="width:40px;height:40px;border-radius:50%;background:#ec4899;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:10px;font-family:'Manrope',sans-serif;">AL</div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;text-align:center;">Anna L.</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:48px;"><div style="width:40px;height:40px;border-radius:50%;background:#f97316;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:10px;font-family:'Manrope',sans-serif;">MH</div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;text-align:center;">Max H.</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;min-width:48px;"><div style="width:40px;height:40px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:10px;font-family:'Manrope',sans-serif;">LB</div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;text-align:center;">Lisa B.</span></div>
+            </div>
+            <!-- Actions -->
+            <div style="display:flex;gap:14px;padding:10px 10px 16px;border-top:1px solid rgba(255,255,255,0.08);overflow-x:hidden;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.5 2C6.262 2 2 6.262 2 11.5c0 1.888.534 3.65 1.456 5.144L2 22l5.52-1.447A9.44 9.44 0 0011.5 21C16.738 21 21 16.738 21 11.5S16.738 2 11.5 2z"/></svg></div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;">WhatsApp</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#3d3d3d;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;">In Story</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div onclick="closeShareSheet()" style="width:40px;height:40px;border-radius:50%;background:#3d3d3d;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;">Link kopieren</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#3d3d3d;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div><span style="font-size:7px;color:white;font-family:'Manrope',sans-serif;">Teilen</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SCREEN 4: Reels ── -->
+        <div id="ig-reels" class="absolute inset-0 bg-black flex flex-col transition-transform duration-300" style="transform:translateX(100%);z-index:5;">
+          <div class="flex justify-between items-center px-3 pt-8 pb-2 flex-shrink-0">
+            <button onclick="closeIgReels()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <span class="text-white text-[11px] font-bold">Reels</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+          </div>
+          <div class="flex-1 relative overflow-hidden">
+            <video class="absolute inset-0 w-full h-full object-cover" autoplay muted loop playsinline>
+              <source src="outdoorpool_video.mp4" type="video/mp4"/>
+            </video>
+            <!-- Overlay info -->
+            <div class="absolute bottom-14 left-3 right-12 z-10">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-full overflow-hidden border border-white"><img src="hero.png" alt="" class="w-full h-full object-cover"/></div>
+                <span class="text-white text-[9px] font-bold">alpine_hideaway_resort</span>
+                <span class="text-white/60 text-[8px]">·</span>
+                <span class="text-white text-[8px] border border-white rounded px-1.5 py-0.5">Folgen</span>
+              </div>
+              <p class="text-white text-[8px] leading-snug">🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨<br/><span class="text-white/70">#wellness #alpinehideaway #luxuryresort</span></p>
+            </div>
+            <!-- Right actions -->
+            <div class="absolute right-2 bottom-16 flex flex-col items-center gap-4 z-10">
+              <button onclick="toggleTikTokLike(this)" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 0">favorite</span><span class="text-[8px]">42.5k</span></button>
+              <button onclick="openCommentSheet()" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl">chat_bubble</span><span class="text-[8px]">856</span></button>
+              <button onclick="openShareSheet()" class="flex flex-col items-center gap-0.5 text-white"><span class="material-symbols-outlined text-2xl">send</span><span class="text-[8px]">Teilen</span></button>
+            </div>
+          </div>
+          <!-- Bottom nav -->
+          <div class="h-11 bg-black/50 border-t border-white/10 flex items-center justify-around px-3 flex-shrink-0">
+            <button onclick="closeIgReels()" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.8"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><path d="M22 11H2"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5"><div class="w-5 h-5 rounded-full overflow-hidden border border-white/50"><img src="ig-pool.png" alt="" class="w-full h-full object-cover"/></div></button>
+          </div>
+        </div>
 
       </div>
 
@@ -1147,27 +1274,218 @@
   function closeIgPost() {
     document.getElementById('ig-profile').style.transform = 'translateX(0)';
     document.getElementById('ig-post').style.transform    = 'translateX(100%)';
-    resumeTapHint(); // show tap hint again when returning to grid
   }
 
-  // ── Tap hint pause / resume ─────────────────────
-  let tapHintTimer = null;
-  const igIphone = document.querySelector('.iphone.bg-white');
-  const tapHint  = document.getElementById('tap-hint');
+  // ── Instagram UI interactions ───────────────────
+  function igNavFlash(el) {
+    el.style.opacity = '0.35';
+    setTimeout(() => el.style.opacity = '', 180);
+  }
 
-  function pauseTapHint() {
+  function igSwitchTab(tab) {
+    const tabs = { grid: 'tab-grid', reels: 'tab-reels', tagged: 'tab-tagged' };
+    Object.keys(tabs).forEach(t => {
+      const btn = document.getElementById(tabs[t]);
+      btn.style.borderBottom = '';
+      btn.querySelector('svg').setAttribute('stroke', '#9ca3af');
+    });
+    const active = document.getElementById(tabs[tab]);
+    active.style.borderBottom = '1.5px solid #1a1c1a';
+    active.querySelector('svg').setAttribute('stroke', '#1a1c1a');
+    // Show/hide tagged overlay
+    const taggedOverlay = document.getElementById('ig-tagged-overlay');
+    taggedOverlay.style.display = tab === 'tagged' ? 'flex' : 'none';
+    // Open reels screen
+    if (tab === 'reels') openIgReels();
+  }
+
+  function openIgReels() {
+    document.getElementById('ig-reels').style.transform = 'translateX(0)';
+  }
+  function closeIgReels() {
+    document.getElementById('ig-reels').style.transform = 'translateX(100%)';
+    igSwitchTab('grid');
+  }
+
+  // ── Comment sheet ──────────────────────────────
+  function openCommentSheet() {
+    document.getElementById('ig-comment-sheet').style.transform = 'translateY(0)';
+  }
+  function closeCommentSheet() {
+    document.getElementById('ig-comment-sheet').style.transform = 'translateY(100%)';
+  }
+  function toggleCommentLike(btn) {
+    const svg = btn.querySelector('svg');
+    const isLiked = svg.getAttribute('fill') === '#e0245e';
+    svg.setAttribute('fill', isLiked ? 'none' : '#e0245e');
+    svg.setAttribute('stroke', isLiked ? '#9ca3af' : '#e0245e');
+  }
+
+  // ── Share sheet ────────────────────────────────
+  function openShareSheet() {
+    const sheet = document.getElementById('ig-share-sheet');
+    const panel = document.getElementById('ig-share-panel');
+    sheet.style.display = 'block';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.style.transform = 'translateY(0)';
+    }));
+  }
+  function closeShareSheet() {
+    const panel = document.getElementById('ig-share-panel');
+    panel.style.transform = 'translateY(100%)';
+    setTimeout(() => { document.getElementById('ig-share-sheet').style.display = 'none'; }, 340);
+  }
+
+  const followData = {
+    followers: [
+      { initials:'SM', color:'#6366f1', name:'sophia.mueller',   label:'Sophia M.' },
+      { initials:'TK', color:'#22c55e', name:'travel_tim',       label:'Tim K.' },
+      { initials:'AL', color:'#ec4899', name:'alpine_anna',      label:'Anna L.' },
+      { initials:'MH', color:'#f97316', name:'maxreist',         label:'Max H.' },
+      { initials:'LB', color:'#8b5cf6', name:'lisa.luxe',        label:'Lisa B.' },
+      { initials:'FW', color:'#0ea5e9', name:'felix.travels',    label:'Felix W.' },
+      { initials:'KR', color:'#14b8a6', name:'kathrin.reise',    label:'Kathrin R.' },
+      { initials:'JN', color:'#f43f5e', name:'jan.nordic',       label:'Jan N.' },
+      { initials:'MK', color:'#a78bfa', name:'mia.k.travel',     label:'Mia K.' },
+      { initials:'RS', color:'#fb923c', name:'resort_lovers',    label:'Resort Lovers' },
+    ],
+    following: [
+      { initials:'VB', color:'#6366f1', name:'visitbavaria',     label:'Visit Bavaria' },
+      { initials:'LH', color:'#22c55e', name:'luxuryhotels_de',  label:'Luxury Hotels DE' },
+      { initials:'SW', color:'#ec4899', name:'spa.world',        label:'Spa World' },
+      { initials:'AW', color:'#f97316', name:'alpine.wanderer',  label:'Alpine Wanderer' },
+      { initials:'GT', color:'#8b5cf6', name:'gourmet.traveler', label:'Gourmet Traveler' },
+      { initials:'WH', color:'#0ea5e9', name:'wellness.hub',     label:'Wellness Hub' },
+    ],
+  };
+
+  function openFollowList(type) {
+    const overlay = document.getElementById('ig-followlist');
+    document.getElementById('ig-followlist-title').textContent = type === 'followers' ? 'Follower' : 'Folge ich';
+    const body = document.getElementById('ig-followlist-body');
+    body.innerHTML = followData[type].map(p => `
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold" style="font-size:7px;background:${p.color};">${p.initials}</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[9px] font-bold leading-tight truncate">${p.name}</p>
+          <p class="text-[8px] text-stone-400 leading-tight">${p.label}</p>
+        </div>
+        <button class="text-[8px] font-bold px-2 py-0.5 rounded-lg border border-stone-200 bg-stone-100 text-stone-700 flex-shrink-0" onclick="igNavFlash(this)">Folgen</button>
+      </div>`).join('');
+    overlay.style.transform = 'translateY(0)';
+  }
+
+  function closeFollowList() {
+    document.getElementById('ig-followlist').style.transform = 'translateY(100%)';
+  }
+
+  function igScrollToComment() {
+    openCommentSheet();
+  }
+
+  function igPostComment(btn) {
+    const orig = btn.textContent;
+    btn.textContent = 'Gesendet ✓';
+    btn.style.color = '#22c55e';
+    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1800);
+  }
+
+  // ── Instagram auto-demo sequence ────────────────
+  const igIphone   = document.querySelector('.iphone.bg-white');
+  const tapHint    = document.getElementById('tap-hint');
+  const demoFinger = document.getElementById('ig-demo-finger');
+  const demoCircle = document.getElementById('ig-demo-circle');
+  let demoTimer    = null;
+  let demoStopped  = false;
+
+  function stopDemo() {
+    demoStopped = true;
+    clearTimeout(demoTimer);
+    demoFinger.style.display = 'none';
+    // restore tap hint briefly then hide (user has interacted)
     tapHint.classList.add('hidden-hint');
-    clearTimeout(tapHintTimer);
-    tapHintTimer = setTimeout(resumeTapHint, 10000);
-  }
-  function resumeTapHint() {
-    // only show on profile screen
-    if (document.getElementById('ig-post').style.transform !== 'translateX(100%)') return;
-    tapHint.classList.remove('hidden-hint');
   }
 
-  igIphone.addEventListener('mouseenter', pauseTapHint);
-  igIphone.addEventListener('click',      pauseTapHint);
+  function wigglePhone(cb) {
+    igIphone.classList.add('ig-wiggle');
+    igIphone.addEventListener('animationend', () => {
+      igIphone.classList.remove('ig-wiggle');
+      if (cb) cb();
+    }, { once: true });
+  }
+
+  function showFinger(x, y, cb) {
+    demoFinger.style.left    = x + 'px';
+    demoFinger.style.top     = y + 'px';
+    demoFinger.style.opacity = '0';
+    demoFinger.style.display = 'block';
+    demoCircle.style.transform = 'scale(1)';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      demoFinger.style.transition = 'opacity 0.35s ease';
+      demoFinger.style.opacity    = '1';
+      demoTimer = setTimeout(cb, 500);
+    }));
+  }
+
+  function tapFinger(cb) {
+    demoCircle.style.transition = 'transform 0.13s ease';
+    demoCircle.style.transform  = 'scale(0.6)';
+    demoTimer = setTimeout(() => {
+      demoCircle.style.transform = 'scale(1)';
+      demoTimer = setTimeout(() => {
+        demoFinger.style.transition = 'opacity 0.28s ease';
+        demoFinger.style.opacity    = '0';
+        demoTimer = setTimeout(() => {
+          demoFinger.style.display = 'none';
+          cb();
+        }, 300);
+      }, 140);
+    }, 130);
+  }
+
+  function runDemo() {
+    if (demoStopped) return;
+    // Step 1: wiggle after 5s idle
+    demoTimer = setTimeout(() => {
+      if (demoStopped) return;
+      wigglePhone(() => {
+        if (demoStopped) return;
+        // hide tap hint while auto-finger runs
+        tapHint.classList.add('hidden-hint');
+        demoTimer = setTimeout(() => {
+          if (demoStopped) return;
+          // tap first photo — center of top-left grid cell (x=43, y=325)
+          showFinger(43, 325, () => {
+            if (demoStopped) return;
+            tapFinger(() => {
+              if (demoStopped) return;
+              openIgPost('ig-pool.png');
+              // Step 2: after 5s tap back button (x=20, y=53)
+              demoTimer = setTimeout(() => {
+                if (demoStopped) return;
+                showFinger(20, 53, () => {
+                  if (demoStopped) return;
+                  tapFinger(() => {
+                    if (demoStopped) return;
+                    closeIgPost();
+                    // restart cycle after transition settles
+                    demoTimer = setTimeout(runDemo, 1800);
+                  });
+                });
+              }, 5000);
+            });
+          });
+        }, 300);
+      });
+    }, 5000);
+  }
+
+  igIphone.addEventListener('mouseenter', stopDemo);
+  igIphone.addEventListener('click',      stopDemo);
+  igIphone.addEventListener('touchstart', stopDemo, { passive: true });
+
+  // kick off after short delay so page has settled
+  demoTimer = setTimeout(runDemo, 1500);
 
   let liked = false;
   let baseLikes = 3412; // updated each time a post is opened

@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "Hook Visuals Site",
-      "runtimeExecutable": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
-      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "C:\\Users\\User\\OneDrive\\Dokumente\\GitHub\\Hook-Visuals\\Website-Hook-Visuals"],
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "/Users/lauramehler/Documents/GitHub/Hook-Visuals/Website-Hook-Visuals"],
       "port": 3000
     }
   ]

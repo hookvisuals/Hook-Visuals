@@ -1,0 +1,6 @@
+# Claude Code interne Dateien
+.claude/worktrees/
+
+# Preview-Server Hilfsdateien
+serve.py
+serve_hookvisuals.py

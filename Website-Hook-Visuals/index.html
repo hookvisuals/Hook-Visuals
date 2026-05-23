@@ -174,26 +174,36 @@
       55%     { transform: scale(0.78); opacity: 1; }
     }
     @keyframes tapRipple1 {
-      0%   { transform: scale(0.5); opacity: 0.55; }
-      100% { transform: scale(2.6); opacity: 0; }
+      0%   { transform: scale(0.4); opacity: 0.7; }
+      100% { transform: scale(3.2); opacity: 0; }
     }
     @keyframes tapRipple2 {
-      0%   { transform: scale(0.5); opacity: 0.35; }
-      100% { transform: scale(3.4); opacity: 0; }
+      0%   { transform: scale(0.4); opacity: 0.5; }
+      100% { transform: scale(4.2); opacity: 0; }
     }
     @keyframes tapFadeIn {
       from { opacity: 0; transform: translateX(-50%) translateY(6px); }
       to   { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
-    #tap-hint             { transition: opacity 0.5s ease; animation: tapFadeIn 0.8s ease forwards; }
-    #tap-hint.hidden-hint { opacity: 0 !important; pointer-events: none; }
-    #tap-finger           { animation: tapPulse 1.8s ease-in-out infinite; }
-    #tap-ripple1          { animation: tapRipple1 1.8s ease-out infinite; }
-    #tap-ripple2          { animation: tapRipple2 1.8s ease-out 0.35s infinite; }
+    #tap-hint                    { transition: opacity 0.5s ease; opacity: 0; pointer-events: none; }
+    #tap-hint.hint-visible       { animation: tapFadeIn 0.8s ease forwards; pointer-events: auto; }
+    #tap-hint.hidden-hint        { opacity: 0 !important; pointer-events: none; }
+    #tap-hint.hint-visible #tap-finger   { animation: tapPulse 1.8s ease-in-out infinite; }
+    #tap-hint.hint-visible #tap-ripple1  { animation: tapRipple1 1.8s ease-out infinite; }
+    #tap-hint.hint-visible #tap-ripple2  { animation: tapRipple2 1.8s ease-out 0.35s infinite; }
 
     /* ── Scroll arrow bounce ── */
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
     .bounce { animation: bounce 2s ease-in-out infinite; }
+
+    /* ── iPhone pulse ── */
+    @keyframes iphonePulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.07); }
+    }
+    #iphone-pulse-wrap { position: relative; animation: iphonePulse 1.2s ease-in-out infinite; }
+    #iphone-pulse-wrap.pulse-stopped { animation: none; }
+
 
     /* ── iPhone demo wiggle ── */
     @keyframes igWiggle {
@@ -329,7 +339,7 @@
 
       <!-- Short left -->
       <div class="porto-wrap md:col-span-4 relative overflow-hidden rounded-xl h-56 sm:h-72 md:h-[360px]">
-        <img src="portfolio-6-gourmet.JPEG" alt="Gourmet" class="porto-img w-full h-full object-cover object-bottom md:object-center" loading="lazy" decoding="async" />
+        <img src="portfolio-6-gourmet.JPEG" alt="Gourmet" class="porto-img w-full h-full object-cover md:object-center" style="object-position: center 60%;" loading="lazy" decoding="async" />
       </div>
 
       <!-- Short right wide -->
@@ -344,7 +354,8 @@
 <!-- ════════════════════════════════════════════
      SOCIAL MEDIA
 ════════════════════════════════════════════ -->
-<section id="social" class="py-28 md:py-36 bg-surface-low">
+<section id="social" class="py-28 md:py-36 bg-surface-low" style="position:relative;overflow:hidden;">
+
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
     <div class="text-center mb-16">
@@ -357,6 +368,7 @@
     <div class="flex flex-col sm:flex-row items-center justify-center gap-12 lg:gap-24">
 
       <!-- Instagram -->
+      <div id="iphone-pulse-wrap">
       <div class="iphone bg-white">
         <div class="iphone-notch"></div>
 
@@ -521,22 +533,23 @@
 
         <!-- ── Demo finger ── -->
         <div id="ig-demo-finger" style="position:absolute;z-index:100;pointer-events:none;display:none;transform:translate(-50%,-50%);">
-          <div id="ig-demo-circle" style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.88);border:2px solid rgba(0,0,0,0.22);box-shadow:0 4px 18px rgba(0,0,0,0.30);transition:transform 0.13s ease,opacity 0.3s ease;"></div>
+          <div id="ig-demo-circle" style="width:36px;height:36px;border-radius:50%;background:#C5A059;box-shadow:0 4px 18px rgba(197,160,89,0.45);transition:transform 0.13s ease,opacity 0.3s ease;display:flex;align-items:center;justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.42z"/></svg>
+          </div>
         </div>
 
         <!-- ── Tap hint overlay ── -->
-        <div id="tap-hint" class="absolute pointer-events-none" style="top:310px;left:43px;transform:translate(-50%,-50%);z-index:15;">
+        <div id="tap-hint" class="absolute pointer-events-none" style="top:200px;left:108px;transform:translate(-50%,-50%);z-index:15;">
           <div class="relative flex items-center justify-center" style="width:64px;height:64px;">
             <!-- outer ripple -->
-            <div id="tap-ripple2" class="absolute rounded-full" style="inset:0;background:rgba(197,160,89,0.18);"></div>
+            <div id="tap-ripple2" class="absolute rounded-full" style="inset:0;background:rgba(197,160,89,0.22);"></div>
             <!-- inner ripple -->
-            <div id="tap-ripple1" class="absolute rounded-full" style="inset:0;background:rgba(197,160,89,0.32);"></div>
+            <div id="tap-ripple1" class="absolute rounded-full" style="inset:0;background:rgba(197,160,89,0.38);"></div>
             <!-- finger button -->
             <div id="tap-finger" class="relative z-10 flex items-center justify-center rounded-full shadow-xl" style="width:42px;height:42px;background:#C5A059;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M9 11.24V7.5C9 6.12 10.12 5 11.5 5S14 6.12 14 7.5v3.74c1.21-.81 2-2.18 2-3.74C16 5.01 13.99 3 11.5 3S7 5.01 7 7.5c0 1.56.79 2.93 2 3.74zm9.84 4.63l-4.54-2.26c-.17-.07-.35-.11-.54-.11H13v-6c0-.83-.67-1.5-1.5-1.5S10 6.67 10 7.5v10.74l-3.43-.72c-.08-.01-.15-.03-.24-.03-.31 0-.59.13-.79.33l-.79.8 4.94 4.94c.27.27.65.44 1.06.44h6.79c.75 0 1.33-.55 1.44-1.28l.75-5.27c.01-.07.02-.14.02-.2 0-.62-.38-1.16-.91-1.42z"/></svg>
             </div>
           </div>
-          <p class="text-center font-bold mt-1.5 drop-shadow-md" style="font-size:8px;letter-spacing:0.12em;color:#C5A059;">TIPPEN</p>
         </div>
 
         <!-- ── SCREEN 2: Post view (slides in from right) ── -->
@@ -819,6 +832,7 @@
         </div>
 
       </div>
+      </div><!-- end #iphone-pulse-wrap -->
 
       <!-- TikTok -->
       <div class="iphone bg-stone-900">
@@ -1484,15 +1498,38 @@
   const tapHint    = document.getElementById('tap-hint');
   const demoFinger = document.getElementById('ig-demo-finger');
   const demoCircle = document.getElementById('ig-demo-circle');
-  let demoTimer    = null;
-  let demoStopped  = false;
+  let demoTimer      = null;
+  let demoStopped    = false;
+  let inactivityTimer = null;
+  const INACTIVITY_MS = 10000;
+
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(restartDemo, INACTIVITY_MS);
+  }
 
   function stopDemo() {
     demoStopped = true;
     clearTimeout(demoTimer);
     demoFinger.style.display = 'none';
-    // restore tap hint briefly then hide (user has interacted)
     tapHint.classList.add('hidden-hint');
+    const wrap = document.getElementById('iphone-pulse-wrap');
+    if (wrap) wrap.classList.add('pulse-stopped');
+    // schedule automatic restart after 10 s of inactivity
+    resetInactivityTimer();
+  }
+
+  function restartDemo() {
+    clearTimeout(inactivityTimer);
+    demoStopped = false;
+    clearTimeout(demoTimer);
+    // close post if open
+    closeIgPost();
+    // re-enable pulse
+    const wrap = document.getElementById('iphone-pulse-wrap');
+    if (wrap) wrap.classList.remove('pulse-stopped');
+    tapHint.classList.remove('hidden-hint');
+    demoTimer = setTimeout(runDemo, 600);
   }
 
   function wigglePhone(cb) {
@@ -1532,54 +1569,105 @@
     }, 130);
   }
 
+  function resetFollow() {
+    if (!following) return;
+    following = false;
+    const btn = document.getElementById('ig-follow-btn');
+    const el  = document.getElementById('ig-follower-count');
+    btn.textContent       = 'Folgen';
+    btn.style.background  = '#0095f6';
+    btn.style.color       = 'white';
+    btn.style.border      = 'none';
+    followerCount--;
+    el.textContent = String(followerCount).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+
   function runDemo() {
     if (demoStopped) return;
-    // tap hint visible; wait 2.5s then wiggle
+    tapHint.classList.add('hint-visible');
+
+    // 1. Warte 2.5s → wiggle
     demoTimer = setTimeout(() => {
       if (demoStopped) return;
       wigglePhone(() => {
         if (demoStopped) return;
-        // hide tap hint while finger runs; wait 4s then tap first photo
         tapHint.classList.add('hidden-hint');
+
+        // 2. Finger auf Folgen-Button (rechte Seite)
         demoTimer = setTimeout(() => {
           if (demoStopped) return;
-          showFinger(43, 325, () => {
+          showFinger(108, 200, () => {
             if (demoStopped) return;
             tapFinger(() => {
               if (demoStopped) return;
-              openIgPost('ig-pool.png');
-              // wait 2s then wiggle again
+              // Folgen klicken
+              if (!following) toggleFollow();
+
+              // 3. Finger zum ersten Foto
               demoTimer = setTimeout(() => {
                 if (demoStopped) return;
-                wigglePhone(() => {
+                showFinger(43, 325, () => {
                   if (demoStopped) return;
-                  // wait 2s then tap back button
-                  demoTimer = setTimeout(() => {
+                  tapFinger(() => {
                     if (demoStopped) return;
-                    showFinger(20, 53, () => {
+                    openIgPost('ig-pool.png');
+
+                    // 4. Warte 2s → wiggle
+                    demoTimer = setTimeout(() => {
                       if (demoStopped) return;
-                      tapFinger(() => {
+                      wigglePhone(() => {
                         if (demoStopped) return;
-                        closeIgPost();
-                        tapHint.classList.remove('hidden-hint');
-                        demoTimer = setTimeout(runDemo, 800);
+
+                        // 5. Warte 2s → zurück-Button
+                        demoTimer = setTimeout(() => {
+                          if (demoStopped) return;
+                          showFinger(20, 53, () => {
+                            if (demoStopped) return;
+                            tapFinger(() => {
+                              if (demoStopped) return;
+                              closeIgPost();
+                              // Folgen-Button zurücksetzen
+                              demoTimer = setTimeout(() => {
+                                resetFollow();
+                                tapHint.classList.remove('hidden-hint');
+                                tapHint.classList.add('hint-visible');
+                                demoTimer = setTimeout(runDemo, 600);
+                              }, 600);
+                            });
+                          });
+                        }, 2000);
                       });
-                    });
-                  }, 2000);
+                    }, 2000);
+                  });
                 });
-              }, 2000);
+              }, 800);
             });
           });
-        }, 4000);
+        }, 3000);
       });
     }, 2500);
   }
 
-  igIphone.addEventListener('mouseenter', stopDemo);
-  igIphone.addEventListener('click',      stopDemo);
-  igIphone.addEventListener('touchstart', stopDemo, { passive: true });
+  function onUserInteraction() {
+    if (!demoStopped) stopDemo();
+    else resetInactivityTimer(); // weitere Interaktion → Timer neu starten
+  }
 
-  demoTimer = setTimeout(runDemo, 500);
+  igIphone.addEventListener('mouseenter', onUserInteraction);
+  igIphone.addEventListener('click',      onUserInteraction);
+  igIphone.addEventListener('touchstart', onUserInteraction, { passive: true });
+
+  // Start demo sequence only when Social section scrolls into view
+  (function() {
+    const socialEl = document.getElementById('social');
+    const demoObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !demoStopped) {
+        demoObserver.disconnect();
+        demoTimer = setTimeout(runDemo, 600);
+      }
+    }, { threshold: 0.25 });
+    demoObserver.observe(socialEl);
+  })();
 
   let liked = false;
   let baseLikes = 3412; // updated each time a post is opened

@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Repuzzle — Hook Visuals</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:   #004B49;
+      --gold:   #C5A059;
+      --bg:     #F0EFEC;
+      --surface: #ffffff;
+      --muted:  #6b7280;
+      --radius: 16px;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 80px;
+      color: #111;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 44px;
+    }
+    .page-header img { height: 36px; }
+    .page-header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 32px;
+      width: 100%;
+      max-width: 1100px;
+      align-items: start;
+    }
+
+    /* ── Control Panel ── */
+    .panel {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+    }
+    .panel h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--teal);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel h2 .icon { font-size: 1.1rem; }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 0.875rem;
+      color: #111;
+      background: #fafafa;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input[type="text"]:focus, textarea:focus { border-color: var(--teal); background: #fff; }
+    textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+
+    .field { margin-bottom: 20px; }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 5px;
+      line-height: 1.4;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 22px 0;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    /* File upload drop zone */
+    .dropzone {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: #fafafa;
+      position: relative;
+    }
+    .dropzone:hover, .dropzone.drag-over {
+      border-color: var(--teal);
+      background: rgba(0,75,73,0.04);
+    }
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .dropzone-icon { font-size: 2rem; margin-bottom: 8px; }
+    .dropzone p { font-size: 0.85rem; color: var(--muted); line-height: 1.4; }
+    .dropzone strong { color: var(--teal); }
+
+    /* Profile meta inputs */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Avatar upload */
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .avatar-preview {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #e5e7eb;
+      background: #f3f4f6;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .avatar-row input[type="file"] { display: none; }
+    .avatar-label {
+      font-size: 0.8rem;
+      color: var(--teal);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--teal);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(0,75,73,0.25);
+      width: 100%;
+      margin-top: 8px;
+      font-size: 1rem;
+      padding: 14px;
+    }
+    .btn-primary:hover { background: #003635; box-shadow: 0 6px 18px rgba(0,75,73,0.35); }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(197,160,89,0.3);
+    }
+    .btn-gold:hover { background: #b08d45; }
+
+    .repuzzle-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .btn-repuzzle {
+      background: linear-gradient(135deg, var(--teal) 0%, #006b68 100%);
+      color: #fff;
+      padding: 15px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 6px 22px rgba(0,75,73,0.3);
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-repuzzle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0,75,73,0.4);
+    }
+    .btn-repuzzle:active { transform: scale(0.97); }
+    .btn-repuzzle .shuffle-icon { font-size: 1.2rem; display: inline-block; }
+    .btn-repuzzle.spinning .shuffle-icon { animation: spin 0.5s ease; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ── Instagram Mockup ── */
+    .mockup-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Phone shell */
+    .phone {
+      background: #fff;
+      border-radius: 40px;
+      box-shadow:
+        0 0 0 8px #1a1a1a,
+        0 0 0 10px #333,
+        0 30px 60px rgba(0,0,0,0.35);
+      width: 375px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Notch */
+    .phone-notch {
+      background: #1a1a1a;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .phone-notch::after {
+      content: '';
+      width: 110px; height: 22px;
+      background: #1a1a1a;
+      border-radius: 0 0 16px 16px;
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+    }
+
+    /* Status bar */
+    .status-bar {
+      background: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 18px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    /* IG nav bar */
+    .ig-navbar {
+      background: #fff;
+      border-bottom: 1px solid #dbdbdb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+    }
+    .ig-username-bar {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #000;
+    }
+    .ig-navbar-icons { display: flex; gap: 14px; }
+    .ig-navbar-icons svg { width: 22px; height: 22px; fill: none; stroke: #000; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* IG profile */
+    .ig-profile {
+      background: #fff;
+      padding: 14px 14px 8px;
+    }
+    .ig-profile-top {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 12px;
+    }
+    .ig-avatar-wrap {
+      position: relative;
+    }
+    .ig-avatar-ring {
+      width: 74px; height: 74px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      padding: 2.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ig-avatar {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2.5px solid #fff;
+      background: #e5e7eb;
+    }
+    .ig-stats {
+      display: flex;
+      gap: 20px;
+      flex: 1;
+    }
+    .ig-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+    .ig-stat-num { font-size: 0.92rem; font-weight: 700; color: #000; }
+    .ig-stat-lbl { font-size: 0.72rem; color: #000; }
+    .ig-name { font-size: 0.82rem; font-weight: 700; color: #000; margin-bottom: 3px; }
+    .ig-bio  { font-size: 0.78rem; color: #000; line-height: 1.4; white-space: pre-wrap; }
+    .ig-website { font-size: 0.78rem; color: #00376b; font-weight: 500; }
+
+    .ig-action-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+      margin-bottom: 2px;
+    }
+    .ig-btn {
+      flex: 1;
+      padding: 6px 8px;
+      border-radius: 7px;
+      background: #efefef;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: default;
+      color: #000;
+    }
+    .ig-btn-sm {
+      flex: none;
+      width: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ig-btn-sm svg { width: 14px; height: 14px; fill: #000; }
+
+    /* Story highlights */
+    .ig-highlights {
+      background: #fff;
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid #dbdbdb;
+    }
+    .ig-highlights-row {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .ig-highlights-row::-webkit-scrollbar { display: none; }
+    .ig-highlight {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .ig-highlight-circle {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      border: 1px solid #dbdbdb;
+      background: #f7f7f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ig-highlight-plus { font-size: 1.4rem; color: #000; font-weight: 300; }
+    .ig-highlight-lbl { font-size: 0.6rem; color: #000; text-align: center; white-space: nowrap; }
+
+    /* Tab bar */
+    .ig-tabs {
+      background: #fff;
+      display: flex;
+      border-bottom: 1px solid #dbdbdb;
+    }
+    .ig-tab {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-bottom: 1.5px solid transparent;
+    }
+    .ig-tab.active { border-bottom-color: #000; }
+    .ig-tab svg { width: 22px; height: 22px; fill: none; stroke: #000; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .ig-tab.active svg { stroke-width: 2; }
+
+    /* Photo grid */
+    .ig-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: #dbdbdb;
+    }
+    .ig-cell {
+      aspect-ratio: 1;
+      background: #e5e7eb;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .ig-cell:hover { opacity: 0.88; }
+    .ig-cell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+    .ig-cell:hover img { transform: scale(1.04); }
+    .ig-cell.empty { background: #f3f4f6; }
+
+    /* Placeholder cells */
+    .ig-cell-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d1d5db;
+    }
+    .ig-cell-placeholder svg { width: 28px; height: 28px; }
+
+    /* IG bottom nav */
+    .ig-bottom-nav {
+      background: #fff;
+      border-top: 1px solid #dbdbdb;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 14px;
+    }
+    .ig-bottom-nav svg { width: 24px; height: 24px; fill: none; stroke: #000; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .ig-bottom-avatar {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #000;
+    }
+
+    /* Shuffle animation */
+    .ig-cell.shuffling {
+      animation: cellPop 0.35s ease forwards;
+    }
+    @keyframes cellPop {
+      0%   { transform: scale(0.88); opacity: 0.4; }
+      60%  { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1);    opacity: 1; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 30px 0 10px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .empty-state svg { width: 40px; height: 40px; stroke: #d1d5db; margin-bottom: 10px; }
+
+    /* Image count badge */
+    .img-count {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 6px;
+    }
+    .img-count strong { color: var(--teal); }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      .layout { grid-template-columns: 1fr; }
+      .mockup-wrap { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="page-header">
+    <img src="Hook-Logo-transparent.png" alt="Hook Visuals" onerror="this.style.display='none'" />
+    <h1>Instagram Repuzzle</h1>
+  </header>
+
+  <div class="layout">
+
+    <!-- ── Control Panel ── -->
+    <aside class="panel">
+
+      <!-- Profile Settings -->
+      <h2><span class="icon">👤</span> Profil</h2>
+
+      <div class="avatar-row">
+        <img id="avatarPreview" class="avatar-preview" src="" alt="Avatar"
+          style="display:none"
+          onclick="document.getElementById('avatarInput').click()" />
+        <div id="avatarPlaceholder" class="avatar-preview"
+          style="background:#e5e7eb;display:flex;align-items:center;justify-content:center;cursor:pointer"
+          onclick="document.getElementById('avatarInput').click()">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div>
+          <label for="avatarInput" class="avatar-label" onclick="document.getElementById('avatarInput').click()">Profilbild hochladen</label>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:3px">Klick auf das Bild oder den Link</p>
+        </div>
+        <input type="file" id="avatarInput" accept="image/*" />
+      </div>
+
+      <div class="field">
+        <label for="igUsername">Benutzername</label>
+        <input type="text" id="igUsername" placeholder="@benutzername" value="@hookvisuals" />
+      </div>
+
+      <div class="field">
+        <label for="igName">Name</label>
+        <input type="text" id="igName" placeholder="Anzeigename" value="Hook Visuals" />
+      </div>
+
+      <div class="field">
+        <label for="igBio">Bio</label>
+        <textarea id="igBio" rows="3" placeholder="Kurze Beschreibung...">✨ Premium Wellness Marketing
+📍 Deutschland
+🎬 Cinematic Content für Hotels</textarea>
+      </div>
+
+      <div class="meta-grid">
+        <div class="field">
+          <label for="igPosts">Beiträge</label>
+          <input type="text" id="igPosts" value="48" />
+        </div>
+        <div class="field">
+          <label for="igFollowers">Follower</label>
+          <input type="text" id="igFollowers" value="12,4K" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="igWebsite">Website (optional)</label>
+        <input type="text" id="igWebsite" placeholder="www.deinwebsite.de" value="hookvisuals.com" />
+      </div>
+
+      <button class="btn btn-primary" onclick="applyProfile()">Profil aktualisieren</button>
+
+      <!-- Divider -->
+      <div class="divider" style="margin-top:28px">Bilder</div>
+
+      <h2 style="margin-top:4px"><span class="icon">📁</span> Bilder laden</h2>
+
+      <!-- Google Drive URL -->
+      <div class="field">
+        <label for="driveInput">Google Drive Ordner-URL</label>
+        <input type="text" id="driveInput" placeholder="https://drive.google.com/drive/folders/..." />
+        <p class="hint">Ordner muss öffentlich geteilt sein → Google API Key erforderlich.</p>
+      </div>
+
+      <div class="field">
+        <label for="apiKeyInput">Google API Key <span style="font-weight:400;text-transform:none;letter-spacing:0">(für Drive-Ordner)</span></label>
+        <input type="text" id="apiKeyInput" placeholder="AIza..." />
+        <p class="hint">Nur nötig wenn du einen Drive-Ordner lädst. <a href="https://console.cloud.google.com/apis/credentials" target="_blank" style="color:var(--teal)">API Key erstellen →</a></p>
+      </div>
+
+      <button class="btn btn-gold" style="width:100%" onclick="loadDriveFolder()">Aus Drive laden</button>
+
+      <div class="divider">oder</div>
+
+      <!-- File Upload -->
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(this.files)" />
+        <div class="dropzone-icon">🖼️</div>
+        <p><strong>Bilder hochladen</strong><br />Klicken oder Bilder hierher ziehen<br /><span style="font-size:0.72rem;color:#9ca3af">(JPG, PNG, WEBP — mehrere möglich)</span></p>
+      </div>
+
+      <div class="img-count" id="imgCount" style="display:none">
+        <strong id="imgCountNum">0</strong> Bilder geladen
+        <button onclick="clearImages()" style="margin-left:8px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.78rem;text-decoration:underline">Alle löschen</button>
+      </div>
+
+    </aside>
+
+    <!-- ── Mockup + Repuzzle ── -->
+    <div class="mockup-wrap">
+
+      <!-- Instagram Phone Mockup -->
+      <div class="phone">
+
+        <!-- Notch -->
+        <div class="phone-notch"></div>
+
+        <!-- Status bar -->
+        <div class="status-bar">
+          <span id="statusTime">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center">
+            <!-- Signal -->
+            <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="8" width="2.5" height="4" rx="0.5" fill="#000"/><rect x="3.5" y="5.5" width="2.5" height="6.5" rx="0.5" fill="#000"/><rect x="7" y="3" width="2.5" height="9" rx="0.5" fill="#000"/><rect x="10.5" y="0.5" width="2.5" height="11.5" rx="0.5" fill="#000"/></svg>
+            <!-- WiFi -->
+            <svg width="16" height="12" viewBox="0 0 24 18"><path d="M1 6C5.4 1.7 10.4 0 12 0s6.6 1.7 11 6" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M4.5 10C7 7.2 9.7 6 12 6s5 1.2 7.5 4" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M8 13.5C9.5 12 10.8 11.5 12 11.5s2.5.5 4 2" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#000"/></svg>
+            <!-- Battery -->
+            <svg width="22" height="12" viewBox="0 0 22 12"><rect x="0" y="1" width="18" height="10" rx="2.5" stroke="#000" stroke-width="1.2" fill="none"/><rect x="1.5" y="2.5" width="14" height="7" rx="1.5" fill="#000"/><path d="M19 4.5v3c.8-.4 1.3-1 1.3-1.5s-.5-1.1-1.3-1.5z" fill="#000"/></svg>
+          </div>
+        </div>
+
+        <!-- IG navbar -->
+        <div class="ig-navbar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="ig-username-bar" id="navUsername">@hookvisuals</span>
+          <div class="ig-navbar-icons">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+        </div>
+
+        <!-- Profile header -->
+        <div class="ig-profile">
+          <div class="ig-profile-top">
+            <div class="ig-avatar-wrap">
+              <div class="ig-avatar-ring">
+                <img id="igAvatarImg" class="ig-avatar" src="" alt="Avatar"
+                  style="background:#e5e7eb"
+                  onerror="this.src=''" />
+              </div>
+            </div>
+            <div class="ig-stats">
+              <div class="ig-stat">
+                <span class="ig-stat-num" id="statPosts">48</span>
+                <span class="ig-stat-lbl">Beiträge</span>
+              </div>
+              <div class="ig-stat">
+                <span class="ig-stat-num" id="statFollowers">12,4K</span>
+                <span class="ig-stat-lbl">Follower</span>
+              </div>
+              <div class="ig-stat">
+                <span class="ig-stat-num">892</span>
+                <span class="ig-stat-lbl">Gefolgt</span>
+              </div>
+            </div>
+          </div>
+          <div class="ig-name" id="igDisplayName">Hook Visuals</div>
+          <div class="ig-bio" id="igDisplayBio">✨ Premium Wellness Marketing
+📍 Deutschland
+🎬 Cinematic Content für Hotels</div>
+          <div class="ig-website" id="igDisplayWebsite">hookvisuals.com</div>
+          <div class="ig-action-row">
+            <button class="ig-btn">Profil bearbeiten</button>
+            <button class="ig-btn">Inhalte teilen</button>
+            <button class="ig-btn ig-btn-sm">
+              <svg viewBox="0 0 24 24" fill="#000" width="14" height="14"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Story highlights -->
+        <div class="ig-highlights">
+          <div class="ig-highlights-row">
+            <div class="ig-highlight">
+              <div class="ig-highlight-circle">
+                <span class="ig-highlight-plus">+</span>
+              </div>
+              <span class="ig-highlight-lbl">Neu</span>
+            </div>
+            <div class="ig-highlight">
+              <div class="ig-highlight-circle" style="background:#f3f4f6"></div>
+              <span class="ig-highlight-lbl">Spa</span>
+            </div>
+            <div class="ig-highlight">
+              <div class="ig-highlight-circle" style="background:#f3f4f6"></div>
+              <span class="ig-highlight-lbl">Pool</span>
+            </div>
+            <div class="ig-highlight">
+              <div class="ig-highlight-circle" style="background:#f3f4f6"></div>
+              <span class="ig-highlight-lbl">Food</span>
+            </div>
+            <div class="ig-highlight">
+              <div class="ig-highlight-circle" style="background:#f3f4f6"></div>
+              <span class="ig-highlight-lbl">Rooms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div class="ig-tabs">
+          <div class="ig-tab active">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
+          <div class="ig-tab">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M10 10l4 2-4 2V10z" fill="none"/></svg>
+          </div>
+          <div class="ig-tab">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="3"/><path d="M17 20H7a5 5 0 0 1 10 0z"/><path d="M20.5 8.5a9 9 0 0 1-17 0"/></svg>
+          </div>
+        </div>
+
+        <!-- Photo grid -->
+        <div class="ig-grid" id="igGrid">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Bottom nav -->
+        <div class="ig-bottom-nav">
+          <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/></svg>
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 2v4M8 2v4M2 10h20"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <div id="bottomAvatar" style="width:24px;height:24px;border-radius:50%;background:#e5e7eb;border:1.5px solid #000;overflow:hidden;display:flex;align-items:center;justify-content:center">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+        </div>
+
+      </div><!-- /phone -->
+
+      <!-- Repuzzle button -->
+      <div class="repuzzle-wrap">
+        <button class="btn-repuzzle" id="repuzzleBtn" onclick="repuzzle()">
+          <span class="shuffle-icon">🔀</span>
+          Repuzzle Pictures
+        </button>
+      </div>
+
+    </div><!-- /mockup-wrap -->
+  </div><!-- /layout -->
+
+
+  <script>
+    // ── State ──
+    let images = []; // array of data URLs or remote URLs
+
+    // ── Clock ──
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('statusTime').textContent =
+        now.getHours().toString().padStart(2,'0') + ':' +
+        now.getMinutes().toString().padStart(2,'0');
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // ── Render grid ──
+    function renderGrid(animate = false) {
+      const grid = document.getElementById('igGrid');
+      const count = Math.max(images.length, 9);
+      const cells = Math.ceil(count / 3) * 3;
+
+      grid.innerHTML = '';
+      for (let i = 0; i < cells; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'ig-cell' + (animate ? ' shuffling' : '');
+        if (animate) cell.style.animationDelay = (i * 0.04) + 's';
+
+        if (images[i]) {
+          const img = document.createElement('img');
+          img.src = images[i];
+          img.alt = 'Post ' + (i + 1);
+          cell.appendChild(img);
+        } else {
+          cell.classList.add('empty');
+          cell.innerHTML = `<div class="ig-cell-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.4" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>`;
+        }
+        grid.appendChild(cell);
+      }
+    }
+
+    // Initial empty grid
+    renderGrid();
+
+    // ── File Upload ──
+    function handleFiles(files) {
+      const readers = Array.from(files).map(f => new Promise(resolve => {
+        const r = new FileReader();
+        r.onload = e => resolve(e.target.result);
+        r.readAsDataURL(f);
+      }));
+
+      Promise.all(readers).then(urls => {
+        images = [...images, ...urls];
+        updateCountBadge();
+        renderGrid();
+      });
+    }
+
+    // Drag & drop
+    const dropzone = document.getElementById('dropzone');
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropzone.classList.remove('drag-over');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    function updateCountBadge() {
+      const badge = document.getElementById('imgCount');
+      document.getElementById('imgCountNum').textContent = images.length;
+      badge.style.display = images.length > 0 ? 'block' : 'none';
+    }
+
+    function clearImages() {
+      images = [];
+      updateCountBadge();
+      renderGrid();
+    }
+
+    // ── Google Drive Folder ──
+    async function loadDriveFolder() {
+      const url = document.getElementById('driveInput').value.trim();
+      const apiKey = document.getElementById('apiKeyInput').value.trim();
+
+      if (!url) { alert('Bitte eine Google Drive Ordner-URL eingeben.'); return; }
+      if (!apiKey) { alert('Bitte einen Google API Key eingeben, um den Drive-Ordner zu laden.'); return; }
+
+      // Extract folder ID
+      const match = url.match(/folders\/([a-zA-Z0-9_-]+)/);
+      if (!match) { alert('Ungültige Google Drive Ordner-URL.'); return; }
+      const folderId = match[1];
+
+      try {
+        const btn = event.target;
+        btn.textContent = 'Lade…';
+        btn.disabled = true;
+
+        const apiUrl = `https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+mimeType+contains+'image/'&key=${apiKey}&fields=files(id,name,mimeType)&pageSize=50`;
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error.message);
+
+        const urls = (data.files || []).map(f =>
+          `https://drive.google.com/uc?export=view&id=${f.id}`
+        );
+
+        if (urls.length === 0) { alert('Keine Bilder im Ordner gefunden (oder Ordner nicht öffentlich geteilt).'); }
+        else {
+          images = [...images, ...urls];
+          updateCountBadge();
+          renderGrid();
+        }
+      } catch (err) {
+        alert('Fehler beim Laden: ' + err.message);
+      } finally {
+        const btn = document.querySelector('.btn-gold');
+        btn.textContent = 'Aus Drive laden';
+        btn.disabled = false;
+      }
+    }
+
+    // ── Profile ──
+    function applyProfile() {
+      const username = document.getElementById('igUsername').value.trim() || '@username';
+      const name     = document.getElementById('igName').value.trim();
+      const bio      = document.getElementById('igBio').value;
+      const posts    = document.getElementById('igPosts').value.trim();
+      const followers= document.getElementById('igFollowers').value.trim();
+      const website  = document.getElementById('igWebsite').value.trim();
+
+      document.getElementById('navUsername').textContent = username;
+      document.getElementById('igDisplayName').textContent = name;
+      document.getElementById('igDisplayBio').textContent = bio;
+      document.getElementById('statPosts').textContent = posts;
+      document.getElementById('statFollowers').textContent = followers;
+      document.getElementById('igDisplayWebsite').textContent = website;
+      document.getElementById('igDisplayWebsite').style.display = website ? '' : 'none';
+    }
+
+    // Avatar upload
+    document.getElementById('avatarInput').addEventListener('change', function() {
+      if (!this.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const src = e.target.result;
+        const preview = document.getElementById('avatarPreview');
+        const placeholder = document.getElementById('avatarPlaceholder');
+        preview.src = src;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+
+        document.getElementById('igAvatarImg').src = src;
+        document.getElementById('igAvatarImg').style.background = 'none';
+
+        // Bottom nav avatar
+        const ba = document.getElementById('bottomAvatar');
+        ba.innerHTML = `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
+      };
+      reader.readAsDataURL(this.files[0]);
+    });
+
+    // ── Repuzzle ──
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function repuzzle() {
+      if (images.length < 2) {
+        alert('Bitte zuerst mindestens 2 Bilder laden!');
+        return;
+      }
+
+      // Animate button icon
+      const btn = document.getElementById('repuzzleBtn');
+      btn.classList.add('spinning');
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.classList.remove('spinning');
+        btn.disabled = false;
+      }, 500);
+
+      images = shuffle(images);
+      renderGrid(true);
+    }
+
+    // Init
+    applyProfile();
+  </script>
+
+</body>
+</html>

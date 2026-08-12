@@ -19,7 +19,10 @@
       "Read(//c/Users/User/AppData/Local/Programs//**)",
       "Bash(mkdir -p \"/c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals\")",
       "Bash(cp -r \"/c/Users/User/Downloads/Hook Visuals Images/.\" \"/c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals/\")",
-      "Read(//c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals//**)"
+      "Read(//c/Users/User/OneDrive/Dokumente/GitHub/Hook-Visuals/Website-Hook-Visuals//**)",
+      "Bash(pkill -f \"http.server 8899\")",
+      "Bash(nohup /usr/bin/python3 -m http.server 8899 > /tmp/hv-server.log 2>&1 & *)",
+      "Bash(nohup /usr/bin/python3 -m http.server 8899)"
     ]
   }
 }

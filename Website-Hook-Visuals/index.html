@@ -1181,10 +1181,10 @@
 
       try {
         const data = new FormData(contactForm);
-        const res  = await fetch('send-mail.php', { method: 'POST', body: data });
+        const res  = await fetch('https://formspree.io/f/xgawyjpo', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
         const json = await res.json();
 
-        if (json.success) {
+        if (res.ok) {
           contactForm.classList.add('hidden');
           successBox.classList.remove('hidden');
           successBox.classList.add('flex');

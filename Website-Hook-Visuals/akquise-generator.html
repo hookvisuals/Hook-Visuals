@@ -1556,6 +1556,8 @@ async function driveDownloadText(file, token) {
   return await r.text();
 }
 
+let assetLoadSeq = 0;   // laufende Nummer, um verspätete/überholte Ladungen zu verwerfen
+
 async function loadHotelAssets(driveLink) {
   if (!driveLink) return;
   if (!googleAccessToken) {
@@ -1566,9 +1568,15 @@ async function loadHotelAssets(driveLink) {
   if (!folderId) { toast('Ungültiger Drive-Link (Spalte Drive_Link)', true); return; }
   const token = googleAccessToken;
 
+  const mySeq    = ++assetLoadSeq;                          // diese Ladung
+  const targetId = S.hotel ? hotelIdOf(S.hotel) : null;     // Ziel-Hotel
+
   toast('⏳ Lade Bilder & Bio aus Drive …');
   try {
-    // Unterordner ermitteln
+    // In lokale Variablen laden (nicht direkt in S), damit eine überholte
+    // Ladung nichts vom falschen Hotel überschreibt.
+    let profilePics = [], postImages = [], bios = [];
+
     const subs = await driveList(
       `'${folderId}' in parents and mimeType='application/vnd.google-apps.folder' and trashed=false`,
       token, 'files(id,name)');
@@ -1577,19 +1585,16 @@ async function loadHotelAssets(driveLink) {
     const fContent = find(/02[_\s-]*content|content/i);
     const fText    = find(/03[_\s-]*text|text/i);
 
-    // 01_Profile → bis zu 3 Profilbilder
     if (fProfile) {
       const imgs = await driveList(
         `'${fProfile.id}' in parents and mimeType contains 'image/' and trashed=false`, token, 'files(id,name)');
-      S.profilePics = await Promise.all(imgs.slice(0, 3).map(f => driveDownloadDataUrl(f.id, token)));
+      profilePics = await Promise.all(imgs.slice(0, 3).map(f => driveDownloadDataUrl(f.id, token)));
     }
-    // 02_Content → Post-Bilder
     if (fContent) {
       const imgs = await driveList(
         `'${fContent.id}' in parents and mimeType contains 'image/' and trashed=false`, token, 'files(id,name)');
-      S.postImages = await Promise.all(imgs.map(f => driveDownloadDataUrl(f.id, token)));
+      postImages = await Promise.all(imgs.map(f => driveDownloadDataUrl(f.id, token)));
     }
-    // 03_Text → bis zu 3 Bios (hotel_summary ignorieren)
     if (fText) {
       const files = await driveList(`'${fText.id}' in parents and trashed=false`, token, 'files(id,name,mimeType)');
       const bioFiles = files.filter(f =>
@@ -1597,14 +1602,21 @@ async function loadHotelAssets(driveLink) {
         (/text\/plain/.test(f.mimeType) || /\.txt$/i.test(f.name) ||
          f.mimeType === 'application/vnd.google-apps.document'));
       const texts = await Promise.all(bioFiles.slice(0, 3).map(f => driveDownloadText(f, token).catch(() => '')));
-      S.bios = texts.map(t => t.trim()).filter(Boolean);
+      bios = texts.map(t => t.trim()).filter(Boolean);
     }
 
-    // Direkt zufällig einsetzen
+    // Veraltet? → verwerfen (Nutzer hat weitergeklickt oder neue Ladung läuft)
+    if (mySeq !== assetLoadSeq) return;
+    if (targetId && S.hotel && hotelIdOf(S.hotel) !== targetId) return;
+
+    // Jetzt erst übernehmen und einsetzen
+    S.profilePics = profilePics; S.postImages = postImages; S.bios = bios;
     if (S.profilePics.length) shuffleProfilePic(false);
     if (S.postImages.length)  shufflePosts(false);
+    else { S.curPosts = []; renderGrid(); }        // kein Content → Grid leeren statt alte Bilder zeigen
     if (S.bios.length)        shuffleBio(false);
-    saveCurrentAssets();      // für Persistenz über Refresh
+    saveCurrentAssets();
+    captureCurrentState();   // Snapshot des Hotels mit den frisch geladenen Bildern aktualisieren
 
     document.getElementById('stProfil').textContent = `✅ ${S.profilePics.length} Profilbilder`;
     document.getElementById('stPosts').textContent  = `✅ ${S.postImages.length} Post-Bilder`;
@@ -2036,7 +2048,14 @@ function cleanContactName(raw) {
   s = s.split(/\s+[–—-]\s+/)[0];           // " - " / " – " Zusatz abschneiden
   s = s.replace(/\([^)]*\)/g, ' ');        // Klammer-Zusätze entfernen
   s = s.replace(/,/g, ' ');                // "Vorname, Nachname" → "Vorname Nachname"
-  return s.replace(/\s+/g, ' ').trim();
+  s = s.replace(/\s+/g, ' ').trim();
+
+  // Platzhalter statt echtem Namen → Namen ganz weglassen
+  // (z. B. "Vorname nicht veröffentlicht …", "nicht zuverlässig gefunden", "unbekannt")
+  const platzhalter = /\b(vorname|nachname|name)\b|nicht\s*ver(ö|oe)ffentlicht|nicht\s*verf(ü|ue)gbar|nicht\s*(zuverlässig\s*)?(gefunden|bekannt)|unbekannt|keine?\s*angabe|k\.?\s*a\.?|^n\/?a$|^-+$/i;
+  if (platzhalter.test(s)) return '';
+
+  return s;
 }
 
 /* Zerlegt die Spalte "Kontaktperson" (Anrede + Vor-/Nachname in einer Zelle)

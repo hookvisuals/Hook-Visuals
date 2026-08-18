@@ -180,8 +180,8 @@ body {
 
 /* ── 1. Header Bar ── */
 .ltr-header {
-  background: #F5F5F5;
-  border-bottom: 1px solid #e0e0e0;
+  background: #E7E5DF;
+  border-bottom: 1px solid #d3d1ca;
   height: 68px;
   display: flex;
   align-items: center;
@@ -2498,8 +2498,8 @@ function exportOptFor(filename) {
   return {
     margin: 0,
     filename,
-    // Faktor 4 ≈ 384 DPI für scharfe Fotos/Text, JPEG 0.95 hält die Datei klein
-    image: { type: 'jpeg', quality: 0.95 },
+    // Faktor 4 ≈ 384 DPI für scharfe Fotos/Text, JPEG 0.97 für saubere Textkanten
+    image: { type: 'jpeg', quality: 0.97 },
     html2canvas: { scale: 4, useCORS: true, allowTaint: false, backgroundColor: '#ffffff', logging: false, imageTimeout: 20000, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' },
     // A4/mm statt px: der Brief-Canvas hat exakt das A4-Verhältnis (794:1123 = 210:297),
     // das Bild füllt die Seite passgenau — ohne den unzuverlässigen px_scaling-Versatz.
@@ -2561,12 +2561,36 @@ async function exportSelected() {
 async function prepareLetterClone() {
   const source = document.getElementById('letterCanvas');
   document.querySelectorAll('[contenteditable]').forEach(e => e.blur());
-  // Bilder fertig laden
-  await Promise.all(Array.from(source.querySelectorAll('img')).map(img => {
-    if (!img.getAttribute('src')) return Promise.resolve();
-    if (img.complete) return Promise.resolve();
-    return new Promise(res => { img.addEventListener('load',res,{once:true}); img.addEventListener('error',res,{once:true}); setTimeout(res,4000); });
+  // Schriften komplett laden — sonst rendert html2canvas mit Ersatz-Font
+  // (falsche Buchstabenformen / verschobene Schrift). Konkrete Schnitte anfordern.
+  if (document.fonts) {
+    try {
+      await Promise.all([
+        document.fonts.load('400 10pt Inter'),
+        document.fonts.load('600 10pt Inter'),
+        document.fonts.load('700 12pt Inter'),
+        document.fonts.load('italic 400 10pt Inter'),
+        document.fonts.load('16pt "Grand Hotel"'),
+      ]);
+      await document.fonts.ready;
+    } catch(_) {}
+  }
+  // Bilder vollständig laden UND dekodieren — sonst rendert html2canvas
+  // sie grau/unscharf (noch nicht fertig decodiert).
+  await Promise.all(Array.from(source.querySelectorAll('img')).map(async img => {
+    if (!img.getAttribute('src')) return;
+    try {
+      if (!img.complete) {
+        await new Promise(res => { img.addEventListener('load',res,{once:true}); img.addEventListener('error',res,{once:true}); setTimeout(res,8000); });
+      }
+      // decode() sicherstellen, aber nie länger als 2 s blockieren (z. B. bei verstecktem Tab)
+      if (img.decode) await Promise.race([ img.decode().catch(()=>{}), new Promise(r=>setTimeout(r,2000)) ]);
+    } catch(_) {}
   }));
+  // kurz warten, bis der Browser das Rendering wirklich abgeschlossen hat
+  // (setTimeout statt requestAnimationFrame — rAF pausiert bei verstecktem Tab)
+  await new Promise(r => setTimeout(r, 150));
+
   const holder = document.createElement('div');
   holder.style.cssText = 'position:absolute; left:-10000px; top:0; width:794px; height:1123px; margin:0; padding:0; background:#fff;';
   const clone = source.cloneNode(true);
@@ -2620,7 +2644,12 @@ async function exportBatch(ids) {
 
       const { holder, clone } = await prepareLetterClone();
       try {
-        await html2pdf().set(exportOptFor(pdfNameFor(hotel) + '.pdf')).from(clone).save();
+        const fname = pdfNameFor(hotel) + '.pdf';
+        const pdf = await html2pdf().set(exportOptFor(fname)).from(clone).toPdf().get('pdf');
+        // Genau EINE Seite: überzählige (durch minimalen Rundungs-Überlauf) entfernen
+        let _pgGuard = 0;
+        while (pdf.internal.getNumberOfPages() > 1 && _pgGuard++ < 20) pdf.deletePage(pdf.internal.getNumberOfPages());
+        pdf.save(fname);
         ok++;
       } finally { holder.remove(); }
 

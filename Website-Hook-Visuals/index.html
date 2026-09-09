@@ -4,6 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Google Analytics — Consent Mode v2 (fires only after user accepts) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'analytics_storage': 'denied',
+      'ad_storage': 'denied',
+      'wait_for_update': 500
+    });
+    if (localStorage.getItem('ga_consent') === 'granted') {
+      gtag('consent', 'update', {'analytics_storage': 'granted'});
+    }
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-449Y0G925T"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-449Y0G925T', {'anonymize_ip': true});
+  </script>
+
   <!-- SEO -->
   <title>Hook Visuals — Premium Wellness Marketing Agentur</title>
   <meta name="description" content="Hook Visuals ist die führende Marketing-Agentur für Wellness-Hotels und Luxus-Resorts. Wir verwandeln Ihr Haus in eine digitale Sehnsucht — mit cineastischem Content, Social Media und messbaren Ergebnissen." />
@@ -107,6 +126,33 @@
       letter-spacing: 0.25em;
       text-transform: uppercase;
     }
+
+    /* ── Cookie Banner ── */
+    #cookie-banner {
+      position:fixed; bottom:0; left:0; right:0; z-index:9999;
+      background:#1a2e1a; color:#f5f0eb;
+      padding:1rem 1.5rem;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1rem; flex-wrap:wrap;
+      box-shadow:0 -4px 32px rgba(0,0,0,0.25);
+      font-family:'Manrope',sans-serif; font-size:0.8rem; line-height:1.5;
+    }
+    #cookie-banner a { color:#b8976a; text-decoration:underline; }
+    #cookie-banner .cb-actions { display:flex; gap:0.6rem; flex-shrink:0; }
+    #cookie-banner .cb-decline {
+      padding:0.45rem 1.1rem; border:1px solid rgba(255,255,255,0.25);
+      border-radius:999px; background:transparent; color:#f5f0eb;
+      cursor:pointer; font-size:0.75rem; font-family:'Manrope',sans-serif;
+      letter-spacing:0.06em; transition:border-color .2s;
+    }
+    #cookie-banner .cb-decline:hover { border-color:#f5f0eb; }
+    #cookie-banner .cb-accept {
+      padding:0.45rem 1.2rem; border-radius:999px;
+      background:#b8976a; color:#fff; border:none;
+      cursor:pointer; font-size:0.75rem; font-family:'Manrope',sans-serif;
+      font-weight:700; letter-spacing:0.06em; transition:background .2s;
+    }
+    #cookie-banner .cb-accept:hover { background:#a07d57; }
 
     /* ── Portfolio hover ── */
     .porto-img { transition: transform 1s cubic-bezier(0.25,0.46,0.45,0.94); will-change: transform; }
@@ -1812,6 +1858,33 @@
   function closeStory() {
     clearTimeout(storyTimer);
     document.getElementById('ig-story').style.transform = 'translateY(100%)';
+  }
+</script>
+
+<!-- ── Cookie Consent Banner ── -->
+<div id="cookie-banner" style="display:none;">
+  <p style="margin:0;max-width:680px;">
+    Wir nutzen <strong>Google Analytics</strong>, um zu verstehen, wie Besucher unsere Website nutzen.
+    Die Daten werden anonym erfasst. Mehr dazu in unserer
+    <a href="cookie-policy.html">Cookie Policy</a> und
+    <a href="privacy-policy.html">Datenschutzerklärung</a>.
+  </p>
+  <div class="cb-actions">
+    <button class="cb-decline" onclick="setCookieConsent('denied')">Ablehnen</button>
+    <button class="cb-accept" onclick="setCookieConsent('granted')">Akzeptieren</button>
+  </div>
+</div>
+
+<script>
+  function setCookieConsent(choice) {
+    localStorage.setItem('ga_consent', choice);
+    if (choice === 'granted') {
+      gtag('consent', 'update', {'analytics_storage': 'granted'});
+    }
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+  if (!localStorage.getItem('ga_consent')) {
+    document.getElementById('cookie-banner').style.display = 'flex';
   }
 </script>
 

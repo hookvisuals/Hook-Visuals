@@ -975,7 +975,7 @@
         <button id="btn-yearly" onclick="setBilling('yearly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:#004B49;color:#fff;">Jährlich</button>
         <button id="btn-monthly" onclick="setBilling('monthly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:transparent;color:#5a5e5a;">Monatlich</button>
       </div>
-      <span class="label text-secondary" style="font-size:0.65rem;">Bis zu 17% sparen</span>
+      <span class="label text-secondary" style="font-size:0.65rem;">Bis zu 15% sparen</span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
@@ -985,7 +985,7 @@
         <h3 class="text-2xl text-primary mb-2">Light</h3>
         <p class="text-on-muted text-sm mb-8">Grundlegende digitale Präsenz.</p>
         <div class="mb-10">
-          <span id="price-light" class="text-4xl text-primary font-serif font-bold">240 €</span>
+          <span id="price-light" class="text-4xl text-primary font-serif font-bold">245 €</span>
           <span class="label text-on-muted ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1006,7 +1006,7 @@
         <h3 class="text-3xl text-white mb-2">Plus</h3>
         <p class="text-white/70 text-sm mb-8">Umfassendes Marketing.</p>
         <div class="mb-10">
-          <span id="price-plus" class="text-5xl text-white font-serif font-bold">409 €</span>
+          <span id="price-plus" class="text-5xl text-white font-serif font-bold">415 €</span>
           <span class="label text-white/60 ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1025,7 +1025,7 @@
         <h3 class="text-2xl text-primary mb-2">Premium</h3>
         <p class="text-on-muted text-sm mb-8">Full-Service für maximale Expansion.</p>
         <div class="mb-10">
-          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">740 €</span>
+          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">750 €</span>
           <span class="label text-on-muted ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1113,9 +1113,9 @@
           <div class="field">
             <select id="plan" name="plan">
               <option value="">Gewünschtes Modell wählen</option>
-              <option value="light">Light — 240 €/Monat</option>
-              <option value="plus">Plus — 409 €/Monat</option>
-              <option value="premium">Premium — 740 €/Monat</option>
+              <option value="light">Light — 245 €/Monat</option>
+              <option value="plus">Plus — 415 €/Monat</option>
+              <option value="premium">Premium — 750 €/Monat</option>
               <option value="individual">Individuelle Anfrage</option>
             </select>
             <label for="plan">Interesse</label>
@@ -1269,7 +1269,7 @@
 
   // ── Billing Toggle ─────────────────────────────
   const billingPrices = {
-    yearly:  { light: '240 €', plus: '409 €', premium: '740 €' },
+    yearly:  { light: '245 €', plus: '415 €', premium: '750 €' },
     monthly: { light: '290 €', plus: '490 €', premium: '890 €' }
   };
   let currentBilling = 'yearly';

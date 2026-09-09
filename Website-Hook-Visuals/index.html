@@ -985,7 +985,7 @@
         <h3 class="text-2xl text-primary mb-2">Light</h3>
         <p class="text-on-muted text-sm mb-8">Grundlegende digitale Präsenz.</p>
         <div class="mb-10">
-          <span id="price-light" class="text-4xl text-primary font-serif font-bold">89 €</span>
+          <span id="price-light" class="text-4xl text-primary font-serif font-bold">240 €</span>
           <span class="label text-on-muted ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1006,7 +1006,7 @@
         <h3 class="text-3xl text-white mb-2">Plus</h3>
         <p class="text-white/70 text-sm mb-8">Umfassendes Marketing.</p>
         <div class="mb-10">
-          <span id="price-plus" class="text-5xl text-white font-serif font-bold">349 €</span>
+          <span id="price-plus" class="text-5xl text-white font-serif font-bold">409 €</span>
           <span class="label text-white/60 ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1025,7 +1025,7 @@
         <h3 class="text-2xl text-primary mb-2">Premium</h3>
         <p class="text-on-muted text-sm mb-8">Full-Service für maximale Expansion.</p>
         <div class="mb-10">
-          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">589 €</span>
+          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">740 €</span>
           <span class="label text-on-muted ml-1">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1113,9 +1113,9 @@
           <div class="field">
             <select id="plan" name="plan">
               <option value="">Gewünschtes Modell wählen</option>
-              <option value="light">Light — 89 €/Monat</option>
-              <option value="plus">Plus — 349 €/Monat</option>
-              <option value="premium">Premium — 589 €/Monat</option>
+              <option value="light">Light — 240 €/Monat</option>
+              <option value="plus">Plus — 409 €/Monat</option>
+              <option value="premium">Premium — 740 €/Monat</option>
               <option value="individual">Individuelle Anfrage</option>
             </select>
             <label for="plan">Interesse</label>
@@ -1269,8 +1269,8 @@
 
   // ── Billing Toggle ─────────────────────────────
   const billingPrices = {
-    yearly:  { light: '89 €',  plus: '349 €', premium: '589 €' },
-    monthly: { light: '107 €', plus: '419 €', premium: '707 €' }
+    yearly:  { light: '240 €', plus: '409 €', premium: '740 €' },
+    monthly: { light: '290 €', plus: '490 €', premium: '890 €' }
   };
   let currentBilling = 'yearly';
   function setBilling(mode) {

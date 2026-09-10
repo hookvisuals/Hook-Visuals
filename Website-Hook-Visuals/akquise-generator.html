@@ -313,7 +313,7 @@ body {
 .sender-date {
   margin-top: 26px;
   text-align: right;
-  font-weight: 600;
+  font-weight: 400;
   color: #111;
   font-size: 8.5pt;
 }
@@ -1268,6 +1268,19 @@ body {
     <input type="checkbox" id="exportSelectAll" onchange="toggleAllExport(this)">
     <span><strong>Alle auswählen</strong></span>
   </label>
+
+  <!-- Bereichsauswahl nach Position in der Liste, z. B. 250–500 -->
+  <div id="exportRangeRow" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 12px;font-size:0.82rem;color:var(--text)">
+    <span>Bereich:</span>
+    <span>von</span>
+    <input type="number" id="exportFrom" min="1" step="1"
+           style="width:78px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text);outline:none">
+    <span>bis</span>
+    <input type="number" id="exportTo" min="1" step="1"
+           style="width:78px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:'Inter',sans-serif;font-size:0.82rem;color:var(--text);outline:none">
+    <button class="btn btn-ghost" onclick="selectExportRange()">Bereich auswählen</button>
+    <span id="exportRangeHint" style="color:var(--muted)"></span>
+  </div>
 
   <div id="exportList" class="export-list"></div>
 
@@ -2847,17 +2860,51 @@ function openExportModal() {
   } else {
     if (master) { master.parentElement.style.display = ''; master.checked = false; }
     const curId = localStorage.getItem('hv_current_hotel');
-    box.innerHTML = rows.map(row => {
+    box.innerHTML = rows.map((row, i) => {
       const id   = hotelIdOf(row);
       const name = getF(row,'Hotelname','Hotel','Name') || '(kein Name)';
       const chk  = id === curId ? 'checked' : '';
       return `<label class="export-item">
         <input type="checkbox" class="export-cb" value="${String(id).replace(/"/g,'&quot;')}" ${chk} onchange="updateExportCount()">
-        <span>${id} — ${name}</span></label>`;
+        <span><span style="color:var(--muted)">${i + 1}.</span> ${id} — ${name}</span></label>`;
     }).join('');
+    // Bereichs-Steuerung vorbereiten (Positionen 1 … Anzahl)
+    const rangeRow = document.getElementById('exportRangeRow');
+    if (rangeRow) rangeRow.style.display = '';
+    const fromEl = document.getElementById('exportFrom'), toEl = document.getElementById('exportTo');
+    if (fromEl && toEl) {
+      fromEl.max = rows.length; toEl.max = rows.length;
+      fromEl.placeholder = '1'; toEl.placeholder = String(rows.length);
+      fromEl.value = ''; toEl.value = '';
+    }
+    const hint = document.getElementById('exportRangeHint');
+    if (hint) hint.textContent = `(1–${rows.length})`;
   }
+  // Ohne Datenbank keine Bereichsauswahl anzeigen
+  if (!rows.length) { const rr = document.getElementById('exportRangeRow'); if (rr) rr.style.display = 'none'; }
   updateExportCount();
   openModal('modalExport');
+}
+
+/* Checkboxen nach Listen-Position auswählen (z. B. von 250 bis 500). Setzt die
+   Auswahl exakt auf diesen Bereich (andere werden abgewählt). */
+function selectExportRange() {
+  const cbs = [...document.querySelectorAll('.export-cb')];
+  if (!cbs.length) return;
+  const fromEl = document.getElementById('exportFrom'), toEl = document.getElementById('exportTo');
+  let from = parseInt(fromEl.value, 10), to = parseInt(toEl.value, 10);
+  if (isNaN(from)) from = 1;
+  if (isNaN(to))   to = cbs.length;
+  if (from > to) { const t = from; from = to; to = t; }
+  from = Math.max(1, from);
+  to   = Math.min(cbs.length, to);
+  cbs.forEach((cb, i) => { cb.checked = (i + 1 >= from && i + 1 <= to); });
+  const master = document.getElementById('exportSelectAll');
+  if (master) master.checked = false;
+  // Ausgewählten Bereich sichtbar machen (erste Checkbox der Auswahl in den Blick scrollen)
+  const first = cbs[from - 1];
+  if (first) first.closest('.export-item').scrollIntoView({ block: 'nearest' });
+  updateExportCount();
 }
 
 function toggleAllExport(master) {

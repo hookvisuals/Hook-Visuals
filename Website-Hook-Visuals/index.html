@@ -1159,9 +1159,9 @@
           <div class="field">
             <select id="plan" name="plan">
               <option value="">Gewünschtes Modell wählen</option>
-              <option value="light">Light — 245 €/Monat</option>
-              <option value="plus">Plus — 415 €/Monat</option>
-              <option value="premium">Premium — 750 €/Monat</option>
+              <option value="light-yearly"   data-plan="light">Light — 245 €/Monat (Jahresabo)</option>
+              <option value="plus-yearly"    data-plan="plus">Plus — 415 €/Monat (Jahresabo)</option>
+              <option value="premium-yearly" data-plan="premium">Premium — 750 €/Monat (Jahresabo)</option>
               <option value="individual">Individuelle Anfrage</option>
             </select>
             <label for="plan">Interesse</label>
@@ -1310,7 +1310,7 @@
   });
 
   function selectPlan(plan) {
-    document.getElementById('plan').value = plan;
+    document.getElementById('plan').value = plan + '-' + currentBilling;
   }
 
   // ── Billing Toggle ─────────────────────────────
@@ -1334,6 +1334,24 @@
     } else {
       btnM.style.background = '#004B49'; btnM.style.color = '#fff';
       btnY.style.background = 'transparent'; btnY.style.color = '#5a5e5a';
+    }
+    // Update select option labels and values to match billing mode
+    const billingLabel = mode === 'yearly' ? 'Jahresabo' : 'Monatsabo';
+    const planNames = { light: 'Light', plus: 'Plus', premium: 'Premium' };
+    const sel = document.getElementById('plan');
+    ['light', 'plus', 'premium'].forEach(planKey => {
+      const opt = sel.querySelector(`option[data-plan="${planKey}"]`);
+      if (!opt) return;
+      const prevPlan = opt.value.split('-')[0];
+      opt.value = prevPlan + '-' + mode;
+      opt.textContent = `${planNames[planKey]} — ${p[planKey]}/Monat (${billingLabel})`;
+    });
+    // If a plan is already selected, update its value to the new mode
+    if (sel.value && sel.value !== 'individual' && sel.value !== '') {
+      const currentPlan = sel.value.split('-')[0];
+      if (['light', 'plus', 'premium'].includes(currentPlan)) {
+        sel.value = currentPlan + '-' + mode;
+      }
     }
   }
 

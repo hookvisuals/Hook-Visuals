@@ -301,7 +301,7 @@
 
     <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-8">
-      <a href="#portfolio"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Portfolio</a>
+      <a href="#zusammenarbeit"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Zusammenarbeit</a>
       <a href="#social"     class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Social Media</a>
       <a href="#pricing"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Abomodelle</a>
       <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Partnerschaft</a>
@@ -323,7 +323,7 @@
 
 <!-- Mobile menu dropdown -->
 <div id="mobile-menu" class="fixed top-[104px] left-4 right-4 z-40 bg-white rounded-2xl shadow-2xl border border-stone-100 flex-col hidden overflow-hidden">
-  <a href="#portfolio" onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Portfolio</a>
+  <a href="#zusammenarbeit" onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Zusammenarbeit</a>
   <a href="#social"    onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Social Media</a>
   <a href="#pricing"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Abomodelle</a>
   <a href="#contact"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Partnerschaft</a>
@@ -361,7 +361,7 @@
          class="label bg-primary text-white px-10 py-5 rounded-md hover:bg-primary-dark transition-all duration-300 shadow-xl">
         Jetzt starten
       </a>
-      <a href="#portfolio"
+      <a href="#zusammenarbeit"
          class="label text-white border-b-2 border-secondary px-6 py-5 hover:text-secondary transition-colors duration-300"
          style="text-shadow:0 2px 8px rgba(0,0,0,0.35)">
         Unsere Vision entdecken
@@ -370,69 +370,137 @@
   </div>
 
   <!-- Scroll arrow -->
-  <a href="#portfolio" class="absolute bottom-10 left-1/2 -translate-x-1/2 bounce text-white/70 hover:text-white transition-colors z-10">
+  <a href="#zusammenarbeit" class="absolute bottom-10 left-1/2 -translate-x-1/2 bounce text-white/70 hover:text-white transition-colors z-10">
     <span class="material-symbols-outlined text-3xl">expand_more</span>
   </a>
 </section>
 
 <!-- ════════════════════════════════════════════
-     PORTFOLIO
+     ZUSAMMENARBEIT
 ════════════════════════════════════════════ -->
-<section id="portfolio" class="py-16 md:py-36 bg-surface">
-  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+<section id="zusammenarbeit" class="py-16 md:py-36 bg-surface">
+  <div class="max-w-6xl mx-auto px-6 lg:px-10">
 
-    <!-- Heading row -->
-    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-10 md:mb-20">
-      <div>
-        <p class="label text-secondary mb-4">Ästhetik &amp; Resultate</p>
-        <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Unser Portfolio</h2>
-      </div>
-      <p class="max-w-sm text-on-muted leading-relaxed text-sm lg:text-base">
-        Wir gestalten visuelle Geschichten, die Sehnsüchte wecken. Jedes Video und Foto ist eine Einladung zur Entspannung.
-      </p>
+    <!-- Heading -->
+    <div class="text-center mb-16 md:mb-24">
+      <p class="label text-secondary mb-4">Ihr Weg mit uns</p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary leading-tight mb-5">
+        Ihre Zusammenarbeit<br class="hidden sm:block"> mit Hook Visuals
+      </h2>
+      <p class="text-on-muted text-base md:text-lg">In drei Schritten zu mehr Buchungen für Ihr Hotel.</p>
     </div>
 
-    <!-- Mobile collage (hidden md+) -->
-    <div id="porto-collage" class="porto-collage md:hidden">
-      <!-- top-left, large -->
-      <div class="porto-collage-item" style="width:59%;height:57%;top:0;left:0;transform:rotate(-2.4deg);z-index:1;">
-        <img src="portfolio-5.png" alt="Luxuriöse Sauna" loading="lazy" decoding="async" />
-      </div>
-      <!-- top-right, medium -->
-      <div class="porto-collage-item" style="width:50%;height:52%;top:10px;right:0;transform:rotate(1.8deg);z-index:3;">
-        <img src="portfolio-2.png" alt="Spa-Ambiente" loading="lazy" decoding="async" />
-      </div>
-      <!-- bottom-left, medium -->
-      <div class="porto-collage-item" style="width:50%;height:52%;bottom:0;left:12px;transform:rotate(1.5deg);z-index:3;">
-        <img src="portfolio-6-gourmet.JPEG" alt="Gourmet" style="object-position:center 60%;" loading="lazy" decoding="async" />
-      </div>
-      <!-- bottom-right, large -->
-      <div class="porto-collage-item" style="width:59%;height:57%;bottom:10px;right:0;transform:rotate(-1.8deg);z-index:2;">
-        <img src="ruheraum wellnesshotel.jpeg" alt="Ruheraum" loading="lazy" decoding="async" />
-      </div>
-    </div>
+    <!-- Steps: horizontal desktop, vertical mobile -->
+    <div class="flex flex-col md:flex-row items-center md:items-stretch gap-4 md:gap-0">
 
-    <!-- Desktop grid (hidden on mobile) -->
-    <div class="hidden md:grid md:grid-cols-12 gap-6">
-
-      <!-- Large -->
-      <div class="porto-wrap md:col-span-8 relative overflow-hidden rounded-xl md:h-[480px]">
-        <img src="portfolio-5.png" alt="Luxuriöse Sauna" class="porto-img w-full h-full object-cover" loading="lazy" decoding="async" />
-      </div>
-
-      <!-- Tall right -->
-      <div class="porto-wrap md:col-span-4 relative overflow-hidden rounded-xl md:h-[480px]">
-        <img src="portfolio-2.png" alt="Spa-Ambiente" class="porto-img w-full h-full object-cover" loading="lazy" decoding="async" />
-      </div>
-
-      <!-- Short left -->
-      <div class="porto-wrap md:col-span-4 relative overflow-hidden rounded-xl md:h-[360px]">
-        <img src="portfolio-6-gourmet.JPEG" alt="Gourmet" class="porto-img w-full h-full object-cover md:object-center" style="object-position: center 60%;" loading="lazy" decoding="async" />
+      <!-- ── Step 1 ── -->
+      <div class="relative flex-1 w-full max-w-sm md:max-w-none">
+        <div class="absolute -top-4 left-6 z-10 w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold">1</div>
+        <div class="bg-white rounded-2xl p-8 pt-12 shadow-sm h-full flex flex-col">
+          <div class="flex items-center justify-center gap-4 mb-8 flex-1 py-2">
+            <div class="grid grid-cols-2 gap-0.5 w-20 h-20 rounded-xl overflow-hidden shadow-md flex-shrink-0">
+              <img src="portfolio-5.png" alt="" class="w-full h-full object-cover" loading="lazy">
+              <img src="portfolio-2.png" alt="" class="w-full h-full object-cover" loading="lazy">
+              <img src="portfolio-6-gourmet.JPEG" alt="" class="w-full h-full object-cover" style="object-position:center 60%" loading="lazy">
+              <img src="ruheraum wellnesshotel.jpeg" alt="" class="w-full h-full object-cover" loading="lazy">
+            </div>
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 2H18M18 2V10M18 2L10 10M8 4H4C2.895 4 2 4.895 2 6v10c0 1.105.895 2 2 2h10c1.105 0 2-.895 2-2v-4" stroke="#C5A059" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="ig-proc-grad" cx="30%" cy="107%" r="150%">
+                  <stop offset="0%" stop-color="#fdf497"/>
+                  <stop offset="5%" stop-color="#fdf497"/>
+                  <stop offset="45%" stop-color="#fd5949"/>
+                  <stop offset="60%" stop-color="#d6249f"/>
+                  <stop offset="90%" stop-color="#285AEB"/>
+                </radialGradient>
+              </defs>
+              <rect width="52" height="52" rx="13" fill="url(#ig-proc-grad)"/>
+              <rect x="13.5" y="13.5" width="25" height="25" rx="7" stroke="white" stroke-width="2.5" fill="none"/>
+              <circle cx="26" cy="26" r="6.5" stroke="white" stroke-width="2.5" fill="none"/>
+              <circle cx="35" cy="17" r="2" fill="white"/>
+            </svg>
+          </div>
+          <h3 class="font-serif text-2xl text-primary mb-2">Setup</h3>
+          <p class="text-on-muted text-sm leading-relaxed">Instagram-Account mit Ihren Fotos.</p>
+        </div>
       </div>
 
-      <!-- Short right wide -->
-      <div class="porto-wrap md:col-span-8 relative overflow-hidden rounded-xl md:h-[360px]">
-        <img src="ruheraum wellnesshotel.jpeg" alt="Ruheraum" class="porto-img w-full h-full object-cover" loading="lazy" decoding="async" />
+      <!-- Arrow 1→2 -->
+      <div class="flex items-center justify-center py-1 md:py-0 md:px-3 flex-shrink-0">
+        <svg class="md:hidden" width="26" height="38" viewBox="0 0 26 38" fill="none">
+          <path d="M13 3 C19 13, 19 25, 13 35" stroke="#C5A059" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M7 29 L13 35 L19 29" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <svg class="hidden md:block" width="46" height="26" viewBox="0 0 46 26" fill="none">
+          <path d="M3 13 C15 5, 31 5, 43 13" stroke="#C5A059" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M37 7 L43 13 L37 19" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- ── Step 2 ── -->
+      <div class="relative flex-1 w-full max-w-sm md:max-w-none">
+        <div class="absolute -top-4 left-6 z-10 w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold">2</div>
+        <div class="bg-white rounded-2xl p-8 pt-12 shadow-sm h-full flex flex-col">
+          <div class="flex items-center justify-center mb-8 flex-1 py-2">
+            <div class="relative" style="width:80px;height:134px;">
+              <div class="absolute inset-0 rounded-[16px] overflow-hidden shadow-lg" style="border:3px solid #1c1917;background:#fff;">
+                <div style="height:10px;background:#fff;"></div>
+                <div style="height:22px;background:#fff;border-bottom:0.5px solid #f0f0f0;display:flex;align-items:center;padding:0 5px;gap:3px;">
+                  <div style="width:13px;height:13px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#e7e5e4;"><img src="portfolio-2.png" style="width:100%;height:100%;object-fit:cover;" alt=""></div>
+                  <span style="font-size:5px;font-weight:700;color:#1a1c1a;font-family:Manrope,sans-serif;">alpine_hideaway_resort</span>
+                </div>
+                <div style="height:54px;overflow:hidden;"><img src="portfolio-5.png" style="width:100%;height:100%;object-fit:cover;" alt=""></div>
+                <div style="padding:4px 5px 2px;display:flex;gap:5px;align-items:center;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </div>
+                <div style="padding:0 5px 4px;font-size:4.5px;line-height:1.4;color:#1a1c1a;font-family:Manrope,sans-serif;"><span style="font-weight:700;">alpine_hideaway_resort</span> Willkommen in Ihrer Auszeit... ✨</div>
+                <div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:#fff;border-top:0.5px solid #f0f0f0;display:flex;align-items:center;justify-content:space-around;padding:0 4px;">
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+              <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:5px;background:#1c1917;border-radius:0 0 5px 5px;z-index:10;"></div>
+            </div>
+          </div>
+          <h3 class="font-serif text-2xl text-primary mb-2">Social Media Postings</h3>
+          <p class="text-on-muted text-sm leading-relaxed">Regelmäßige Posts auf Instagram und Updates an Sie.</p>
+        </div>
+      </div>
+
+      <!-- Arrow 2→3 -->
+      <div class="flex items-center justify-center py-1 md:py-0 md:px-3 flex-shrink-0">
+        <svg class="md:hidden" width="26" height="38" viewBox="0 0 26 38" fill="none">
+          <path d="M13 3 C19 13, 19 25, 13 35" stroke="#C5A059" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M7 29 L13 35 L19 29" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <svg class="hidden md:block" width="46" height="26" viewBox="0 0 46 26" fill="none">
+          <path d="M3 13 C15 5, 31 5, 43 13" stroke="#C5A059" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M37 7 L43 13 L37 19" stroke="#C5A059" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- ── Step 3 ── -->
+      <div class="relative flex-1 w-full max-w-sm md:max-w-none">
+        <div class="absolute -top-4 left-6 z-10 w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold">3</div>
+        <div class="bg-white rounded-2xl p-8 pt-12 shadow-sm h-full flex flex-col">
+          <div class="flex items-center justify-center mb-8 flex-1 py-4">
+            <div class="relative">
+              <div class="px-7 py-4 rounded-full text-white font-bold tracking-widest text-sm shadow-xl select-none"
+                   style="background:linear-gradient(135deg,#C5A059 0%,#a07d57 45%,#004B49 100%);letter-spacing:0.14em;">
+                JETZT BUCHEN
+              </div>
+              <div class="absolute inset-0 rounded-full -z-10 blur-lg opacity-50"
+                   style="background:linear-gradient(135deg,#C5A059,#004B49);"></div>
+            </div>
+          </div>
+          <h3 class="font-serif text-2xl text-primary mb-2">Mehr Buchungen</h3>
+          <p class="text-on-muted text-sm leading-relaxed">Mehr Sichtbarkeit, mehr Gäste, mehr Direktbuchungen.</p>
+        </div>
       </div>
 
     </div>
@@ -1160,7 +1228,7 @@
       <div>
         <p class="label text-white/40 mb-6">Ressourcen</p>
         <div class="flex flex-col gap-3">
-          <a href="#portfolio" class="text-white/60 text-sm hover:text-secondary transition-colors">Portfolio</a>
+          <a href="#zusammenarbeit" class="text-white/60 text-sm hover:text-secondary transition-colors">Zusammenarbeit</a>
           <a href="#social"    class="text-white/60 text-sm hover:text-secondary transition-colors">Social Media</a>
         </div>
       </div>

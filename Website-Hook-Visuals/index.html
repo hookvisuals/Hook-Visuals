@@ -289,7 +289,26 @@
     transform: scale(1.035);
     box-shadow: 0 20px 48px rgba(0,0,0,0.13);
   }
-  </style>
+
+  @keyframes igBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  @keyframes igEggShake {
+    0%,100% { transform:translateX(0); }
+    10%     { transform:translateX(-7px); }
+    25%     { transform:translateX(7px); }
+    40%     { transform:translateX(-6px); }
+    55%     { transform:translateX(6px); }
+    70%     { transform:translateX(-3px); }
+    85%     { transform:translateX(3px); }
+  }
+
+  @keyframes reelEndBounce {
+    0%   { transform: translateX(0) translateY(0); }
+    35%  { transform: translateX(0) translateY(24px); }
+    100% { transform: translateX(0) translateY(0); }
+  }
+
+    </style>
 </head>
 
 <body>
@@ -1649,12 +1668,12 @@
     eggTimer = setTimeout(igCloseEgg, 10000);
   }
   function igEggShake(e) {
-    e.stopPropagation();
+    e && e.stopPropagation();
     const bar = document.getElementById('ig-egg-searchbar');
-    bar.classList.remove('ig-egg-shake');
+    bar.style.animation = 'none';
     void bar.offsetWidth;
-    bar.classList.add('ig-egg-shake');
-    bar.addEventListener('animationend', () => bar.classList.remove('ig-egg-shake'), { once: true });
+    bar.style.animation = 'igEggShake 0.35s ease';
+    setTimeout(() => { bar.style.animation = ''; }, 400);
   }
   function igCloseEgg() {
     clearTimeout(eggTimer);

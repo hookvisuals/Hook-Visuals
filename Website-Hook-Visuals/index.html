@@ -662,7 +662,7 @@
 
           <!-- Bottom nav (flex-shrink-0 — always visible at the bottom) -->
           <div class="h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3 flex-shrink-0">
-            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="openFeed()" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
@@ -702,8 +702,90 @@
           </div>
         </div>
 
+        <!-- ── SCREEN: Für dich feed (slides up) ── -->
+        <div id="ig-feed" class="absolute inset-0 bg-white flex flex-col" style="z-index:15;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);">
+
+          <!-- Status bar -->
+          <div class="flex justify-between items-center px-4 flex-shrink-0" style="padding-top:28px;padding-bottom:4px;">
+            <span class="text-[8px] font-semibold">14:23</span>
+            <div class="flex items-center gap-1">
+              <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><rect x="0" y="3" width="2" height="5" rx="0.5" fill="#1a1c1a"/><rect x="2.5" y="2" width="2" height="6" rx="0.5" fill="#1a1c1a"/><rect x="5" y="1" width="2" height="7" rx="0.5" fill="#1a1c1a"/><rect x="7.5" y="0" width="2" height="8" rx="0.5" fill="#1a1c1a"/></svg>
+              <svg width="16" height="8" viewBox="0 0 20 10" fill="none"><rect x="0" y="1" width="17" height="8" rx="2" stroke="#1a1c1a" stroke-width="1"/><rect x="1" y="2" width="12" height="6" rx="1" fill="#1a1c1a"/><rect x="18" y="3.5" width="2" height="3" rx="1" fill="#1a1c1a"/></svg>
+            </div>
+          </div>
+
+          <!-- Top bar -->
+          <div class="flex items-center justify-between px-3 py-1.5 flex-shrink-0">
+            <div class="flex items-center gap-1">
+              <span class="text-[11px] font-bold">Für dich</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <div class="flex items-center gap-3">
+              <button onclick="igNavFlash(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+              <button onclick="igNavFlash(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Scrollable feed -->
+          <div id="ig-feed-scroll" class="flex-1 ig-scroll overflow-y-auto">
+
+            <!-- Stories row -->
+            <div class="flex gap-2 px-3 py-2 flex-shrink-0" style="overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
+              <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+                <div class="relative" style="width:44px;height:44px;">
+                  <div class="w-full h-full rounded-full overflow-hidden border border-stone-200"><img src="hero.png" alt="" class="w-full h-full object-cover" loading="lazy"/></div>
+                  <div class="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white flex items-center justify-center" style="background:#0095f6;"><svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+                </div>
+                <span class="text-[7px] text-stone-700">Deine Story</span>
+              </div>
+              <div class="flex flex-col items-center gap-0.5 flex-shrink-0 cursor-pointer" onclick="openStory('ig-pool.png','Pool')">
+                <div class="p-[1.5px] rounded-full" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+                  <div class="w-10 h-10 rounded-full overflow-hidden" style="border:1.5px solid white;"><img src="hero.png" alt="" class="w-full h-full object-cover" loading="lazy"/></div>
+                </div>
+                <span class="text-[7px] text-stone-700">alpine_hi...</span>
+              </div>
+              <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+                <div class="p-[1.5px] rounded-full" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743)">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center" style="border:1.5px solid white;background:linear-gradient(135deg,#a78bfa,#ec4899);"><span class="text-[9px] font-bold text-white">i</span></div>
+                </div>
+                <span class="text-[7px] text-stone-700">ines.ixi</span>
+              </div>
+              <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+                <div class="p-[1.5px] rounded-full" style="background:linear-gradient(45deg,#4ade80,#22d3ee)">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center" style="border:1.5px solid white;background:#16a34a;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                  </div>
+                </div>
+                <span class="text-[7px] text-stone-700">start_vaduz</span>
+              </div>
+              <div class="flex flex-col items-center gap-0.5 flex-shrink-0">
+                <div class="p-[1.5px] rounded-full" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743)">
+                  <div class="w-10 h-10 rounded-full overflow-hidden" style="border:1.5px solid white;"><img src="portfolio-1.png" alt="" class="w-full h-full object-cover" loading="lazy"/></div>
+                </div>
+                <span class="text-[7px] text-stone-700">marco.r_</span>
+              </div>
+            </div>
+
+            <div class="flex-shrink-0" style="height:0.5px;background:#e5e7eb;"></div>
+
+            <!-- Feed posts (built by JS) -->
+            <div id="ig-feed-posts"></div>
+
+          </div><!-- end scrollable -->
+
+          <!-- Bottom nav (home active/dark) -->
+          <div class="h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3 flex-shrink-0">
+            <button class="p-1.5"><svg width="18" height="18" viewBox="0 0 24 24" fill="#1a1c1a"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
+            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
+            <button onclick="closeFeed()" class="p-1 active:scale-90 transition-transform"><div class="w-5 h-5 rounded-full overflow-hidden"><img src="hero.png" alt="" class="w-full h-full object-cover" loading="lazy"/></div></button>
+          </div>
+
+        </div><!-- end ig-feed -->
+
         <!-- ── SCREEN 2: Post view (slides in from right) ── -->
-        <div id="ig-post" class="absolute inset-0 bg-white flex flex-col transition-transform duration-300" style="transform:translateX(100%)">
+        <div id="ig-post" class="absolute inset-0 bg-white flex flex-col transition-transform duration-300" style="transform:translateX(100%);z-index:16;">
 
           <!-- Status bar -->
           <div class="flex justify-between items-center px-4 pt-7 pb-0.5 flex-shrink-0">
@@ -806,7 +888,7 @@
 
           <!-- Bottom nav -->
           <div class="absolute bottom-0 left-0 right-0 h-11 bg-white border-t border-stone-100 flex items-center justify-around px-3">
-            <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
+            <button onclick="openFeed()" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="#9ca3af"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><polygon points="10,8 16,12 10,16" fill="#9ca3af" stroke="none"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
             <button onclick="igNavFlash(this)" class="p-1.5 active:scale-90 transition-transform"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button>
@@ -1383,13 +1465,23 @@
       hashtags: '#alpinehideaway #mountains #luxurytravel #nature #wanderlust' },
     'ruheraum wellnesshotel.jpeg': { likes: '2.743', location: 'Alpine Hideaway',
       caption:  ' Zwischen Genuss und Natur. Jeder Moment bei uns ist ein unvergessliches Erlebnis. ✨',
-      hashtags: '#wellnesshotel #luxuryliving #alpinehideaway #retreat #moments' }
+      hashtags: '#wellnesshotel #luxuryliving #alpinehideaway #retreat #moments' },
+    'portfolio-3.png': { likes: '1.867', location: 'Alpine Hideaway Spa',
+      caption:  ' Natur und Luxus — kein Widerspruch, sondern unser Versprechen an Sie. 🌲🏨',
+      hashtags: '#nature #luxury #alpinehotel #switzerland #sustainability' },
+    'portfolio-4.png': { likes: '2.318', location: 'Alpine Hideaway Resort',
+      caption:  ' Traumhafte Aussicht, die Seele baumeln lassen. Jeden Morgen aufwachen und diese Kulisse genießen. 🌄',
+      hashtags: '#view #mountains #alpine #resort #luxurytravel' },
+    'portfolio-5.png': { likes: '3.791', location: 'Alpine Hideaway Resort',
+      caption:  ' Stille Momente, die bleiben. Unser Resort — ein Ort, an dem Zeit bedeutungslos wird. 🕊️✨',
+      hashtags: '#alpinehideaway #moments #luxuryhotel #wellness #mountains' }
   };
 
   // ── Instagram in-mockup screen navigation ──────
   // Per-post persistent state
   const igState = {}; // { 'filename.png': { liked: bool, saved: bool } }
   let currentPost = null;
+  let igCameFromFeed = false;
 
   function openIgPost(imgSrc) {
     currentPost = imgSrc;
@@ -1418,13 +1510,21 @@
     }
     const count = liked ? baseLikes + 1 : baseLikes;
     document.getElementById('ig-likes').textContent = count.toLocaleString('de-DE') + ' Gefällt mir-Angaben';
-    // Slide screens
+    // Slide screens (profile always slides away; post sits above feed via z-index)
+    igCameFromFeed = document.getElementById('ig-feed').style.transform === 'translateY(0)';
     document.getElementById('ig-profile').style.transform = 'translateX(-100%)';
     document.getElementById('ig-post').style.transform    = 'translateX(0)';
   }
   function closeIgPost() {
-    document.getElementById('ig-profile').style.transform = 'translateX(0)';
     document.getElementById('ig-post').style.transform    = 'translateX(100%)';
+    if (igCameFromFeed) {
+      // Restore feed instead of profile
+      document.getElementById('ig-profile').style.transform = 'translateX(0)';
+      document.getElementById('ig-feed').style.transform    = 'translateY(0)';
+    } else {
+      document.getElementById('ig-profile').style.transform = 'translateX(0)';
+    }
+    igCameFromFeed = false;
   }
 
   // ── Instagram UI interactions ───────────────────
@@ -1434,8 +1534,69 @@
   }
 
   function igGoHome() {
+    closeFeed();
     closeReelView();
     igSwitchTab('grid');
+  }
+
+  function openFeed() {
+    buildFeedPosts();
+    const scroll = document.getElementById('ig-feed-scroll');
+    if (scroll) scroll.scrollTop = 0;
+    document.getElementById('ig-feed').style.transform = 'translateY(0)';
+  }
+  function closeFeed() {
+    document.getElementById('ig-feed').style.transform = 'translateY(100%)';
+    document.getElementById('ig-profile').style.transform = 'translateX(0)';
+  }
+
+  const igFeedOrder = [
+    'ig-pool.png','ig-sauna.png','ig-food.png',
+    'portfolio-1.png','portfolio-2.png','ruheraum wellnesshotel.jpeg',
+    'portfolio-3.png','portfolio-4.png','portfolio-5.png'
+  ];
+  function buildFeedPosts() {
+    const container = document.getElementById('ig-feed-posts');
+    if (!container || container.children.length > 0) return;
+    igFeedOrder.forEach(img => {
+      const d = igPosts[img] || { likes: '1.234', caption: '', hashtags: '', location: '' };
+      const el = document.createElement('div');
+      el.style.borderBottom = '0.5px solid #e5e7eb';
+      const safe = img.replace(/'/g, "\\'");
+      el.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px 5px;">
+          <div style="display:flex;align-items:center;gap:8px;cursor:pointer;" onclick="openIgPost('${safe}')">
+            <div style="padding:1.5px;border-radius:50%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);">
+              <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;border:1.5px solid white;">
+                <img src="hero.png" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:8.5px;font-weight:700;font-family:Manrope,sans-serif;line-height:1.2;">alpine_hideaway_resort</p>
+              <p style="font-size:7px;color:#9ca3af;font-family:Manrope,sans-serif;line-height:1.2;">${d.location}</p>
+            </div>
+          </div>
+          <button onclick="igNavFlash(this)" style="padding:4px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><circle cx="12" cy="5" r="1.5" fill="#1a1c1a"/><circle cx="12" cy="12" r="1.5" fill="#1a1c1a"/><circle cx="12" cy="19" r="1.5" fill="#1a1c1a"/></svg></button>
+        </div>
+        <div style="aspect-ratio:1;overflow:hidden;cursor:pointer;" onclick="openIgPost('${safe}')">
+          <img src="${img}" style="width:100%;height:100%;object-fit:cover;" loading="lazy"/>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 12px 3px;">
+          <div style="display:flex;gap:12px;">
+            <button onclick="igNavFlash(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+            <button onclick="igNavFlash(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></button>
+            <button onclick="igNavFlash(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+          </div>
+          <button onclick="igNavFlash(this)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>
+        </div>
+        <div style="padding:2px 12px 12px;font-family:Manrope,sans-serif;">
+          <p style="font-size:8.5px;font-weight:700;margin-bottom:3px;">${d.likes} Gefällt mir-Angaben</p>
+          <p style="font-size:8px;line-height:1.4;"><span style="font-weight:700;">alpine_hideaway_resort</span><span style="color:#374151;">${d.caption}</span></p>
+          <p style="font-size:7.5px;color:#3d7dc8;margin-top:3px;">${d.hashtags}</p>
+        </div>
+      `;
+      container.appendChild(el);
+    });
   }
 
   function igSwitchTab(tab) {

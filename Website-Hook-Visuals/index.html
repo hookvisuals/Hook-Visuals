@@ -280,6 +280,15 @@
       85%     { transform: translateZ(0) rotate(-0.7deg); }
     }
     .iphone.ig-wiggle { animation: igWiggle 0.7s ease-in-out; }
+
+  .zusammenarbeit-card {
+    transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.32s ease;
+    will-change: transform;
+  }
+  .zusammenarbeit-card:hover {
+    transform: scale(1.035);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.13);
+  }
   </style>
 </head>
 
@@ -396,7 +405,7 @@
       <!-- ── Step 1 ── -->
       <div class="relative flex-1 w-full max-w-[340px] md:max-w-none">
         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-md">1</div>
-        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col">
+        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col zusammenarbeit-card">
           <!-- Visual: overlapping photo collage → Instagram logo -->
           <div class="flex items-center justify-center gap-6 flex-1 pb-6">
             <!-- Overlapping collage -->
@@ -449,7 +458,7 @@
       <!-- ── Step 2 ── -->
       <div class="relative flex-1 w-full max-w-[340px] md:max-w-none">
         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-md">2</div>
-        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col">
+        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col zusammenarbeit-card">
           <!-- Visual: phone mockup image -->
           <div class="flex items-center justify-center flex-1 pb-6">
             <img src="Mockup Post.jpg" alt="Instagram Post Mockup" style="height:200px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.18));" loading="lazy">
@@ -474,7 +483,7 @@
       <!-- ── Step 3 ── -->
       <div class="relative flex-1 w-full max-w-[340px] md:max-w-none">
         <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-md">3</div>
-        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col">
+        <div class="bg-white rounded-3xl p-8 pt-14 shadow-md h-full flex flex-col zusammenarbeit-card">
           <!-- Visual: gradient BOOK NOW button -->
           <div class="flex items-center justify-center flex-1 pb-6">
             <div class="relative">

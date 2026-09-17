@@ -1734,6 +1734,9 @@
   }
 
   function igGoHome() {
+    igCloseEgg();
+    closeStory();
+    document.getElementById('ig-post').style.transform = 'translateX(100%)';
     closeFeed();
     closeReelView();
     igSwitchTab('grid');

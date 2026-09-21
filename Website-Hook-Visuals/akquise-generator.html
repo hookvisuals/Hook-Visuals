@@ -914,6 +914,11 @@ body {
   </div>
 
   <div class="tb-group">
+    <span class="tb-label">Sprache</span>
+    <button class="btn btn-ghost" id="langToggleBtn" onclick="toggleLanguage()" title="Briefsprache umschalten (Deutsch / English)">🌐 Deutsch</button>
+  </div>
+
+  <div class="tb-group">
     <span class="tb-label">Shuffle</span>
     <button class="btn btn-ghost" onclick="shuffleProfilePic(true)" title="Zufälliges Profilbild">🔄 Profilbild</button>
     <button class="btn btn-ghost" onclick="shufflePosts(true)"      title="Posts neu mischen">🔄 Posts</button>
@@ -999,7 +1004,7 @@ body {
 
               <div class="sender-info">
                 <img class="sender-icon" data-icon="phone" alt="">
-                <span contenteditable="true">+49 170 1257239</span>
+                <span contenteditable="true">+49 156 79071205</span>
               </div>
 
               <div class="sender-info">
@@ -1011,7 +1016,7 @@ body {
         </div>
 
         <!-- Datum außerhalb des Kastens -->
-        <div class="sender-date">München, <span id="letterDate">—</span></div>
+        <div class="sender-date"><span id="letterCity">München</span>, <span id="letterDate">—</span></div>
       </div>
 
     </div>
@@ -1395,6 +1400,7 @@ const S = {
   curProfIdx: 0,
   curBioIdx:  0,
   hotelStates: {},   // je Hotel-ID: gesicherter Brief-Zustand (Bearbeitungen + Assets)
+  lang: (localStorage.getItem('hv_lang') === 'en' ? 'en' : 'de'),   // Briefsprache
 };
 
 /* ── Init ───────────────────────────────── */
@@ -1403,7 +1409,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img[data-logo]').forEach(img => { img.src = HOOK_LOGO; });
   makeWhiteLogo();      // echtes weißes Logo für den dunklen Footer erzeugen
   renderSenderIcons();  // Icons als Bilder — Inline-SVG rendert im PDF unsauber
-  setLetterDate();
+  applyLanguage();      // Briefsprache (DE/EN) anwenden — baut den Textkörper auf
   renderGrid();
   updateClock();
   setInterval(updateClock, 30000);
@@ -1416,9 +1422,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function setLetterDate() {
   const now  = new Date();
-  const opts = { day:'2-digit', month:'long', year:'numeric' };
-  document.getElementById('letterDate').textContent =
-    now.toLocaleDateString('de-DE', opts);
+  const t    = (typeof L === 'function') ? L() : { dateLocale:'de-DE', dateDay:'2-digit', dateCity:'München' };
+  const opts = { day: t.dateDay, month:'long', year:'numeric' };
+  const dEl = document.getElementById('letterDate');
+  if (dEl) dEl.textContent = now.toLocaleDateString(t.dateLocale, opts);
+  const cEl = document.getElementById('letterCity');
+  if (cEl) cEl.textContent = t.dateCity;
 }
 
 function updateClock() {
@@ -2201,8 +2210,9 @@ function guessGenderFromFirstName(first) {
 /* Zerlegt die Spalte "Kontaktperson" (Anrede + Vor-/Nachname in einer Zelle)
    und liefert die passende Briefanrede – männlich, weiblich oder mehrere Personen. */
 function parseKontakt(str) {
+  const t = L();
   const raw = (str || '').trim();
-  if (!raw) return { greeting: 'Sehr geehrte Damen und Herren,', recipient: '' };
+  if (!raw) return { greeting: t.greetNeutral, recipient: '' };
 
   const hasFrau = /\bfrau\b/i.test(raw);
   const hasHerr = /\bherr(?:n)?\b/i.test(raw);
@@ -2231,22 +2241,22 @@ function parseKontakt(str) {
 
   let greeting;
   if (mehrere) {
-    greeting = 'Sehr geehrte Damen und Herren,';
+    greeting = t.greetNeutral;
   } else if (hasFrau) {
     const n = nachname(raw);
-    greeting = n ? `Sehr geehrte Frau <strong>${n}</strong>,` : 'Sehr geehrte Damen und Herren,';
+    greeting = n ? t.greetFrau(n) : t.greetNeutral;
   } else if (hasHerr) {
     const n = nachname(raw);
-    greeting = n ? `Sehr geehrter Herr <strong>${n}</strong>,` : 'Sehr geehrte Damen und Herren,';
+    greeting = n ? t.greetHerr(n) : t.greetNeutral;
   } else {
     // Kein „Frau"/„Herr" in der Spalte → Geschlecht am Vornamen erkennen.
     const parts = nameParts(raw);
     const g = guessGenderFromFirstName(parts[0] || '');
     const n = nachname(raw);
-    if (parts.length >= 2 && g === 'f' && n)      greeting = `Sehr geehrte Frau <strong>${n}</strong>,`;
-    else if (parts.length >= 2 && g === 'm' && n) greeting = `Sehr geehrter Herr <strong>${n}</strong>,`;
-    else if (parts.length)                        greeting = `Guten Tag <strong>${parts.join(' ')}</strong>,`;
-    else                                          greeting = 'Sehr geehrte Damen und Herren,';
+    if (parts.length >= 2 && g === 'f' && n)      greeting = t.greetFrau(n);
+    else if (parts.length >= 2 && g === 'm' && n) greeting = t.greetHerr(n);
+    else if (parts.length)                        greeting = t.greetPersonal(parts.join(' '));
+    else                                          greeting = t.greetNeutral;
   }
   return { greeting, recipient: raw };
 }
@@ -2263,6 +2273,90 @@ function extractAddressFromMapsLink(url) {
   if (m) return dec(m[1]);
   return '';
 }
+
+/* ══════════ Sprache (Deutsch / Englisch) ══════════
+   Umschaltbar per Button. Bei Englisch wird exakt die vorgegebene Übersetzung
+   gesetzt. Der Instagram-Mockup bleibt (das ist der reale Auftritt des Hotels). */
+const _LOGO_FALLBACK = "this.outerHTML='<span style=&quot;font-size:12pt;font-weight:700;letter-spacing:.06em;color:#004846&quot;>HOOK VISUALS</span>'";
+
+const I18N = {
+  de: {
+    subject: 'Maßgeschneiderter Online-Auftritt — exklusiv für Sie entwickelt',
+    senderRole: 'Ihre Ansprechpartnerin',
+    persoenlich: 'PERSÖNLICH',
+    dateLocale: 'de-DE', dateDay: '2-digit', dateCity: 'München',
+    greetPlaceholder: 'Sehr geehrte/r Frau/Herr {{Name des Inhabers}},',
+    greetNeutral: 'Sehr geehrte Damen und Herren,',
+    greetFrau: n => `Sehr geehrte Frau <strong>${n}</strong>,`,
+    greetHerr: n => `Sehr geehrter Herr <strong>${n}</strong>,`,
+    greetPersonal: full => `Guten Tag <strong>${full}</strong>,`,
+    body:
+      `<p contenteditable="true" style="margin-bottom:12px">es ist beeindruckend, mit wie viel Qualitätsbewusstsein das <strong id="t-hotel1">{{Hotelname}}</strong> geführt wird.</p>` +
+      `<p contenteditable="true" style="margin-bottom:12px">Bei der Betrachtung Ihres Online-Auftritts ist uns jedoch aufgefallen: Hier steckt noch ungenutztes Potenzial. Mit einer maßgeschneiderten digitalen Präsenz sprechen Sie gezielter Ihre <strong>kaufkräftigen Wunschgäste</strong> an, steigern Ihre <strong>Direktbuchungen</strong> und <strong>sparen Provisionen</strong> an Buchungsplattformen.</p>` +
+      `<p contenteditable="true" style="margin-bottom:8px">Mit <em>Hook Visuals</em> heben wir dieses Potenzial:</p>` +
+      `<ul contenteditable="true" style="margin-bottom:12px"><li><strong>Kanäle aktivieren:</strong> zielgruppengerechte Beiträge und visuelle Einblicke für soziale Netzwerke</li><li><strong>Google-Präsenz schärfen:</strong> maximale Auffindbarkeit bei Suchanfragen</li><li><strong>Markenästhetik verkörpern:</strong> Anpassung Ihres visuellen Gesamterscheinungsbildes, damit die Atmosphäre Ihres Hotels online spürbar wird</li></ul>` +
+      `<p contenteditable="true" style="margin-bottom:12px">Wie eine neue Präsenz in sozialen Netzwerken beispielsweise für Sie konkret aussehen könnte, zeigt die Grafik des Smartphones.</p>` +
+      `<p contenteditable="true" style="margin-bottom:14px">Lassen Sie uns in einem kurzen, unverbindlichen Telefonat darüber sprechen?</p>` +
+      `<p contenteditable="true" style="margin-bottom:2px">Beste Grüße</p>` +
+      `<p contenteditable="true" style="margin-bottom:6px"><strong>Laura von Hook Visuals</strong></p>`,
+  },
+  en: {
+    subject: 'A Customized Online Presence — Developed Exclusively for You',
+    senderRole: 'Your Contact',
+    persoenlich: 'PERSONAL',
+    dateLocale: 'en-US', dateDay: 'numeric', dateCity: 'Munich',
+    greetPlaceholder: 'Dear Sir or Madam,',
+    greetNeutral: 'Dear Sir or Madam,',
+    greetFrau: n => `Dear Ms <strong>${n}</strong>,`,
+    greetHerr: n => `Dear Mr <strong>${n}</strong>,`,
+    greetPersonal: full => `Hello <strong>${full}</strong>,`,
+    body:
+      `<p contenteditable="true" style="margin-bottom:12px">it's impressive to see the high level of commitment to quality with which the <strong id="t-hotel1">{{Hotelname}}</strong> is run.</p>` +
+      `<p contenteditable="true" style="margin-bottom:12px">However, upon reviewing your online presence, we noticed that there is still untapped potential here. With a customized digital presence, you can more effectively <strong>target your ideal guests</strong> with high purchasing power, increase your <strong>direct bookings</strong>, and <strong>save on commissions</strong> paid to booking platforms.</p>` +
+      `<p contenteditable="true" style="margin-bottom:8px">With <em>Hook Visuals</em>, we unlock this potential:</p>` +
+      `<ul contenteditable="true" style="margin-bottom:12px"><li><strong>Activate channels:</strong> target-audience-specific posts and visual insights for social media</li><li><strong>Enhance your Google presence:</strong> maximize discoverability in search results</li><li><strong>Embody your brand&rsquo;s aesthetic:</strong> tailor your overall visual identity so that your hotel&rsquo;s atmosphere comes through online</li></ul>` +
+      `<p contenteditable="true" style="margin-bottom:12px">The graphic of the smartphone shows what a new social media presence might look like for you, for example.</p>` +
+      `<p contenteditable="true" style="margin-bottom:14px">Would you like to discuss this in a brief, informal phone call?</p>` +
+      `<p contenteditable="true" style="margin-bottom:2px">Best regards</p>` +
+      `<p contenteditable="true" style="margin-bottom:6px"><strong>Laura from Hook Visuals</strong></p>`,
+  }
+};
+function L() { return I18N[S.lang] || I18N.de; }
+
+/* Body des Briefs (Textspalte) in der aktuellen Sprache neu aufbauen. */
+function renderLetterBody() {
+  const col = document.querySelector('.ltr-text-col');
+  if (!col) return;
+  const t = L();
+  col.innerHTML =
+    `<p contenteditable="true" id="letterGreeting" style="margin-bottom:12px">${t.greetPlaceholder}</p>` +
+    t.body +
+    `<img data-logo="1" alt="Hook Visuals" class="ltr-signoff-logo" onerror="${_LOGO_FALLBACK}">`;
+  document.querySelectorAll('img[data-logo]').forEach(img => { img.src = HOOK_LOGO; });
+}
+
+/* Alle sprachabhängigen Teile setzen (Body, Betreff, „Ihre Ansprechpartnerin",
+   Datum/Ort) und – falls ein Hotel geladen ist – die dynamischen Felder neu füllen. */
+function applyLanguage() {
+  renderLetterBody();
+  const roleEl = document.querySelector('.sender-card-name');
+  if (roleEl) roleEl.textContent = L().senderRole;
+  const sub = document.getElementById('letterSubject');
+  if (sub) { sub.textContent = L().subject; delete sub.dataset.userEdited; }
+  setLetterDate();
+  const btn = document.getElementById('langToggleBtn');
+  if (btn) btn.textContent = S.lang === 'en' ? '🌐 English' : '🌐 Deutsch';
+  if (S.hotel) fillLetter(S.hotel, false);
+}
+
+function setLanguage(lang) {
+  S.lang = (lang === 'en') ? 'en' : 'de';
+  try { localStorage.setItem('hv_lang', S.lang); } catch (_) {}
+  S.hotelStates = {};   // gespeicherte Text-Snapshots sind sprachspezifisch → verwerfen
+  applyLanguage();
+  toast(S.lang === 'en' ? '🌐 Language: English' : '🌐 Sprache: Deutsch');
+}
+function toggleLanguage() { setLanguage(S.lang === 'de' ? 'en' : 'de'); }
 
 function fillLetter(h, loadAssets = true) {
   const hotelname = getF(h,'Hotelname','Hotel','Name');
@@ -2286,7 +2380,7 @@ function fillLetter(h, loadAssets = true) {
   else if (city)        recipientLines.push(city);   // Fallback, falls keine Adresse
   // „PERSÖNLICH" nur, wenn ein echter Name vorhanden ist (Briefgeheimnis).
   const persoenlich = parsed.recipient
-    ? `<div id="persoenlichLine" style="font-weight:700;letter-spacing:.08em;margin-bottom:6px">PERSÖNLICH</div>`
+    ? `<div id="persoenlichLine" style="font-weight:700;letter-spacing:.08em;margin-bottom:6px">${L().persoenlich}</div>`
     : '';
   const rb = document.getElementById('recipientBlock');
   rb.innerHTML =
@@ -2317,10 +2411,9 @@ function fillLetter(h, loadAssets = true) {
   const optEl = document.getElementById('optDetail');
   if (optEl) optEl.style.display = 'none';
 
-  /* Subject — bei frischem Laden immer auf Standard (Bearbeitungen bleiben
-     über die Hotel-Snapshots erhalten, nicht über ein globales Flag) */
+  /* Subject — bei frischem Laden immer auf Standard (in aktueller Sprache) */
   const sub = document.getElementById('letterSubject');
-  if (sub) sub.textContent = `Maßgeschneiderter Online-Auftritt — exklusiv für Sie entwickelt`;
+  if (sub) sub.textContent = L().subject;
 
   /* IG mockup */
   const slug = hotelname.toLowerCase().trim().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'').slice(0,28);

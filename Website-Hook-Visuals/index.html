@@ -1008,12 +1008,12 @@
             </button>
           </div>
 
-          <!-- Story scene: two panels for cube rotation -->
-          <div id="ig-story-scene" class="flex-1 relative" style="overflow:hidden;perspective:320px;">
-            <div id="ig-story-panel-a" class="absolute inset-0" style="transform-origin:left center;transform:rotateY(0deg);transition:transform 0.42s ease;">
+          <!-- Story scene: two panels for slide transition -->
+          <div id="ig-story-scene" class="flex-1 relative" style="overflow:hidden;">
+            <div id="ig-story-panel-a" class="absolute inset-0" style="transform:translateX(0);transition:transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94);">
               <img id="ig-story-img-a" src="" alt="" class="absolute inset-0 w-full h-full object-cover"/>
             </div>
-            <div id="ig-story-panel-b" class="absolute inset-0" style="transform-origin:left center;transform:rotateY(90deg);transition:transform 0.42s ease;">
+            <div id="ig-story-panel-b" class="absolute inset-0" style="transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94);visibility:hidden;">
               <img id="ig-story-img-b" src="" alt="" class="absolute inset-0 w-full h-full object-cover"/>
             </div>
             <!-- Tap zones: left = prev account, right = next account -->
@@ -2315,8 +2315,8 @@
     const pa = document.getElementById('ig-story-panel-a');
     const pb = document.getElementById('ig-story-panel-b');
     document.getElementById('ig-story-img-a').src = acc.img;
-    pa.style.transition = 'none'; pa.style.transformOrigin = 'left center'; pa.style.transform = 'rotateY(0deg)';
-    pb.style.transition = 'none'; pb.style.transformOrigin = 'left center'; pb.style.transform = 'rotateY(90deg)';
+    pa.style.transition = 'none'; pa.style.transform = 'translateX(0)'; pa.style.visibility = '';
+    pb.style.transition = 'none'; pb.style.transform = 'translateX(100%)'; pb.style.visibility = 'hidden';
     setStoryHeader(acc);
     document.getElementById('ig-story').style.transform = 'translateY(0)';
     startStoryBar(idx);
@@ -2340,8 +2340,8 @@
     const pa = document.getElementById('ig-story-panel-a');
     const pb = document.getElementById('ig-story-panel-b');
     document.getElementById('ig-story-img-a').src = frames[0];
-    pa.style.transition = 'none'; pa.style.transformOrigin = 'left center'; pa.style.transform = 'rotateY(0deg)';
-    pb.style.transition = 'none'; pb.style.transformOrigin = 'left center'; pb.style.transform = 'rotateY(90deg)';
+    pa.style.transition = 'none'; pa.style.transform = 'translateX(0)'; pa.style.visibility = '';
+    pb.style.transition = 'none'; pb.style.transform = 'translateX(100%)'; pb.style.visibility = 'hidden';
     setStoryHeader({ avatar: 'hero.png', name: 'alpine_hideaway_resort', time: '2 Std.' });
     document.getElementById('ig-story').style.transform = 'translateY(0)';
     startStoryBar(0);
@@ -2357,37 +2357,37 @@
     const inP = out === 'a' ? 'b' : 'a';
     const el_out = document.getElementById('ig-story-panel-' + out);
     const el_in  = document.getElementById('ig-story-panel-' + inP);
+    // Position incoming panel off-screen, make it visible
+    const startX = direction === 'next' ? '100%' : '-100%';
+    el_in.style.transition  = 'none';
+    el_in.style.transform   = 'translateX(' + startX + ')';
+    el_in.style.visibility  = '';
+    el_out.style.transition = 'none';
+    el_out.style.transform  = 'translateX(0)';
+    el_out.style.visibility = '';
+    // Load next image
     document.getElementById('ig-story-img-' + inP).src = storyImgAt(newIdx);
 
-    if (direction === 'next') {
-      // out exits left (pivot: left edge, rotate -90)
-      // in enters from right (pivot: left edge, start 90, go to 0)
-      el_out.style.transformOrigin = 'left center';
-      el_in.style.transformOrigin  = 'left center';
-      el_in.style.transition = 'none'; el_in.style.transform = 'rotateY(90deg)';
-    } else {
-      // out exits right (pivot: right edge, rotate +90)
-      // in enters from left (pivot: right edge, start -90, go to 0)
-      el_out.style.transformOrigin = 'right center';
-      el_in.style.transformOrigin  = 'right center';
-      el_in.style.transition = 'none'; el_in.style.transform = 'rotateY(-90deg)';
-    }
-
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      el_out.style.transition = 'transform 0.42s ease';
-      el_in.style.transition  = 'transform 0.42s ease';
-      el_out.style.transform  = direction === 'next' ? 'rotateY(-90deg)' : 'rotateY(90deg)';
-      el_in.style.transform   = 'rotateY(0deg)';
+      const ease = 'transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94)';
+      el_out.style.transition = ease;
+      el_in.style.transition  = ease;
+      el_out.style.transform  = direction === 'next' ? 'translateX(-100%)' : 'translateX(100%)';
+      el_in.style.transform   = 'translateX(0)';
     }));
 
     setTimeout(() => {
+      el_out.style.transition = 'none';
+      el_out.style.transform  = 'translateX(0)';
+      el_out.style.visibility = 'hidden';
       currentStoryIdx  = newIdx;
+      if (hlFrames) hlIdx = newIdx;
       storyActivePanel = inP;
       storyBusy        = false;
       if (!hlFrames) setStoryHeader(storyAccounts[newIdx]);
       startStoryBar(newIdx);
       storyTimer = setTimeout(nextAccountStory, 5000);
-    }, 430);
+    }, 330);
   }
 
   function nextAccountStory() {
@@ -2395,8 +2395,7 @@
     if (hlFrames) {
       const next = hlIdx + 1;
       if (next >= hlFrames.length) { closeStory(); return; }
-      hlIdx = next;
-      cubeGo('next', next);
+      cubeGo('next', next);  // hlIdx updated inside cubeGo
       return;
     }
     const next = currentStoryIdx + 1;
@@ -2408,8 +2407,7 @@
     if (storyBusy) return;
     if (hlFrames) {
       if (hlIdx === 0) return;
-      hlIdx--;
-      cubeGo('prev', hlIdx);
+      cubeGo('prev', hlIdx - 1);  // hlIdx updated inside cubeGo
       return;
     }
     if (currentStoryIdx === 0) return;

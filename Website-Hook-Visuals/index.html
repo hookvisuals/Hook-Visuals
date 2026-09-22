@@ -1606,32 +1606,32 @@
     'ig-pool.png':     { likes: '3.412', location: 'Alpine Hideaway Resort',
       caption_de: ' Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨',
       caption_en: ' Where the sky meets the water. Our infinity pool overlooking the Alps — a moment of pure stillness. 🏔️✨',
-      caption_pt: ' Entre o prazer e a natureza. Cada momento connosco é uma experiência inesquecível. ✨',
-      caption_pt: ' Onde as montanhas falam e o tempo para. Acorde todas as manhãs com esta vista. 🏔️🌅',
-      caption_pt: ' Luz, tranquilidade e elegância. O nosso mundo wellness — um refúgio de silêncio no coração dos Alpes. 🤍🌿',
-      caption_pt: ' Gastronomia ao mais alto nível. O nosso chef transforma ingredientes alpinos em pequenas obras de arte. 🍽️✨',
-      caption_pt: ' A alma respira. A nossa sauna convida a um relaxamento profundo — silêncio, calor, bem-estar puro. 🧖‍♀️🌿',
       caption_pt: ' Onde o céu encontra a água. A nossa piscina infinita com vista para os Alpes — um momento de pura quietude. 🏔️✨',
       hashtags: '#wellness #alpinehideaway #infinitypool #luxuryhotel #spa' },
     'ig-sauna.png':    { likes: '2.187', location: 'Alpine Hideaway Spa',
       caption_de: ' Die Seele atmet auf. Unsere Sauna lädt zur tiefen Entspannung — Stille, Wärme, pures Wohlbefinden. 🧖‍♀️🌿',
       caption_en: ' The soul breathes freely. Our sauna invites deep relaxation — silence, warmth, pure wellbeing. 🧖‍♀️🌿',
+      caption_pt: ' A alma respira. A nossa sauna convida a um relaxamento profundo — silêncio, calor, bem-estar puro. 🧖‍♀️🌿',
       hashtags: '#sauna #wellness #alpinehideaway #spa #luxurylife' },
     'ig-food.png':     { likes: '4.891', location: 'Alpine Hideaway Restaurant',
       caption_de: ' Gourmet auf höchstem Niveau. Unser Küchenchef verwandelt alpine Zutaten in kleine Kunstwerke. 🍽️✨',
       caption_en: ' Gourmet at its finest. Our chef transforms alpine ingredients into small works of art. 🍽️✨',
+      caption_pt: ' Gastronomia ao mais alto nível. O nosso chef transforma ingredientes alpinos em pequenas obras de arte. 🍽️✨',
       hashtags: '#gourmet #finedining #alpinehideaway #luxuryhotel #foodlover' },
     'portfolio-1.png': { likes: '1.956', location: 'Alpine Hideaway Wellness',
       caption_de: ' Licht, Ruhe und Eleganz. Unsere Wellness-Welt — ein Refugium der Stille inmitten der Alpen. 🤍🌿',
       caption_en: ' Light, calm and elegance. Our wellness world — a sanctuary of stillness in the heart of the Alps. 🤍🌿',
+      caption_pt: ' Luz, tranquilidade e elegância. O nosso mundo wellness — um refúgio de silêncio no coração dos Alpes. 🤍🌿',
       hashtags: '#spa #luxury #wellness #alpinehideaway #design' },
     'portfolio-2.png': { likes: '5.234', location: 'Alpine Hideaway Resort',
       caption_de: ' Wo die Berge sprechen und die Zeit stillsteht. Erwachen Sie jeden Morgen mit diesem Ausblick. 🏔️🌅',
       caption_en: ' Where the mountains speak and time stands still. Wake up to this view every morning. 🏔️🌅',
+      caption_pt: ' Onde as montanhas falam e o tempo para. Acorde todas as manhãs com esta vista. 🏔️🌅',
       hashtags: '#alpinehideaway #mountains #luxurytravel #nature #wanderlust' },
     'ruheraum wellnesshotel.jpeg': { likes: '2.743', location: 'Alpine Hideaway',
       caption_de: ' Zwischen Genuss und Natur. Jeder Moment bei uns ist ein unvergessliches Erlebnis. ✨',
       caption_en: ' Between pleasure and nature. Every moment with us is an unforgettable experience. ✨',
+      caption_pt: ' Entre o prazer e a natureza. Cada momento connosco é uma experiência inesquecível. ✨',
       hashtags: '#wellnesshotel #luxuryliving #alpinehideaway #retreat #moments' },
     'portfolio-3.png': { likes: '1.867', location: 'Alpine Hideaway Spa',
       caption_de: ' Natur und Luxus — kein Widerspruch, sondern unser Versprechen an Sie. 🌲🏨',
@@ -2762,7 +2762,7 @@
     const _ci = document.getElementById('ig-comment-placeholder');
     if (_ci) _ci.placeholder = lang === 'en' ? 'Add a comment …' : lang === 'pt' ? 'Adicionar um comentário …' : 'Kommentar hinzufügen …';
     // Re-render feed captions when language changes
-    if (typeof renderFeed === 'function') renderFeed();
+    if (typeof buildFeedPosts === 'function') { const c = document.getElementById('ig-feed-posts'); if (c) c.innerHTML = ''; buildFeedPosts(); }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);

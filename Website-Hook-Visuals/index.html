@@ -2787,6 +2787,11 @@
 
   function setLang(lang) {
     if (!translations[lang]) return;
+
+    // Preserve scroll position: capture viewport-center element before DOM changes
+    const _anchorEl  = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+    const _anchorTop = _anchorEl ? _anchorEl.getBoundingClientRect().top : null;
+
     const T = translations[lang];
 
     // textContent elements
@@ -2834,6 +2839,17 @@
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);
     });
+
+    // Restore scroll so the viewport-center element stays in place
+    // (bypass scroll-smooth so the correction is instant and invisible)
+    if (_anchorEl && _anchorTop !== null) {
+      const _delta = _anchorEl.getBoundingClientRect().top - _anchorTop;
+      if (_delta !== 0) {
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollBy(0, _delta);
+        document.documentElement.style.scrollBehavior = '';
+      }
+    }
   }
 
   // ── Live clock ──────────────────────────────────

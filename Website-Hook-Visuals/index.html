@@ -281,14 +281,14 @@
     }
     .iphone.ig-wiggle { animation: igWiggle 0.7s ease-in-out; }
 
-  .zusammenarbeit-card {
-    transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.32s ease;
-    will-change: transform;
-  }
-  .zusammenarbeit-card:hover {
-    transform: scale(1.035);
-    box-shadow: 0 20px 48px rgba(0,0,0,0.13);
-  }
+    .zusammenarbeit-card {
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.32s ease;
+      will-change: transform;
+    }
+    .zusammenarbeit-card:hover {
+      transform: scale(1.035);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.13);
+    }
 
   @keyframes igBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
@@ -1700,8 +1700,7 @@
     igCameFromFeed = false;
   }
 
-  // ── Instagram UI interactions ───────────────────
-  // ── Feed post like / save ───────────────────────────
+  // ── Feed post like / save ──────────────────────
   function igFeedLike(btn) {
     const post = btn.closest('[data-img]');
     const img  = post?.getAttribute('data-img');
@@ -2199,8 +2198,9 @@
     demoObserver.observe(socialEl);
   })();
 
+  // ── Post like / save ────────────────────────────
   let liked = false;
-  let baseLikes = 3412; // updated each time a post is opened
+  let baseLikes = 3412;
   function toggleHeart() {
     liked = !liked;
     if (currentPost) igState[currentPost].liked = liked;
@@ -2217,7 +2217,7 @@
     likes.textContent = count.toLocaleString(currentLang === 'en' ? 'en-GB' : 'de-DE') + (currentLang === 'en' ? ' likes' : currentLang === 'pt' ? ' gostos' : ' Gefällt mir-Angaben');
   }
 
-  // ── Follow button ───────────────────────────────
+  // ── Profile follow / unfollow ──────────────────
   let following = false;
   let followerCount = 4008;
   function toggleFollow() {
@@ -2255,7 +2255,7 @@
     }
   }
 
-  // ── Instagram Stories (multi-account + cube animation) ─────────
+  // ── Instagram Stories ────────────────────────────
   const storyAccounts = [
     { name: 'alpine_hideaway_resort', avatar: 'hero.png',          img: 'ig-pool.png',        time: '2 Std.' },
     { name: 'wellhotel',              avatar: 'wellhotel.png',      img: 'wellhotel.png',      time: '4 Std.' },
@@ -2349,7 +2349,7 @@
     storyTimer = setTimeout(nextAccountStory, 5000);
   }
 
-  function cubeGo(direction, newIdx) {
+  function storySlide(direction, newIdx) {
     if (storyBusy) return;
     storyBusy = true;
     clearTimeout(storyTimer);
@@ -2395,23 +2395,23 @@
     if (hlFrames) {
       const next = hlIdx + 1;
       if (next >= hlFrames.length) { closeStory(); return; }
-      cubeGo('next', next);  // hlIdx updated inside cubeGo
+      storySlide('next', next);  // hlIdx updated inside cubeGo
       return;
     }
     const next = currentStoryIdx + 1;
     if (next >= storyAccounts.length) { closeStory(); openFeed(); return; }
-    cubeGo('next', next);
+    storySlide('next', next);
   }
 
   function prevAccountStory() {
     if (storyBusy) return;
     if (hlFrames) {
       if (hlIdx === 0) return;
-      cubeGo('prev', hlIdx - 1);  // hlIdx updated inside cubeGo
+      storySlide('prev', hlIdx - 1);  // hlIdx updated inside cubeGo
       return;
     }
     if (currentStoryIdx === 0) return;
-    cubeGo('prev', currentStoryIdx - 1);
+    storySlide('prev', currentStoryIdx - 1);
   }
 
   function closeStory() {
@@ -2436,6 +2436,7 @@
 </div>
 
 <script>
+  // ── Cookie Consent ─────────────────────────────
   function setCookieConsent(choice) {
     localStorage.setItem('ga_consent', choice);
     if (choice === 'granted') {
@@ -2449,6 +2450,28 @@
 </script>
 
 <script>
+
+  // ── Billing UI refresh ──────────────────────────
+  // Called from setBilling() and setLang() to keep prices + dropdown in sync.
+  function applyBillingUI(lang) {
+    const p = (lang === 'en' ? billingPricesAUD : billingPrices)[currentBilling];
+    if (p) {
+      document.getElementById('price-light').textContent   = p.light;
+      document.getElementById('price-plus').textContent    = p.plus;
+      document.getElementById('price-premium').textContent = p.premium;
+    }
+    const billingLabel = lang === 'en'
+      ? (currentBilling === 'yearly' ? 'annual' : 'monthly')
+      : lang === 'pt'
+      ? (currentBilling === 'yearly' ? 'anual' : 'mensal')
+      : (currentBilling === 'yearly' ? 'Jahresabo' : 'Monatsabo');
+    const perPeriod = lang === 'en' ? '/month' : lang === 'pt' ? '/mês' : '/Monat';
+    const sel = document.getElementById('plan');
+    if (sel && p) ['light', 'plus', 'premium'].forEach(k => {
+      const opt = sel.querySelector(`option[data-plan="${k}"]`);
+      if (opt) opt.textContent = `${k.charAt(0).toUpperCase() + k.slice(1)} — ${p[k]}${perPeriod} (${billingLabel})`;
+    });
+  }
 
   // ── i18n Language Switcher ──────────────────────
   const translations = {
@@ -2774,29 +2797,7 @@
     localStorage.setItem('lang', lang);
     currentLang = lang;
 
-    // Update active state on flag buttons
-    // Refresh price spans for the new language (bypass setBilling's early-return guard)
-    (function() {
-      const _p = (lang === 'en' ? billingPricesAUD : billingPrices)[currentBilling];
-      if (_p) {
-        document.getElementById('price-light').textContent   = _p.light;
-        document.getElementById('price-plus').textContent    = _p.plus;
-        document.getElementById('price-premium').textContent = _p.premium;
-      }
-      // Also refresh dropdown option labels
-      const _billingLabel = lang === 'en'
-        ? (currentBilling === 'yearly' ? 'annual' : 'monthly')
-        : lang === 'pt'
-        ? (currentBilling === 'yearly' ? 'anual' : 'mensal')
-        : (currentBilling === 'yearly' ? 'Jahresabo' : 'Monatsabo');
-      const _perPeriod = lang === 'en' ? '/month' : lang === 'pt' ? '/mês' : '/Monat';
-      const _planNames = { light: 'Light', plus: 'Plus', premium: 'Premium' };
-      const _sel = document.getElementById('plan');
-      if (_sel && _p) ['light', 'plus', 'premium'].forEach(k => {
-        const _opt = _sel.querySelector(`option[data-plan="${k}"]`);
-        if (_opt) _opt.textContent = `${_planNames[k]} — ${_p[k]}${_perPeriod} (${_billingLabel})`;
-      });
-    })();
+    applyBillingUI(lang);
 
     // Update comment placeholder
     const _ci = document.getElementById('ig-comment-placeholder');

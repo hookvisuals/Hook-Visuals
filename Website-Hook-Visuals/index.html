@@ -308,7 +308,12 @@
     100% { transform: translateX(0) translateY(0); }
   }
 
-    </style>
+  
+    /* ── Language switcher ── */
+    .lang-btn { opacity: 0.45; transition: opacity 0.15s; }
+    .lang-btn:hover { opacity: 0.85; }
+    .lang-btn.lang-btn-active { opacity: 1; }
+  </style>
 </head>
 
 <body>
@@ -329,14 +334,19 @@
 
     <!-- Desktop links -->
     <div class="hidden md:flex items-center gap-8">
-      <a href="#zusammenarbeit"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Zusammenarbeit</a>
-      <a href="#social"     class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Social Media</a>
-      <a href="#pricing"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Abomodelle</a>
-      <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200">Partnerschaft</a>
+      <a href="#zusammenarbeit"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_collab">Zusammenarbeit</a>
+      <a href="#social"     class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_social">Social Media</a>
+      <a href="#pricing"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_pricing">Abomodelle</a>
+      <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_partnership">Partnerschaft</a>
     </div>
 
+    <!-- Lang switcher -->
+    <div class="hidden sm:flex items-center gap-0.5">
+      <button onclick="setLang('de')" data-lang="de" class="lang-btn text-base leading-none px-1.5 py-0.5 rounded-md hover:bg-stone-100 transition-all duration-150" title="Deutsch">🇩🇪</button>
+      <button onclick="setLang('en')" data-lang="en" class="lang-btn text-base leading-none px-1.5 py-0.5 rounded-md hover:bg-stone-100 transition-all duration-150" title="English">🇦🇺</button>
+    </div>
     <!-- CTA -->
-    <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block">
+    <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block" data-i18n="nav_cta">
       Jetzt starten
     </a>
 
@@ -351,12 +361,16 @@
 
 <!-- Mobile menu dropdown -->
 <div id="mobile-menu" class="fixed top-[104px] left-4 right-4 z-40 bg-white rounded-2xl shadow-2xl border border-stone-100 flex-col hidden overflow-hidden">
-  <a href="#zusammenarbeit" onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Zusammenarbeit</a>
-  <a href="#social"    onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Social Media</a>
-  <a href="#pricing"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Abomodelle</a>
-  <a href="#contact"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors">Partnerschaft</a>
+  <a href="#zusammenarbeit" onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors" data-i18n="nav_collab">Zusammenarbeit</a>
+  <a href="#social"    onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors" data-i18n="nav_social">Social Media</a>
+  <a href="#pricing"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors" data-i18n="nav_pricing">Abomodelle</a>
+  <a href="#contact"   onclick="closeMenu()" class="label text-primary px-6 py-4 border-b border-stone-100 block hover:bg-surface hover:text-secondary transition-colors" data-i18n="nav_partnership">Partnerschaft</a>
   <div class="px-6 py-4">
-    <a href="#contact" onclick="closeMenu()" class="label bg-primary text-white px-6 py-3 rounded-full block text-center hover:bg-primary-dark transition-colors">Jetzt starten</a>
+    <a href="#contact" onclick="closeMenu()" class="label bg-primary text-white px-6 py-3 rounded-full block text-center hover:bg-primary-dark transition-colors" data-i18n="nav_cta">Jetzt starten</a>
+  </div>
+  <div class="flex items-center gap-2 px-6 py-3 border-t border-stone-100">
+    <button onclick="setLang('de')" data-lang="de" class="lang-btn text-xl leading-none px-2 py-1 rounded-md hover:bg-stone-100 transition-all duration-150" title="Deutsch">🇩🇪</button>
+    <button onclick="setLang('en')" data-lang="en" class="lang-btn text-xl leading-none px-2 py-1 rounded-md hover:bg-stone-100 transition-all duration-150" title="English">🇦🇺</button>
   </div>
 </div>
 
@@ -374,24 +388,24 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-44 pb-20">
     <p class="label text-secondary mb-6 tracking-[0.3em]" style="text-shadow:0 2px 8px rgba(0,0,0,0.4)">
-      Exzellenz im Marketing
+      <span data-i18n="hero_eyebrow">Exzellenz im Marketing</span>
     </p>
     <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white leading-[1.05] tracking-tight mb-8"
         style="text-shadow:0 4px 24px rgba(0,0,0,0.45)">
-      Ihre Exzellenz verdient<br class="hidden sm:block" /> Sichtbarkeit.
+      <span data-i18n-html="hero_h1">Ihre Exzellenz verdient<br class="hidden sm:block" /> Sichtbarkeit.</span>
     </h1>
     <p class="text-base sm:text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed font-light mb-12"
        style="text-shadow:0 2px 12px rgba(0,0,0,0.35)">
-      Herausragendes Marketing für außergewöhnliche Wellness-Ziele. Wir verwandeln die Ruhe Ihres Hauses in eine digitale Sehnsucht, die messbare Ergebnisse liefert.
+      <span data-i18n="hero_sub">Herausragendes Marketing für außergewöhnliche Wellness-Ziele. Wir verwandeln die Ruhe Ihres Hauses in eine digitale Sehnsucht, die messbare Ergebnisse liefert.</span>
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#contact"
-         class="label bg-primary text-white px-10 py-5 rounded-md hover:bg-primary-dark transition-all duration-300 shadow-xl">
+         class="label bg-primary text-white px-10 py-5 rounded-md hover:bg-primary-dark transition-all duration-300 shadow-xl" data-i18n="nav_cta">
         Jetzt starten
       </a>
       <a href="#zusammenarbeit"
          class="label text-white border-b-2 border-secondary px-6 py-5 hover:text-secondary transition-colors duration-300"
-         style="text-shadow:0 2px 8px rgba(0,0,0,0.35)">
+         style="text-shadow:0 2px 8px rgba(0,0,0,0.35)" data-i18n="hero_vision">
         Unsere Vision entdecken
       </a>
     </div>
@@ -417,7 +431,7 @@
     <!-- Eyebrow -->
     <div class="flex items-center gap-5 mb-10 md:mb-14">
       <div style="width:36px;height:1px;background:#C5A059;flex-shrink:0;"></div>
-      <p class="label text-secondary tracking-[0.22em]" style="font-size:0.6rem;">IHRE EXZELLENZ VERDIENT SICHTBARKEIT</p>
+      <p class="label text-secondary tracking-[0.22em]" style="font-size:0.6rem;" data-i18n="pos_eyebrow">IHRE EXZELLENZ VERDIENT SICHTBARKEIT</p>
     </div>
 
     <!-- Hauptinhalt: Heading links | Trennlinie | Text rechts -->
@@ -426,7 +440,7 @@
       <!-- Links: Heading -->
       <div class="pb-12 lg:pb-0 lg:pr-20">
         <h2 class="text-4xl md:text-5xl text-primary leading-[1.15] tracking-tight">
-          Spezialisierung<br/>ist unsere<br/>Stärke.
+          <span data-i18n-html="pos_h2">Spezialisierung<br/>ist unsere<br/>Stärke.</span>
         </h2>
         <div style="width:44px;height:2px;background:#C5A059;margin-top:2rem;"></div>
       </div>
@@ -437,13 +451,13 @@
       <!-- Rechts: Fließtext -->
       <div class="lg:pl-20 flex flex-col gap-5">
         <p class="text-lg md:text-xl text-stone-700 leading-relaxed font-light">
-          Hook Visuals ist auf Social Media und Online Präsenz für Hotels und Boutique-Unterkünfte spezialisiert.
+          <span data-i18n="pos_p1">Hook Visuals ist auf Social Media und Online Präsenz für Hotels und Boutique-Unterkünfte spezialisiert.</span>
         </p>
         <p class="text-base md:text-lg leading-relaxed" style="color:#57534e;">
-          Statt eine austauschbare Marketing-Agentur zu sein, arbeiten wir bewusst nur mit Hotels und kleinen Unterkünften.
+          <span data-i18n="pos_p2">Statt eine austauschbare Marketing-Agentur zu sein, arbeiten wir bewusst nur mit Hotels und kleinen Unterkünften.</span>
         </p>
         <p class="text-base md:text-lg leading-relaxed" style="color:#57534e;">
-          Wir verstehen, worauf es bei Gastfreundschaft ankommt – und übersetzen das in Bilder und Beiträge, die Gäste wirklich ansprechen.
+          <span data-i18n="pos_p3">Wir verstehen, worauf es bei Gastfreundschaft ankommt – und übersetzen das in Bilder und Beiträge, die Gäste wirklich ansprechen.</span>
         </p>
       </div>
 
@@ -459,11 +473,11 @@
 
     <!-- Heading -->
     <div class="text-center mb-14 md:mb-20">
-      <p class="label text-secondary mb-4">Unsere gemeinsame Vision</p>
+      <p class="label text-secondary mb-4" data-i18n="zus_eyebrow">Unsere gemeinsame Vision</p>
       <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary leading-tight mb-5">
-        Ihre Zusammenarbeit<br class="hidden sm:block"> mit Hook Visuals
+        <span data-i18n-html="zus_h2">Ihre Zusammenarbeit<br class="hidden sm:block"> mit Hook Visuals</span>
       </h2>
-      <p class="text-on-muted text-base md:text-lg">In drei Schritten zu mehr Buchungen für Ihr Hotel.</p>
+      <p class="text-on-muted text-base md:text-lg" data-i18n="zus_sub">In drei Schritten zu mehr Buchungen für Ihr Hotel.</p>
     </div>
 
     <!-- Steps: horizontal desktop, vertical mobile -->
@@ -503,8 +517,8 @@
               <circle cx="35" cy="17" r="2" fill="white"/>
             </svg>
           </div>
-          <h3 class="font-serif text-2xl text-primary mb-2">Setup</h3>
-          <p class="text-on-muted text-sm leading-relaxed">Instagram-Account mit Ihren Fotos.</p>
+          <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="step1_h3">Setup</h3>
+          <p class="text-on-muted text-sm leading-relaxed" data-i18n="step1_p">Instagram-Account mit Ihren Fotos.</p>
         </div>
       </div>
 
@@ -530,8 +544,8 @@
           <div class="flex items-center justify-center flex-1 pb-6">
             <img src="Mockup Post.jpg" alt="Instagram Post Mockup" style="height:200px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.18));" loading="lazy">
           </div>
-          <h3 class="font-serif text-2xl text-primary mb-2">Social Media Postings</h3>
-          <p class="text-on-muted text-sm leading-relaxed">Regelmäßige Posts auf Instagram und Updates an Sie.</p>
+          <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="step2_h3">Social Media Postings</h3>
+          <p class="text-on-muted text-sm leading-relaxed" data-i18n="step2_p">Regelmäßige Posts auf Instagram und Updates an Sie.</p>
         </div>
       </div>
 
@@ -562,8 +576,8 @@
               <div style="position:absolute;inset:0;border-radius:999px;background:linear-gradient(135deg,#F97316,#8B5CF6);filter:blur(16px);opacity:0.45;z-index:-1;"></div>
             </div>
           </div>
-          <h3 class="font-serif text-2xl text-primary mb-2">Mehr Buchungen</h3>
-          <p class="text-on-muted text-sm leading-relaxed">Mehr Sichtbarkeit, mehr Gäste, mehr Direktbuchungen.</p>
+          <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="step3_h3">Mehr Buchungen</h3>
+          <p class="text-on-muted text-sm leading-relaxed" data-i18n="step3_p">Mehr Sichtbarkeit, mehr Gäste, mehr Direktbuchungen.</p>
         </div>
       </div>
 
@@ -579,9 +593,9 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
     <div class="text-center mb-16">
-      <p class="label text-secondary mb-4">Digitale Präsenz</p>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-5">Social Media</h2>
-      <p class="label text-secondary" style="letter-spacing:0.22em;">Interaktiv erkunden — tippen &amp; entdecken</p>
+      <p class="label text-secondary mb-4" data-i18n="social_eyebrow">Digitale Präsenz</p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-5" data-i18n="social_h2">Social Media</h2>
+      <p class="label text-secondary" style="letter-spacing:0.22em;" data-i18n="social_sub">Interaktiv erkunden — tippen &amp; entdecken</p>
     </div>
 
     <!-- Phone mockups — stack on mobile, row on desktop -->
@@ -1204,7 +1218,7 @@
       <a href="https://www.instagram.com/hoookvisuals/" target="_blank" rel="noopener noreferrer"
          class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full border border-primary/20 bg-white shadow-sm hover:shadow-md hover:border-secondary hover:text-secondary transition-all duration-300 group">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-primary group-hover:text-secondary transition-colors duration-300"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-        <span class="label text-primary group-hover:text-secondary transition-colors duration-300" style="font-size:0.65rem;">@hoookvisuals ansehen</span>
+        <span class="label text-primary group-hover:text-secondary transition-colors duration-300" style="font-size:0.65rem;" data-i18n="social_cta">@hoookvisuals ansehen</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-on-muted group-hover:text-secondary group-hover:translate-x-0.5 transition-all duration-300"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
@@ -1219,15 +1233,15 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
     <div class="text-center mb-12">
-      <p class="label text-secondary mb-4">Wachstumsstrategien</p>
-      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary">Unsere Abomodelle</h2>
+      <p class="label text-secondary mb-4" data-i18n="pricing_eyebrow">Wachstumsstrategien</p>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary" data-i18n="pricing_h2">Unsere Abomodelle</h2>
     </div>
 
     <!-- Billing Toggle -->
     <div class="flex items-center justify-center gap-4 mb-16">
       <div class="inline-flex bg-white border border-stone-200 rounded-full p-1 gap-1 shadow-sm">
-        <button id="btn-yearly" onclick="setBilling('yearly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:#004B49;color:#fff;">Jährlich</button>
-        <button id="btn-monthly" onclick="setBilling('monthly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:transparent;color:#5a5e5a;">Monatlich</button>
+        <button id="btn-yearly" onclick="setBilling('yearly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:#004B49;color:#fff;" data-i18n="pricing_yearly">Jährlich</button>
+        <button id="btn-monthly" onclick="setBilling('monthly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:transparent;color:#5a5e5a;" data-i18n="pricing_monthly">Monatlich</button>
       </div>
       <span class="label text-secondary" style="font-size:0.65rem;">Bis zu 15% sparen</span>
     </div>
@@ -1237,62 +1251,62 @@
       <!-- Light -->
       <div class="plan-card bg-white p-10 rounded-xl border-t-4 border-transparent hover:border-secondary shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col">
         <h3 class="text-2xl text-primary mb-2">Light</h3>
-        <p class="text-on-muted text-sm mb-8">Grundlegende digitale Präsenz.</p>
+        <p class="text-on-muted text-sm mb-8" data-i18n="pricing_light_sub">Grundlegende digitale Präsenz.</p>
         <div class="mb-10">
           <span id="price-light" class="text-4xl text-primary font-serif font-bold">245 €</span>
-          <span class="label text-on-muted ml-1">/ Monat</span>
+          <span class="label text-on-muted ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>5 Instagram Posts</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Vorhandenes Material</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Basis Reporting</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f1">5 Instagram Posts</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f2">Vorhandenes Material</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f3">Basis Reporting</span></li>
         </ul>
         <a onclick="selectPlan('light')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
-          Plan wählen
+          <span data-i18n="plan_btn">Plan wählen</span>
         </a>
       </div>
 
       <!-- Plus (featured) -->
       <div class="plan-card bg-primary p-10 rounded-xl shadow-2xl relative flex flex-col">
         <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-white px-5 py-1 rounded-full label whitespace-nowrap">
-          Empfohlen
+          <span data-i18n="pricing_recommended">Empfohlen</span>
         </div>
         <h3 class="text-3xl text-white mb-2">Plus</h3>
-        <p class="text-white/70 text-sm mb-8">Umfassendes Marketing.</p>
+        <p class="text-white/70 text-sm mb-8" data-i18n="pricing_plus_sub">Umfassendes Marketing.</p>
         <div class="mb-10">
           <span id="price-plus" class="text-5xl text-white font-serif font-bold">415 €</span>
-          <span class="label text-white/60 ml-1">/ Monat</span>
+          <span class="label text-white/60 ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 Instagram Posts</li>
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 Instagram Stories</li>
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 WhatsApp Stories</li>
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Erweitertes Reporting</li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f1">10 Instagram Posts</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f2">10 Instagram Stories</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f3">10 WhatsApp Stories</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f4">Erweitertes Reporting</span></li>
         </ul>
         <a onclick="selectPlan('plus')" href="#contact" class="label block w-full text-center py-4 bg-secondary text-white rounded-md hover:opacity-90 transition-opacity mt-auto cursor-pointer">
-          Plan wählen
+          <span data-i18n="plan_btn">Plan wählen</span>
         </a>
       </div>
 
       <!-- Premium -->
       <div class="plan-card bg-white p-10 rounded-xl border-t-4 border-transparent hover:border-secondary shadow-[0_4px_24px_rgba(0,0,0,0.04)] flex flex-col">
         <h3 class="text-2xl text-primary mb-2">Premium</h3>
-        <p class="text-on-muted text-sm mb-8">Full-Service für maximale Expansion.</p>
+        <p class="text-on-muted text-sm mb-8" data-i18n="pricing_premium_sub">Full-Service für maximale Expansion.</p>
         <div class="mb-10">
           <span id="price-premium" class="text-4xl text-primary font-serif font-bold">750 €</span>
-          <span class="label text-on-muted ml-1">/ Monat</span>
+          <span class="label text-on-muted ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>15 Instagram Posts</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>10 Instagram Stories</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Professionalisierung der Google Präsenz</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Optimierte Posting Zeiten &amp; Frequenz</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Eventbasierte Postings</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Strategiereporting &amp; Konkurrenzanalyse</li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span>Monatlicher Strategiecall</li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f1">15 Instagram Posts</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f2">10 Instagram Stories</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f3">Professionalisierung der Google Präsenz</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f4">Optimierte Posting Zeiten &amp; Frequenz</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f5">Eventbasierte Postings</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f6">Strategiereporting &amp; Konkurrenzanalyse</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f7">Monatlicher Strategiecall</span></li>
         </ul>
         <a onclick="selectPlan('premium')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
-          Plan wählen
+          <span data-i18n="plan_btn">Plan wählen</span>
         </a>
       </div>
 
@@ -1311,10 +1325,10 @@
 
       <!-- Left -->
       <div class="lg:w-5/12">
-        <p class="label text-secondary mb-4">Partnerschaft</p>
-        <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-8 leading-tight">Lassen Sie uns wachsen</h2>
+        <p class="label text-secondary mb-4" data-i18n="contact_eyebrow">Partnerschaft</p>
+        <h2 class="text-4xl md:text-5xl lg:text-6xl text-primary mb-8 leading-tight" data-i18n="contact_h2">Lassen Sie uns wachsen</h2>
         <p class="text-on-muted text-base md:text-lg leading-relaxed mb-12">
-          Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.
+          <span data-i18n="contact_sub">Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.</span>
         </p>
         <div class="space-y-7">
           <div class="flex items-center gap-5">
@@ -1322,7 +1336,7 @@
               <span class="material-symbols-outlined text-secondary">mail</span>
             </div>
             <div>
-              <p class="label text-on-muted mb-1">E-Mail</p>
+              <p class="label text-on-muted mb-1" data-i18n="contact_email_label">E-Mail</p>
               <a href="mailto:hello@hookvisuals.com" class="text-primary font-semibold hover:text-secondary transition-colors">hello@hookvisuals.com</a>
             </div>
           </div>
@@ -1331,8 +1345,8 @@
               <span class="material-symbols-outlined text-secondary">location_on</span>
             </div>
             <div>
-              <p class="label text-on-muted mb-1">Office</p>
-              <p class="text-primary font-semibold">Im Zentrum von München</p>
+              <p class="label text-on-muted mb-1" data-i18n="contact_office_label">Office</p>
+              <p class="text-primary font-semibold" data-i18n="contact_location">Im Zentrum von München</p>
             </div>
           </div>
         </div>
@@ -1347,8 +1361,8 @@
             <span class="material-symbols-outlined text-secondary text-3xl">check_circle</span>
           </div>
           <div>
-            <h3 class="font-serif text-2xl text-primary mb-2">Nachricht erhalten!</h3>
-            <p class="text-on-muted text-sm leading-relaxed">Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
+            <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="form_success_h3">Nachricht erhalten!</h3>
+            <p class="text-on-muted text-sm leading-relaxed" data-i18n="form_success_p">Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
           </div>
         </div>
 
@@ -1358,29 +1372,29 @@
         <form id="contact-form" class="space-y-10">
           <div class="field">
             <input type="text"  id="name"    name="name"    placeholder=" " required />
-            <label for="name">Name des Hotels</label>
+            <label for="name" data-i18n="form_name">Name des Hotels</label>
           </div>
           <div class="field">
             <input type="email" id="email"   name="email"   placeholder=" " required />
-            <label for="email">E-Mail Adresse</label>
+            <label for="email" data-i18n="form_email">E-Mail Adresse</label>
           </div>
           <div class="field">
             <select id="plan" name="plan">
-              <option value="">Gewünschtes Modell wählen</option>
-              <option value="light-yearly"   data-plan="light">Light — 245 €/Monat (Jahresabo)</option>
-              <option value="plus-yearly"    data-plan="plus">Plus — 415 €/Monat (Jahresabo)</option>
-              <option value="premium-yearly" data-plan="premium">Premium — 750 €/Monat (Jahresabo)</option>
-              <option value="individual">Individuelle Anfrage</option>
+              <option value="" data-i18n="form_plan_default">Gewünschtes Modell wählen</option>
+              <option value="light-yearly"   data-plan="light" data-i18n="form_plan_light">Light — 245 €/Monat (Jahresabo)</option>
+              <option value="plus-yearly"    data-plan="plus" data-i18n="form_plan_plus">Plus — 415 €/Monat (Jahresabo)</option>
+              <option value="premium-yearly" data-plan="premium" data-i18n="form_plan_premium">Premium — 750 €/Monat (Jahresabo)</option>
+              <option value="individual" data-i18n="form_plan_individual">Individuelle Anfrage</option>
             </select>
-            <label for="plan">Interesse</label>
+            <label for="plan" data-i18n="form_plan_label">Interesse</label>
           </div>
           <div class="field">
             <textarea id="message" name="message" placeholder=" " rows="3"></textarea>
-            <label for="message">Ihre Nachricht</label>
+            <label for="message" data-i18n="form_message_label">Ihre Nachricht</label>
           </div>
           <button type="submit" id="submit-btn"
             class="label w-full py-5 bg-primary text-white rounded-md flex items-center justify-center gap-2 hover:bg-primary-dark transition-colors duration-300 shadow-lg hover:shadow-xl">
-            <span id="btn-text">Nachricht senden</span>
+            <span id="btn-text" data-i18n="form_submit">Nachricht senden</span>
             <span id="btn-icon" class="material-symbols-outlined text-sm">arrow_forward</span>
             <svg id="btn-spinner" class="hidden animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" stroke-dasharray="40" stroke-dashoffset="10"/>
@@ -1405,7 +1419,7 @@
         <a href="index.html">
           <img src="Hook-Logo-weiß.png" alt="Hook Visuals" class="h-14 w-auto mb-4" />
         </a>
-        <p class="text-white/50 text-sm leading-relaxed mb-6">Die spezialisierte Agentur für Wellness-Marketing.</p>
+        <p class="text-white/50 text-sm leading-relaxed mb-6" data-i18n="footer_brand_sub">Die spezialisierte Agentur für Wellness-Marketing.</p>
         <div class="flex gap-3">
           <!-- Instagram -->
           <a href="https://www.instagram.com/hoookvisuals/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:text-secondary hover:border-secondary transition-all">
@@ -1416,27 +1430,27 @@
 
       <!-- Agentur -->
       <div>
-        <p class="label text-white/40 mb-6">Agentur</p>
+        <p class="label text-white/40 mb-6" data-i18n="footer_agency">Agentur</p>
         <div class="flex flex-col gap-3">
-          <a href="#pricing" class="text-white/60 text-sm hover:text-secondary transition-colors">Abomodelle</a>
-          <a href="#contact" class="text-white/60 text-sm hover:text-secondary transition-colors">Kontakt</a>
+          <a href="#pricing" class="text-white/60 text-sm hover:text-secondary transition-colors" data-i18n="nav_pricing">Abomodelle</a>
+          <a href="#contact" class="text-white/60 text-sm hover:text-secondary transition-colors" data-i18n="footer_contact">Kontakt</a>
         </div>
       </div>
 
       <!-- Ressourcen -->
       <div>
-        <p class="label text-white/40 mb-6">Ressourcen</p>
+        <p class="label text-white/40 mb-6" data-i18n="footer_resources">Ressourcen</p>
         <div class="flex flex-col gap-3">
-          <a href="#zusammenarbeit" class="text-white/60 text-sm hover:text-secondary transition-colors">Zusammenarbeit</a>
-          <a href="#social"    class="text-white/60 text-sm hover:text-secondary transition-colors">Social Media</a>
+          <a href="#zusammenarbeit" class="text-white/60 text-sm hover:text-secondary transition-colors" data-i18n="nav_collab">Zusammenarbeit</a>
+          <a href="#social"    class="text-white/60 text-sm hover:text-secondary transition-colors" data-i18n="nav_social">Social Media</a>
         </div>
       </div>
 
       <!-- Rechtliches -->
       <div>
-        <p class="label text-white/40 mb-6">Rechtliches</p>
+        <p class="label text-white/40 mb-6" data-i18n="footer_legal">Rechtliches</p>
         <div class="flex flex-col gap-3">
-          <a href="impressum.html"       class="text-white/60 text-sm hover:text-secondary transition-colors">Impressum</a>
+          <a href="impressum.html"       class="text-white/60 text-sm hover:text-secondary transition-colors" data-i18n="footer_impressum">Impressum</a>
           <a href="privacy-policy.html"  class="text-white/60 text-sm hover:text-secondary transition-colors">Privacy Policy</a>
           <a href="cookie-policy.html"   class="text-white/60 text-sm hover:text-secondary transition-colors">Cookie Policy</a>
         </div>
@@ -2365,5 +2379,238 @@
   }
 </script>
 
+<script>
+
+  // ── i18n Language Switcher ──────────────────────
+  const translations = {
+    de: {
+      // Nav
+      nav_collab: 'Zusammenarbeit',
+      nav_social: 'Social Media',
+      nav_pricing: 'Abomodelle',
+      nav_partnership: 'Partnerschaft',
+      nav_cta: 'Jetzt starten',
+      // Hero
+      hero_eyebrow: 'Exzellenz im Marketing',
+      hero_h1: 'Ihre Exzellenz verdient<br class="hidden sm:block" /> Sichtbarkeit.',
+      hero_sub: 'Herausragendes Marketing für außergewöhnliche Wellness-Ziele. Wir verwandeln die Ruhe Ihres Hauses in eine digitale Sehnsucht, die messbare Ergebnisse liefert.',
+      hero_vision: 'Unsere Vision entdecken',
+      // Portfolio
+      portfolio_eyebrow: 'Ästhetik & Resultate',
+      portfolio_h2: 'Unser Portfolio',
+      portfolio_sub: 'Wir gestalten visuelle Geschichten, die Sehnsüchte wecken. Jedes Video und Foto ist eine Einladung zur Entspannung.',
+      // Positionierung
+      pos_eyebrow: 'IHRE EXZELLENZ VERDIENT SICHTBARKEIT',
+      pos_h2: 'Spezialisierung<br/>ist unsere<br/>Stärke.',
+      pos_p1: 'Hook Visuals ist auf Social Media und Online Präsenz für Hotels und Boutique-Unterkünfte spezialisiert.',
+      pos_p2: 'Statt eine austauschbare Marketing-Agentur zu sein, arbeiten wir bewusst nur mit Hotels und kleinen Unterkünften.',
+      pos_p3: 'Wir verstehen, worauf es bei Gastfreundschaft ankommt – und übersetzen das in Bilder und Beiträge, die Gäste wirklich ansprechen.',
+      // Zusammenarbeit
+      zus_eyebrow: 'Unsere gemeinsame Vision',
+      zus_h2: 'Ihre Zusammenarbeit<br class="hidden sm:block"> mit Hook Visuals',
+      zus_sub: 'In drei Schritten zu mehr Buchungen für Ihr Hotel.',
+      step1_h3: 'Setup',
+      step1_p: 'Instagram-Account mit Ihren Fotos.',
+      step2_h3: 'Social Media Postings',
+      step2_p: 'Regelmäßige Posts auf Instagram und Updates an Sie.',
+      step3_h3: 'Mehr Buchungen',
+      step3_p: 'Mehr Sichtbarkeit, mehr Gäste, mehr Direktbuchungen.',
+      // Social Media
+      social_eyebrow: 'Digitale Präsenz',
+      social_h2: 'Social Media',
+      social_sub: 'Interaktiv erkunden — tippen & entdecken',
+      social_cta: '@hoookvisuals ansehen',
+      // Pricing
+      pricing_eyebrow: 'Wachstumsstrategien',
+      pricing_h2: 'Unsere Abomodelle',
+      pricing_yearly: 'Jährlich',
+      pricing_monthly: 'Monatlich',
+      pricing_save: 'Bis zu 6% sparen',
+      per_month: '/ Monat',
+      pricing_light_sub: 'Grundlegende digitale Präsenz.',
+      light_f1: '5 Instagram Posts',
+      light_f2: 'Vorhandenes Material',
+      light_f3: 'Basis Reporting',
+      plan_btn: 'Plan wählen',
+      pricing_recommended: 'Empfohlen',
+      pricing_plus_sub: 'Umfassendes Marketing.',
+      plus_f1: '10 Instagram Posts',
+      plus_f2: '10 Instagram Stories',
+      plus_f3: '10 WhatsApp Stories',
+      plus_f4: 'Erweitertes Reporting',
+      website_redesign: 'Website-Redesign',
+      website_optional: '(optional für einmalig 1.490 €)',
+      pricing_premium_sub: 'Full-Service für maximale Expansion.',
+      prem_f1: '15 Instagram Posts',
+      prem_f2: '10 Instagram Stories',
+      prem_f3: 'Professionalisierung der Google Präsenz',
+      prem_f4: 'Optimierte Posting Zeiten & Frequenz',
+      prem_f5: 'Eventbasierte Postings',
+      prem_f6: 'Strategiereporting & Konkurrenzanalyse',
+      prem_f7: 'Monatlicher Strategiecall',
+      pricing_disclaimer: 'Preis exklusive Domain- und Hostinggebühren der Website.',
+      // Contact
+      contact_eyebrow: 'Partnerschaft',
+      contact_h2: 'Lassen Sie uns wachsen',
+      contact_sub: 'Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.',
+      contact_email_label: 'E-Mail',
+      contact_office_label: 'Office',
+      contact_location: 'Im Zentrum von München',
+      form_success_h3: 'Nachricht erhalten!',
+      form_success_p: 'Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.',
+      form_name: 'Name des Hotels',
+      form_email: 'E-Mail Adresse',
+      form_plan_label: 'Interesse',
+      form_plan_default: 'Gewünschtes Modell wählen',
+      form_plan_light: 'Light — 245 €/Monat (Jahresabo)',
+      form_plan_plus: 'Plus — 415 €/Monat (Jahresabo)',
+      form_plan_premium: 'Premium — 750 €/Monat (Jahresabo)',
+      form_plan_individual: 'Individuelle Anfrage',
+      form_message_label: 'Ihre Nachricht',
+      form_submit: 'Nachricht senden',
+      // Footer
+      footer_brand_sub: 'Die spezialisierte Agentur für Wellness-Marketing.',
+      footer_agency: 'Agentur',
+      footer_contact: 'Kontakt',
+      footer_resources: 'Ressourcen',
+      footer_legal: 'Rechtliches',
+      footer_impressum: 'Impressum',
+      footer_portfolio: 'Portfolio',
+    },
+    en: {
+      // Nav
+      nav_collab: 'Collaboration',
+      nav_social: 'Social Media',
+      nav_pricing: 'Plans',
+      nav_partnership: 'Partnership',
+      nav_cta: 'Get Started',
+      // Hero
+      hero_eyebrow: 'Excellence in Marketing',
+      hero_h1: 'Your Excellence Deserves<br class="hidden sm:block" /> Visibility.',
+      hero_sub: 'Outstanding marketing for exceptional wellness destinations. We transform the tranquility of your property into a digital desire that delivers measurable results.',
+      hero_vision: 'Discover Our Vision',
+      // Portfolio
+      portfolio_eyebrow: 'Aesthetics & Results',
+      portfolio_h2: 'Our Portfolio',
+      portfolio_sub: 'We craft visual stories that awaken desires. Every video and photo is an invitation to relax.',
+      // Positionierung
+      pos_eyebrow: 'YOUR EXCELLENCE DESERVES VISIBILITY',
+      pos_h2: 'Specialisation<br/>is our<br/>Strength.',
+      pos_p1: 'Hook Visuals specialises in social media and online presence for hotels and boutique accommodations.',
+      pos_p2: 'Rather than being a generic marketing agency, we deliberately work exclusively with hotels and small accommodations.',
+      pos_p3: 'We understand what matters in hospitality — and translate that into images and posts that truly resonate with guests.',
+      // Zusammenarbeit
+      zus_eyebrow: 'Our Shared Vision',
+      zus_h2: 'Your Partnership<br class="hidden sm:block"> with Hook Visuals',
+      zus_sub: 'In three steps to more bookings for your hotel.',
+      step1_h3: 'Setup',
+      step1_p: 'Instagram account set up with your photos.',
+      step2_h3: 'Social Media Postings',
+      step2_p: 'Regular posts on Instagram and updates for you.',
+      step3_h3: 'More Bookings',
+      step3_p: 'More visibility, more guests, more direct bookings.',
+      // Social Media
+      social_eyebrow: 'Digital Presence',
+      social_h2: 'Social Media',
+      social_sub: 'Explore interactively — tap & discover',
+      social_cta: 'View @hoookvisuals',
+      // Pricing
+      pricing_eyebrow: 'Growth Strategies',
+      pricing_h2: 'Our Plans',
+      pricing_yearly: 'Annually',
+      pricing_monthly: 'Monthly',
+      pricing_save: 'Save up to 6%',
+      per_month: '/ month',
+      pricing_light_sub: 'Essential digital presence.',
+      light_f1: '5 Instagram Posts',
+      light_f2: 'Existing material',
+      light_f3: 'Basic reporting',
+      plan_btn: 'Choose plan',
+      pricing_recommended: 'Recommended',
+      pricing_plus_sub: 'Comprehensive marketing.',
+      plus_f1: '10 Instagram Posts',
+      plus_f2: '10 Instagram Stories',
+      plus_f3: '10 WhatsApp Stories',
+      plus_f4: 'Extended reporting',
+      website_redesign: 'Website Redesign',
+      website_optional: '(optional, one-time 1,490 €)',
+      pricing_premium_sub: 'Full-service for maximum expansion.',
+      prem_f1: '15 Instagram Posts',
+      prem_f2: '10 Instagram Stories',
+      prem_f3: 'Professionalisation of Google presence',
+      prem_f4: 'Optimised posting times & frequency',
+      prem_f5: 'Event-based postings',
+      prem_f6: 'Strategy reporting & competitor analysis',
+      prem_f7: 'Monthly strategy call',
+      pricing_disclaimer: 'Price excluding domain and hosting fees for the website.',
+      // Contact
+      contact_eyebrow: 'Partnership',
+      contact_h2: "Let's Grow Together",
+      contact_sub: 'Ready to take your booking numbers to the next level? Our team of experts is ready to make your wellness hotel shine digitally.',
+      contact_email_label: 'Email',
+      contact_office_label: 'Office',
+      contact_location: 'In the heart of Munich',
+      form_success_h3: 'Message received!',
+      form_success_p: 'Thank you for your enquiry. We will get back to you within 24 hours.',
+      form_name: 'Hotel name',
+      form_email: 'Email address',
+      form_plan_label: 'Interest',
+      form_plan_default: 'Select preferred plan',
+      form_plan_light: 'Light — €245/month (annual)',
+      form_plan_plus: 'Plus — €415/month (annual)',
+      form_plan_premium: 'Premium — €750/month (annual)',
+      form_plan_individual: 'Custom enquiry',
+      form_message_label: 'Your message',
+      form_submit: 'Send message',
+      // Footer
+      footer_brand_sub: 'The specialised agency for wellness marketing.',
+      footer_agency: 'Agency',
+      footer_contact: 'Contact',
+      footer_resources: 'Resources',
+      footer_legal: 'Legal',
+      footer_impressum: 'Imprint',
+      footer_portfolio: 'Portfolio',
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'de';
+
+  function setLang(lang) {
+    if (!translations[lang]) return;
+    const T = translations[lang];
+
+    // textContent elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (T[key] !== undefined) el.textContent = T[key];
+    });
+
+    // innerHTML elements (for those with <br> etc.)
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (T[key] !== undefined) el.innerHTML = T[key];
+    });
+
+    // <option> elements use textContent too (already covered above)
+
+    // html lang attribute
+    document.documentElement.lang = lang;
+
+    // Store
+    localStorage.setItem('lang', lang);
+    currentLang = lang;
+
+    // Update active state on flag buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);
+    });
+  }
+
+  // Apply on page load
+  (function() {
+    setLang(currentLang);
+  })();
+
+</script>
 </body>
 </html>

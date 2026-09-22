@@ -2267,6 +2267,16 @@
   let storyTimer       = null;
   let storyBusy        = false;
 
+  const highlightPlaylists = {
+    'Pool': ['ig-pool.png', 'portfolio-2.png'],
+    'Spa':  ['portfolio-1.png', 'ig-sauna.png', 'ruheraum wellnesshotel.jpeg'],
+    'Food': ['ig-food.png']
+  };
+  let hlFrames = null;   // null = account-story mode; array = highlight mode
+  let hlIdx    = 0;
+
+  function storyImgAt(idx) { return hlFrames ? hlFrames[idx] : storyAccounts[idx].img; }
+
   function buildStoryBars() {
     const bars = document.getElementById('ig-story-bars');
     bars.innerHTML = storyAccounts.map((_,i) =>
@@ -2295,6 +2305,7 @@
   }
 
   function openAccountStory(idx) {
+    hlFrames = null; hlIdx = 0;
     currentStoryIdx  = idx;
     storyActivePanel = 'a';
     storyBusy        = false;
@@ -2313,8 +2324,30 @@
     storyTimer = setTimeout(nextAccountStory, 5000);
   }
 
-  // Legacy compat (profile page highlight circles)
-  function openStory(imgSrc, label) { openAccountStory(0); }
+  function openStory(imgSrc, label) {
+    const frames = highlightPlaylists[label] || [imgSrc];
+    hlFrames = frames;
+    hlIdx    = 0;
+    // Build bars matching highlight frame count
+    const bars = document.getElementById('ig-story-bars');
+    bars.innerHTML = frames.map((_,i) =>
+      `<div class="flex-1 h-[2px] bg-white/25 rounded-full overflow-hidden"><div id="ig-sbar-${i}" class="h-full bg-white rounded-full" style="width:0%;transition:none;"></div></div>`
+    ).join('');
+    // Show first frame in panel A
+    currentStoryIdx  = 0;
+    storyActivePanel = 'a';
+    storyBusy        = false;
+    const pa = document.getElementById('ig-story-panel-a');
+    const pb = document.getElementById('ig-story-panel-b');
+    document.getElementById('ig-story-img-a').src = frames[0];
+    pa.style.transition = 'none'; pa.style.transformOrigin = 'left center'; pa.style.transform = 'rotateY(0deg)';
+    pb.style.transition = 'none'; pb.style.transformOrigin = 'left center'; pb.style.transform = 'rotateY(90deg)';
+    setStoryHeader({ avatar: 'hero.png', name: 'alpine_hideaway_resort', time: '2 Std.' });
+    document.getElementById('ig-story').style.transform = 'translateY(0)';
+    startStoryBar(0);
+    clearTimeout(storyTimer);
+    storyTimer = setTimeout(nextAccountStory, 5000);
+  }
 
   function cubeGo(direction, newIdx) {
     if (storyBusy) return;
@@ -2324,7 +2357,7 @@
     const inP = out === 'a' ? 'b' : 'a';
     const el_out = document.getElementById('ig-story-panel-' + out);
     const el_in  = document.getElementById('ig-story-panel-' + inP);
-    document.getElementById('ig-story-img-' + inP).src = storyAccounts[newIdx].img;
+    document.getElementById('ig-story-img-' + inP).src = storyImgAt(newIdx);
 
     if (direction === 'next') {
       // out exits left (pivot: left edge, rotate -90)
@@ -2351,7 +2384,7 @@
       currentStoryIdx  = newIdx;
       storyActivePanel = inP;
       storyBusy        = false;
-      setStoryHeader(storyAccounts[newIdx]);
+      if (!hlFrames) setStoryHeader(storyAccounts[newIdx]);
       startStoryBar(newIdx);
       storyTimer = setTimeout(nextAccountStory, 5000);
     }, 430);
@@ -2359,17 +2392,26 @@
 
   function nextAccountStory() {
     if (storyBusy) return;
-    const next = currentStoryIdx + 1;
-    if (next >= storyAccounts.length) {
-      closeStory();
-      openFeed();
+    if (hlFrames) {
+      const next = hlIdx + 1;
+      if (next >= hlFrames.length) { closeStory(); return; }
+      hlIdx = next;
+      cubeGo('next', next);
       return;
     }
+    const next = currentStoryIdx + 1;
+    if (next >= storyAccounts.length) { closeStory(); openFeed(); return; }
     cubeGo('next', next);
   }
 
   function prevAccountStory() {
     if (storyBusy) return;
+    if (hlFrames) {
+      if (hlIdx === 0) return;
+      hlIdx--;
+      cubeGo('prev', hlIdx);
+      return;
+    }
     if (currentStoryIdx === 0) return;
     cubeGo('prev', currentStoryIdx - 1);
   }

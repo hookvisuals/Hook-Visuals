@@ -2803,6 +2803,19 @@
     if (_ci) _ci.placeholder = lang === 'en' ? 'Add a comment …' : lang === 'pt' ? 'Adicionar um comentário …' : 'Kommentar hinzufügen …';
     // Re-render feed captions when language changes
     if (typeof buildFeedPosts === 'function') { const c = document.getElementById('ig-feed-posts'); if (c) c.innerHTML = ''; buildFeedPosts(); }
+    // Update open post modal caption/likes if one is currently showing
+    if (currentPost) {
+      const _pd = igPosts[currentPost];
+      if (_pd) {
+        document.getElementById('ig-post-caption').textContent =
+          (lang === 'en' ? _pd.caption_en : lang === 'pt' ? _pd.caption_pt : _pd.caption_de) || _pd.caption_de;
+        const _lb    = parseInt(_pd.likes.replace(/\./g, ''));
+        const _count = liked ? _lb + 1 : _lb;
+        document.getElementById('ig-likes').textContent =
+          _count.toLocaleString(lang === 'en' ? 'en-GB' : 'de-DE') +
+          (lang === 'en' ? ' likes' : lang === 'pt' ? ' gostos' : ' Gefällt mir-Angaben');
+      }
+    }
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);

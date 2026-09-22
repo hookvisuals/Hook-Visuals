@@ -572,7 +572,8 @@
             <div class="relative">
               <a href="#contact"
                  class="text-white font-bold text-base shadow-2xl transition-transform duration-200 hover:scale-105 active:scale-95"
-                 style="display:inline-block;padding:18px 36px;border-radius:999px;background:linear-gradient(135deg,#F97316 0%,#EC4899 55%,#8B5CF6 100%);letter-spacing:0.12em;font-family:Manrope,sans-serif;text-decoration:none;cursor:pointer;">
+                 style="display:inline-block;padding:18px 36px;border-radius:999px;background:linear-gradient(135deg,#F97316 0%,#EC4899 55%,#8B5CF6 100%);letter-spacing:0.12em;font-family:Manrope,sans-serif;text-decoration:none;cursor:pointer;"
+                 data-i18n="book_now">
                 BOOK NOW
               </a>
               <div style="position:absolute;inset:0;border-radius:999px;background:linear-gradient(135deg,#F97316,#8B5CF6);filter:blur(16px);opacity:0.45;z-index:-1;"></div>
@@ -2423,15 +2424,15 @@
 
 <!-- ── Cookie Consent Banner ── -->
 <div id="cookie-banner" style="display:none;">
-  <p style="margin:0;max-width:680px;">
+  <p data-i18n-html="cookie_text" style="margin:0;max-width:680px;">
     Wir nutzen <strong>Google Analytics</strong>, um zu verstehen, wie Besucher unsere Website nutzen.
     Die Daten werden anonym erfasst. Mehr dazu in unserer
     <a href="cookie-policy.html">Cookie Policy</a> und
     <a href="privacy-policy.html">Datenschutzerklärung</a>.
   </p>
   <div class="cb-actions">
-    <button class="cb-decline" onclick="setCookieConsent('denied')">Ablehnen</button>
-    <button class="cb-accept" onclick="setCookieConsent('granted')">Akzeptieren</button>
+    <button class="cb-decline" data-i18n="cookie_decline" onclick="setCookieConsent('denied')">Ablehnen</button>
+    <button class="cb-accept" data-i18n="cookie_accept" onclick="setCookieConsent('granted')">Akzeptieren</button>
   </div>
 </div>
 
@@ -2507,6 +2508,7 @@
       step2_p: 'Regelmäßige Posts auf Instagram und Updates an Sie.',
       step3_h3: 'Mehr Buchungen',
       step3_p: 'Mehr Sichtbarkeit, mehr Gäste, mehr Direktbuchungen.',
+      book_now: 'BOOK NOW',
       // Social Media
       social_eyebrow: 'Digitale Präsenz',
       social_h2: 'Social Media',
@@ -2545,6 +2547,9 @@
       contact_eyebrow: 'Partnerschaft',
       contact_h2: 'Lassen Sie uns wachsen',
       contact_sub: 'Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.',
+      cookie_text: 'Wir nutzen <strong>Google Analytics</strong>, um zu verstehen, wie Besucher unsere Website nutzen. Die Daten werden anonym erfasst. Mehr dazu in unserer <a href="cookie-policy.html">Cookie Policy</a> und <a href="privacy-policy.html">Datenschutzerklärung</a>.',
+      cookie_decline: 'Ablehnen',
+      cookie_accept: 'Akzeptieren',
       contact_email_label: 'E-Mail',
       contact_office_label: 'Office',
       contact_location: 'Im Zentrum von München',
@@ -2617,6 +2622,7 @@
       step2_p: 'Regular posts on Instagram and updates for you.',
       step3_h3: 'More Bookings',
       step3_p: 'More visibility, more guests, more direct bookings.',
+      book_now: 'BOOK NOW',
       // Social Media
       social_eyebrow: 'Digital Presence',
       social_h2: 'Social Media',
@@ -2655,6 +2661,9 @@
       contact_eyebrow: 'Partnership',
       contact_h2: "Let's Grow Together",
       contact_sub: 'Ready to take your booking numbers to the next level? Our team of experts is ready to make your wellness hotel shine digitally.',
+      cookie_text: 'We use <strong>Google Analytics</strong> to understand how visitors use our website. Data is collected anonymously. Learn more in our <a href="cookie-policy.html">Cookie Policy</a> and <a href="privacy-policy.html">Privacy Policy</a>.',
+      cookie_decline: 'Decline',
+      cookie_accept: 'Accept',
       contact_email_label: 'Email',
       contact_office_label: 'Office',
       contact_location: 'In the heart of Munich',
@@ -2715,6 +2724,7 @@
       step1_h3: 'Configuração', step1_p: 'Conta de Instagram configurada com as suas fotos.',
       step2_h3: 'Publicações nas Redes Sociais', step2_p: 'Publicações regulares no Instagram e atualizações para si.',
       step3_h3: 'Mais Reservas', step3_p: 'Mais visibilidade, mais hóspedes, mais reservas diretas.',
+      book_now: 'RESERVAR AGORA',
       social_eyebrow: 'Presença Digital', social_h2: 'Redes Sociais',
       social_sub: 'Explore de forma interativa — toque e descubra', social_cta: 'Ver @hoookvisuals',
       pricing_eyebrow: 'Estratégias de Crescimento', pricing_h2: 'Os Nossos Planos',
@@ -2735,6 +2745,9 @@
       pricing_disclaimer: 'Preço excluindo taxas de domínio e alojamento do website.',
       contact_eyebrow: 'Parceria', contact_h2: 'Vamos Crescer Juntos',
       contact_sub: 'Pronto para levar os seus números de reservas ao próximo nível? Vamos criar algo extraordinário juntos.',
+      cookie_text: 'Utilizamos o <strong>Google Analytics</strong> para compreender como os visitantes utilizam o nosso website. Os dados são recolhidos de forma anónima. Saiba mais na nossa <a href="cookie-policy.html">Política de Cookies</a> e <a href="privacy-policy.html">Política de Privacidade</a>.',
+      cookie_decline: 'Recusar',
+      cookie_accept: 'Aceitar',
       contact_email_label: 'E-mail', contact_office_label: 'Escritório',
       contact_location: 'No centro de Munique',
       form_success_h3: 'Mensagem recebida!',

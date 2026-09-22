@@ -15,10 +15,8 @@
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-449Y0G925T"></script>
   <script>gtag('js', new Date()); gtag('config', 'G-449Y0G925T', {'anonymize_ip': true});</script>
-  <!-- Favicon — SVG für korrekte Seitenverhältnisse, hell/dunkel-adaptiv -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="Hook-Logo-klein.png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -45,6 +43,10 @@
     body { font-family: 'Manrope', sans-serif; background: #F9F8F5; color: #1a1c1a; }
     h1, h2, h3 { font-family: 'Noto Serif', Georgia, serif; }
     .label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+    .lang-btn { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { background: #004B49; color: #fff; }
+    .lang-btn:not(.active) { color: #004B49; border-color: #004B4950; }
+    .lang-btn:not(.active):hover { border-color: #004B49; }
   </style>
 </head>
 <body>
@@ -53,12 +55,24 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-stone-100">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center"><img src="Hook-Logo-transparent.png" alt="Hook Visuals" class="h-12 w-auto" /></a>
-      <a href="index.html" class="label text-primary border-b border-primary/30 pb-0.5 hover:text-secondary hover:border-secondary transition-colors text-xs">← Zurück zur Startseite</a>
+      <div class="flex items-center gap-4">
+        <div class="flex gap-1" id="lang-switcher">
+          <button class="lang-btn" data-lang="de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+        </div>
+        <a id="back-link" href="index.html" class="label text-primary border-b border-primary/30 pb-0.5 hover:text-secondary hover:border-secondary transition-colors text-xs">← Zurück zur Startseite</a>
+      </div>
     </div>
   </header>
 
   <!-- Content -->
   <main class="max-w-3xl mx-auto px-6 py-20">
+
+    <!-- EN/PT notice (shown for non-DE visitors) -->
+    <div id="foreign-notice" class="hidden mb-12 p-5 rounded-xl border border-secondary/40 bg-secondary/5">
+      <p id="foreign-notice-text" class="text-sm text-on-muted leading-relaxed"></p>
+    </div>
 
     <p class="label text-secondary mb-4">Rechtliches</p>
     <h1 class="text-4xl md:text-5xl text-primary mb-10 leading-tight">Impressum</h1>
@@ -129,6 +143,34 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const notices = {
+      en: 'This page is the legally required <em>Impressum</em> (legal notice) under German law (§ 5 DDG). It is mandatory for German-based websites and is provided in German as required. For any questions, please contact us at <a href="mailto:hello@hookvisuals.com" class="text-primary font-semibold">hello@hookvisuals.com</a>.',
+      pt: 'Esta página é o <em>Impressum</em> (aviso legal) exigido por lei alemã (§ 5 DDG). É obrigatório para websites com sede na Alemanha e é fornecido em alemão conforme exigido. Para dúvidas, contacte-nos em <a href="mailto:hello@hookvisuals.com" class="text-primary font-semibold">hello@hookvisuals.com</a>.',
+    };
+    const backLabels = {
+      de: '← Zurück zur Startseite',
+      en: '← Back to homepage',
+      pt: '← Voltar à página inicial',
+    };
+
+    function setLang(lang) {
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      const notice = document.getElementById('foreign-notice');
+      const noticeText = document.getElementById('foreign-notice-text');
+      if (lang !== 'de') {
+        noticeText.innerHTML = notices[lang];
+        notice.classList.remove('hidden');
+      } else {
+        notice.classList.add('hidden');
+      }
+      document.getElementById('back-link').textContent = backLabels[lang];
+    }
+
+    setLang(localStorage.getItem('lang') || 'de');
+  </script>
 
 </body>
 </html>

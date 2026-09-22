@@ -15,10 +15,8 @@
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-449Y0G925T"></script>
   <script>gtag('js', new Date()); gtag('config', 'G-449Y0G925T', {'anonymize_ip': true});</script>
-  <!-- Favicon — SVG für korrekte Seitenverhältnisse, hell/dunkel-adaptiv -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="Hook-Logo-klein.png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -45,6 +43,12 @@
     body { font-family: 'Manrope', sans-serif; background: #F9F8F5; color: #1a1c1a; }
     h1, h2, h3 { font-family: 'Noto Serif', Georgia, serif; }
     .label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+    .lang-btn { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; }
+    .lang-btn.active { background: #004B49; color: #fff; }
+    .lang-btn:not(.active) { color: #004B49; border-color: #004B4950; }
+    .lang-btn:not(.active):hover { border-color: #004B49; }
+    [data-lang-block] { display: none; }
+    [data-lang-block].visible { display: block; }
   </style>
 </head>
 <body>
@@ -53,82 +57,203 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-stone-100">
     <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center"><img src="Hook-Logo-transparent.png" alt="Hook Visuals" class="h-12 w-auto" /></a>
-      <a href="index.html" class="label text-primary border-b border-primary/30 pb-0.5 hover:text-secondary hover:border-secondary transition-colors text-xs">← Zurück zur Startseite</a>
+      <div class="flex items-center gap-4">
+        <div class="flex gap-1">
+          <button class="lang-btn" data-lang="de" onclick="setLang('de')">DE</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+        </div>
+        <a id="back-link" href="index.html" class="label text-primary border-b border-primary/30 pb-0.5 hover:text-secondary hover:border-secondary transition-colors text-xs">← Zurück zur Startseite</a>
+      </div>
     </div>
   </header>
 
   <!-- Content -->
   <main class="max-w-3xl mx-auto px-6 py-20">
 
-    <p class="label text-secondary mb-4">Rechtliches</p>
-    <h1 class="text-4xl md:text-5xl text-primary mb-4 leading-tight">Cookie-Richtlinie</h1>
-    <p class="text-sm text-on-muted mb-12">Zuletzt aktualisiert: September 2026</p>
-
-    <div class="space-y-10 text-on-muted leading-relaxed">
-
-      <section>
-        <p>Diese Cookie-Richtlinie erläutert, wie die Hook Visuals GmbH Cookies und ähnliche Technologien einsetzt, um Sie beim Besuch unserer Website wiederzuerkennen. Sie erklärt, was diese Technologien sind, warum wir sie verwenden und welche Rechte Sie haben, deren Verwendung zu kontrollieren.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">1. Was sind Cookies?</h2>
-        <p>Cookies sind kleine Textdateien, die auf Ihrem Computer oder mobilen Endgerät gespeichert werden, wenn Sie eine Website besuchen. Cookies werden von Website-Betreibern häufig verwendet, um ihre Websites effizienter zu gestalten oder um Berichts-Informationen zu sammeln.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">2. Warum verwenden wir Cookies?</h2>
-        <p>Wir verwenden Cookies aus verschiedenen Gründen. Einige Cookies sind aus technischen Gründen erforderlich, damit unsere Website funktioniert (sog. „unbedingt erforderliche" oder „essenzielle" Cookies). Andere Cookies ermöglichen es uns, die Interessen unserer Nutzer zu verfolgen und gezielt darauf einzugehen, um das Erlebnis auf unserer Website zu verbessern.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">3. Arten von Cookies und deren Verwendung</h2>
-        <p>Wir unterteilen die auf unserer Website verwendeten Cookies in folgende Kategorien:</p>
-
-        <div class="pl-5 mt-4 space-y-6">
-          <div>
-            <h3 class="text-base font-semibold text-primary mb-2">A. Unbedingt erforderliche Cookies</h3>
-            <p>Diese Cookies sind notwendig, um Ihnen die über unsere Website verfügbaren Dienste bereitzustellen und einige ihrer Funktionen zu nutzen, wie z. B. den Zugriff auf sichere Bereiche. Da diese Cookies für die Bereitstellung der Website zwingend erforderlich sind, können Sie sie nicht ablehnen, ohne die Funktionsweise unserer Website zu beeinträchtigen.</p>
+    <!-- DEUTSCH -->
+    <div data-lang-block="de">
+      <p class="label text-secondary mb-4">Rechtliches</p>
+      <h1 class="text-4xl md:text-5xl text-primary mb-4 leading-tight">Cookie-Richtlinie</h1>
+      <p class="text-sm text-on-muted mb-12">Zuletzt aktualisiert: September 2026</p>
+      <div class="space-y-10 text-on-muted leading-relaxed">
+        <section>
+          <p>Diese Cookie-Richtlinie erläutert, wie die Hook Visuals GmbH Cookies und ähnliche Technologien einsetzt, um Sie beim Besuch unserer Website wiederzuerkennen. Sie erklärt, was diese Technologien sind, warum wir sie verwenden und welche Rechte Sie haben, deren Verwendung zu kontrollieren.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">1. Was sind Cookies?</h2>
+          <p>Cookies sind kleine Textdateien, die auf Ihrem Computer oder mobilen Endgerät gespeichert werden, wenn Sie eine Website besuchen. Cookies werden von Website-Betreibern häufig verwendet, um ihre Websites effizienter zu gestalten oder um Berichts-Informationen zu sammeln.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">2. Warum verwenden wir Cookies?</h2>
+          <p>Wir verwenden Cookies aus verschiedenen Gründen. Einige Cookies sind aus technischen Gründen erforderlich, damit unsere Website funktioniert (sog. „unbedingt erforderliche" oder „essenzielle" Cookies). Andere Cookies ermöglichen es uns, die Interessen unserer Nutzer zu verfolgen und gezielt darauf einzugehen, um das Erlebnis auf unserer Website zu verbessern.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">3. Arten von Cookies und deren Verwendung</h2>
+          <p>Wir unterteilen die auf unserer Website verwendeten Cookies in folgende Kategorien:</p>
+          <div class="pl-5 mt-4 space-y-6">
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">A. Unbedingt erforderliche Cookies</h3>
+              <p>Diese Cookies sind notwendig, um Ihnen die über unsere Website verfügbaren Dienste bereitzustellen und einige ihrer Funktionen zu nutzen, wie z. B. den Zugriff auf sichere Bereiche. Da diese Cookies für die Bereitstellung der Website zwingend erforderlich sind, können Sie sie nicht ablehnen, ohne die Funktionsweise unserer Website zu beeinträchtigen.</p>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">B. Analyse- und Anpassungs-Cookies (z. B. Google Analytics)</h3>
+              <p>Diese Cookies sammeln Informationen, die entweder in zusammengefasster Form verwendet werden, um uns zu helfen, die Nutzung unserer Website zu verstehen, oder um uns zu helfen, unsere Website für Sie anzupassen.</p>
+              <p class="mt-3">Konkret setzen wir für Google Analytics unter anderem folgende Cookies ein:</p>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li><strong class="text-primary">_ga:</strong> Wird verwendet, um Benutzer zu unterscheiden. <span class="text-sm">(Speicherdauer: 2 Jahre)</span></li>
+                <li><strong class="text-primary">_gid:</strong> Wird verwendet, um Benutzer zu unterscheiden. <span class="text-sm">(Speicherdauer: 24 Stunden)</span></li>
+                <li><strong class="text-primary">_gat:</strong> Wird verwendet, um die Anforderungsrate zu drosseln. <span class="text-sm">(Speicherdauer: 1 Minute)</span></li>
+              </ul>
+            </div>
           </div>
-
-          <div>
-            <h3 class="text-base font-semibold text-primary mb-2">B. Analyse- und Anpassungs-Cookies (z. B. Google Analytics)</h3>
-            <p>Diese Cookies sammeln Informationen, die entweder in zusammengefasster Form verwendet werden, um uns zu helfen, die Nutzung unserer Website zu verstehen, oder um uns zu helfen, unsere Website für Sie anzupassen.</p>
-            <p class="mt-3">Konkret setzen wir für Google Analytics unter anderem folgende Cookies ein:</p>
-            <ul class="mt-3 space-y-2 list-disc pl-5">
-              <li><strong class="text-primary">_ga:</strong> Wird verwendet, um Benutzer zu unterscheiden. <span class="text-sm">(Speicherdauer: 2 Jahre)</span></li>
-              <li><strong class="text-primary">_gid:</strong> Wird verwendet, um Benutzer zu unterscheiden. <span class="text-sm">(Speicherdauer: 24 Stunden)</span></li>
-              <li><strong class="text-primary">_gat:</strong> Wird verwendet, um die Anforderungsrate zu drosseln. <span class="text-sm">(Speicherdauer: 1 Minute)</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">4. Rechtsgrundlage</h2>
-        <p>Der Einsatz von Analyse-Cookies (insbesondere Google Analytics) erfolgt ausschließlich auf Grundlage Ihrer ausdrücklichen Einwilligung gemäß <strong class="text-primary">Art. 6 Abs. 1 lit. a DSGVO</strong> bzw. <strong class="text-primary">§ 25 Abs. 1 TDDDG</strong>. Sie erteilen diese Einwilligung über den Cookie-Banner beim ersten Aufruf unserer Website.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">5. Wie kann ich Cookies kontrollieren?</h2>
-        <p>Sie haben das Recht zu entscheiden, ob Sie Cookies akzeptieren oder ablehnen.</p>
-        <ul class="mt-4 space-y-4 list-disc pl-5">
-          <li><strong class="text-primary">Cookie-Consent-Tool:</strong> Sie können Ihre Präferenzen jederzeit über unser auf der Website eingebundenes Cookie-Banner verwalten.</li>
-          <li><strong class="text-primary">Browser-Einstellungen:</strong> Sie können Ihren Browser so einstellen, dass er Cookies ablehnt oder Sie benachrichtigt, wenn Cookies gesendet werden. Die Vorgehensweise unterscheidet sich je nach Browser (Chrome, Safari, Firefox, Edge etc.). Bitte nutzen Sie die „Hilfe"-Funktion Ihres Browsers für Details.</li>
-          <li><strong class="text-primary">Deaktivierung von Google Analytics:</strong> Sie können die Erfassung Ihrer Daten durch Google Analytics verhindern, indem Sie das unter dem folgenden Link verfügbare Browser-Plug-in herunterladen und installieren: <a href="https://tools.google.com/dlpage/gaoptout?hl=de" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-secondary transition-colors underline underline-offset-2">tools.google.com/dlpage/gaoptout</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">6. Aktualisierung dieser Richtlinie</h2>
-        <p>Wir behalten uns vor, diese Cookie-Richtlinie von Zeit zu Zeit zu aktualisieren, um beispielsweise Änderungen an den von uns verwendeten Cookies vorzunehmen oder aus anderen betrieblichen, rechtlichen oder regulatorischen Gründen.</p>
-      </section>
-
-      <section>
-        <h2 class="text-xl text-primary mb-4">7. Kontakt</h2>
-        <p>Bei Fragen zur Verwendung von Cookies auf unserer Website wenden Sie sich bitte an: <a href="mailto:hello@hookvisuals.com" class="text-primary hover:text-secondary transition-colors font-semibold">hello@hookvisuals.com</a></p>
-      </section>
-
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">4. Rechtsgrundlage</h2>
+          <p>Der Einsatz von Analyse-Cookies (insbesondere Google Analytics) erfolgt ausschließlich auf Grundlage Ihrer ausdrücklichen Einwilligung gemäß <strong class="text-primary">Art. 6 Abs. 1 lit. a DSGVO</strong> bzw. <strong class="text-primary">§ 25 Abs. 1 TDDDG</strong>. Sie erteilen diese Einwilligung über den Cookie-Banner beim ersten Aufruf unserer Website.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">5. Wie kann ich Cookies kontrollieren?</h2>
+          <p>Sie haben das Recht zu entscheiden, ob Sie Cookies akzeptieren oder ablehnen.</p>
+          <ul class="mt-4 space-y-4 list-disc pl-5">
+            <li><strong class="text-primary">Cookie-Consent-Tool:</strong> Sie können Ihre Präferenzen jederzeit über unser auf der Website eingebundenes Cookie-Banner verwalten.</li>
+            <li><strong class="text-primary">Browser-Einstellungen:</strong> Sie können Ihren Browser so einstellen, dass er Cookies ablehnt oder Sie benachrichtigt, wenn Cookies gesendet werden. Die Vorgehensweise unterscheidet sich je nach Browser (Chrome, Safari, Firefox, Edge etc.). Bitte nutzen Sie die „Hilfe"-Funktion Ihres Browsers für Details.</li>
+            <li><strong class="text-primary">Deaktivierung von Google Analytics:</strong> Sie können die Erfassung Ihrer Daten durch Google Analytics verhindern, indem Sie das unter dem folgenden Link verfügbare Browser-Plug-in herunterladen und installieren: <a href="https://tools.google.com/dlpage/gaoptout?hl=de" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-secondary transition-colors underline underline-offset-2">tools.google.com/dlpage/gaoptout</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">6. Aktualisierung dieser Richtlinie</h2>
+          <p>Wir behalten uns vor, diese Cookie-Richtlinie von Zeit zu Zeit zu aktualisieren, um beispielsweise Änderungen an den von uns verwendeten Cookies vorzunehmen oder aus anderen betrieblichen, rechtlichen oder regulatorischen Gründen.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">7. Kontakt</h2>
+          <p>Bei Fragen zur Verwendung von Cookies auf unserer Website wenden Sie sich bitte an: <a href="mailto:hello@hookvisuals.com" class="text-primary hover:text-secondary transition-colors font-semibold">hello@hookvisuals.com</a></p>
+        </section>
+      </div>
     </div>
+
+    <!-- ENGLISH -->
+    <div data-lang-block="en">
+      <p class="label text-secondary mb-4">Legal</p>
+      <h1 class="text-4xl md:text-5xl text-primary mb-4 leading-tight">Cookie Policy</h1>
+      <p class="text-sm text-on-muted mb-12">Last updated: September 2026</p>
+      <div class="space-y-10 text-on-muted leading-relaxed">
+        <section>
+          <p>This Cookie Policy explains how Hook Visuals GmbH uses cookies and similar technologies to recognise you when you visit our website. It explains what these technologies are, why we use them, and your rights to control our use of them.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">1. What are cookies?</h2>
+          <p>Cookies are small text files placed on your computer or mobile device when you visit a website. They are widely used by website operators to make their websites work more efficiently, or to provide reporting information.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">2. Why do we use cookies?</h2>
+          <p>We use cookies for various reasons. Some cookies are technically necessary for our website to function (so-called "strictly necessary" or "essential" cookies). Others allow us to track and target the interests of our users in order to enhance their experience on our website.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">3. Types of cookies we use</h2>
+          <p>We categorise the cookies used on our website as follows:</p>
+          <div class="pl-5 mt-4 space-y-6">
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">A. Strictly necessary cookies</h3>
+              <p>These cookies are required to provide you with services available through our website and to enable certain features, such as access to secure areas. Because these cookies are strictly necessary to deliver the website, you cannot refuse them without affecting how our website functions.</p>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">B. Analytics and customisation cookies (e.g. Google Analytics)</h3>
+              <p>These cookies collect information that is used either in aggregate form to help us understand how our website is being used, or to help us customise our website for you.</p>
+              <p class="mt-3">Specifically, we use the following Google Analytics cookies:</p>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li><strong class="text-primary">_ga:</strong> Used to distinguish users. <span class="text-sm">(Duration: 2 years)</span></li>
+                <li><strong class="text-primary">_gid:</strong> Used to distinguish users. <span class="text-sm">(Duration: 24 hours)</span></li>
+                <li><strong class="text-primary">_gat:</strong> Used to throttle request rate. <span class="text-sm">(Duration: 1 minute)</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">4. Legal basis</h2>
+          <p>Analytics cookies (in particular Google Analytics) are used solely on the basis of your explicit consent under <strong class="text-primary">Art. 6(1)(a) GDPR</strong> and <strong class="text-primary">§ 25(1) TDDDG</strong> (German Telecommunications Digital Services Data Protection Act). You grant this consent via the cookie banner on your first visit to our website.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">5. How can I control cookies?</h2>
+          <p>You have the right to decide whether to accept or decline cookies.</p>
+          <ul class="mt-4 space-y-4 list-disc pl-5">
+            <li><strong class="text-primary">Cookie consent tool:</strong> You can manage your preferences at any time via the cookie banner on our website.</li>
+            <li><strong class="text-primary">Browser settings:</strong> You can set your browser to refuse cookies or to alert you when cookies are being sent. The process varies by browser (Chrome, Safari, Firefox, Edge, etc.). Please use your browser's "Help" function for details.</li>
+            <li><strong class="text-primary">Disable Google Analytics:</strong> You can prevent Google Analytics from collecting data about you by downloading and installing the browser plug-in available at: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-secondary transition-colors underline underline-offset-2">tools.google.com/dlpage/gaoptout</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">6. Updates to this policy</h2>
+          <p>We may update this Cookie Policy from time to time in order to reflect changes to the cookies we use, or for other operational, legal, or regulatory reasons.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">7. Contact</h2>
+          <p>If you have any questions about our use of cookies, please contact us at: <a href="mailto:hello@hookvisuals.com" class="text-primary hover:text-secondary transition-colors font-semibold">hello@hookvisuals.com</a></p>
+        </section>
+      </div>
+    </div>
+
+    <!-- PORTUGUÊS -->
+    <div data-lang-block="pt">
+      <p class="label text-secondary mb-4">Legal</p>
+      <h1 class="text-4xl md:text-5xl text-primary mb-4 leading-tight">Política de Cookies</h1>
+      <p class="text-sm text-on-muted mb-12">Última atualização: setembro de 2026</p>
+      <div class="space-y-10 text-on-muted leading-relaxed">
+        <section>
+          <p>Esta Política de Cookies explica como a Hook Visuals GmbH utiliza cookies e tecnologias semelhantes para o reconhecer quando visita o nosso website. Explica o que são estas tecnologias, porque as utilizamos e quais os seus direitos para controlar a nossa utilização das mesmas.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">1. O que são cookies?</h2>
+          <p>Os cookies são pequenos ficheiros de texto colocados no seu computador ou dispositivo móvel quando visita um website. São amplamente utilizados pelos operadores de websites para tornar os seus websites mais eficientes ou para fornecer informações de relatórios.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">2. Porque utilizamos cookies?</h2>
+          <p>Utilizamos cookies por várias razões. Alguns cookies são tecnicamente necessários para que o nosso website funcione (os chamados cookies "estritamente necessários" ou "essenciais"). Outros permitem-nos acompanhar e orientar os interesses dos nossos utilizadores para melhorar a sua experiência no nosso website.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">3. Tipos de cookies que utilizamos</h2>
+          <p>Categorizamos os cookies utilizados no nosso website da seguinte forma:</p>
+          <div class="pl-5 mt-4 space-y-6">
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">A. Cookies estritamente necessários</h3>
+              <p>Estes cookies são necessários para lhe fornecer os serviços disponíveis através do nosso website e para ativar determinadas funcionalidades, como o acesso a áreas seguras. Como estes cookies são estritamente necessários para a disponibilização do website, não pode recusá-los sem afetar o funcionamento do nosso website.</p>
+            </div>
+            <div>
+              <h3 class="text-base font-semibold text-primary mb-2">B. Cookies de análise e personalização (p. ex. Google Analytics)</h3>
+              <p>Estes cookies recolhem informações que são utilizadas de forma agregada para nos ajudar a compreender como o nosso website está a ser utilizado, ou para nos ajudar a personalizá-lo para si.</p>
+              <p class="mt-3">Em concreto, utilizamos os seguintes cookies do Google Analytics:</p>
+              <ul class="mt-3 space-y-2 list-disc pl-5">
+                <li><strong class="text-primary">_ga:</strong> Utilizado para distinguir utilizadores. <span class="text-sm">(Duração: 2 anos)</span></li>
+                <li><strong class="text-primary">_gid:</strong> Utilizado para distinguir utilizadores. <span class="text-sm">(Duração: 24 horas)</span></li>
+                <li><strong class="text-primary">_gat:</strong> Utilizado para limitar a taxa de pedidos. <span class="text-sm">(Duração: 1 minuto)</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">4. Base legal</h2>
+          <p>Os cookies de análise (em particular o Google Analytics) são utilizados exclusivamente com base no seu consentimento expresso ao abrigo do <strong class="text-primary">art. 6.º, n.º 1, al. a) RGPD</strong> e do <strong class="text-primary">§ 25, n.º 1 TDDDG</strong> (Lei alemã de proteção de dados em serviços digitais de telecomunicações). Concede esse consentimento através do banner de cookies na sua primeira visita ao nosso website.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">5. Como posso controlar os cookies?</h2>
+          <p>Tem o direito de decidir se aceita ou recusa cookies.</p>
+          <ul class="mt-4 space-y-4 list-disc pl-5">
+            <li><strong class="text-primary">Ferramenta de consentimento de cookies:</strong> Pode gerir as suas preferências a qualquer momento através do banner de cookies no nosso website.</li>
+            <li><strong class="text-primary">Definições do browser:</strong> Pode configurar o seu browser para recusar cookies ou para o alertar quando os cookies estão a ser enviados. O processo varia consoante o browser (Chrome, Safari, Firefox, Edge, etc.). Utilize a função "Ajuda" do seu browser para mais detalhes.</li>
+            <li><strong class="text-primary">Desativar o Google Analytics:</strong> Pode impedir que o Google Analytics recolha dados sobre si, descarregando e instalando o plug-in disponível em: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-secondary transition-colors underline underline-offset-2">tools.google.com/dlpage/gaoptout</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">6. Atualizações desta política</h2>
+          <p>Podemos atualizar esta Política de Cookies periodicamente para refletir alterações nos cookies que utilizamos ou por outros motivos operacionais, legais ou regulatórios.</p>
+        </section>
+        <section>
+          <h2 class="text-xl text-primary mb-4">7. Contacto</h2>
+          <p>Se tiver questões sobre a nossa utilização de cookies, contacte-nos em: <a href="mailto:hello@hookvisuals.com" class="text-primary hover:text-secondary transition-colors font-semibold">hello@hookvisuals.com</a></p>
+        </section>
+      </div>
+    </div>
+
   </main>
 
   <!-- Footer -->
@@ -142,6 +267,21 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const backLabels = { de: '← Zurück zur Startseite', en: '← Back to homepage', pt: '← Voltar à página inicial' };
+
+    function setLang(lang) {
+      localStorage.setItem('lang', lang);
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      document.querySelectorAll('[data-lang-block]').forEach(el => {
+        el.classList.toggle('visible', el.dataset.langBlock === lang);
+      });
+      document.getElementById('back-link').textContent = backLabels[lang];
+    }
+
+    setLang(localStorage.getItem('lang') || 'de');
+  </script>
 
 </body>
 </html>

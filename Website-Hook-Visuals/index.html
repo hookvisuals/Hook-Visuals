@@ -646,14 +646,14 @@
           <div class="px-3 pb-1.5 flex-shrink-0">
             <p class="text-[9px] font-bold leading-tight">ALPINE HIDEAWAY</p>
             <p class="text-[8px] text-stone-400 leading-tight">Hotel</p>
-            <p class="text-[8px] leading-snug mt-0.5">🏔️ Luxury Alpine Wellness Resort<br/>✨ Spa &amp; Gourmet auf höchstem Niveau.</p>
+            <p class="text-[8px] leading-snug mt-0.5">🏔️ Luxury Alpine Wellness Resort<br/>✨ <span data-i18n="ig_bio_line2">Spa &amp; Gourmet auf höchstem Niveau.</span></p>
             <p class="text-[8px] text-blue-700 mt-0.5 leading-tight">alpine-hideaway.com</p>
           </div>
 
           <!-- Buttons -->
           <div class="flex gap-1 px-3 pb-2 flex-shrink-0">
-            <button id="ig-follow-btn" onclick="toggleFollow()" class="flex-1 text-white text-[8px] font-bold py-1 rounded-lg transition-colors" style="background:#0095f6">Folgen</button>
-            <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Kontakt</button>
+            <button id="ig-follow-btn" onclick="toggleFollow()" class="flex-1 text-white text-[8px] font-bold py-1 rounded-lg transition-colors" style="background:#0095f6" data-i18n="ig_follow">Folgen</button>
+            <button class="flex-1 bg-stone-100 text-stone-800 text-[8px] font-semibold py-1 rounded-lg border border-stone-200" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" data-i18n="ig_contact_btn">Kontakt</button>
           </div>
 
           <!-- Story highlights -->
@@ -948,7 +948,7 @@
                 <span id="ig-post-caption" class="text-stone-700"> Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨</span>
               </p>
               <p id="ig-post-hashtags" class="text-[9px] text-[#3d7dc8] mt-1">#wellness #alpinehideaway #infinitypool #luxuryhotel #spa</p>
-              <button onclick="igScrollToComment()" class="text-[8px] text-stone-400 mt-1.5 hover:text-stone-600 transition-colors">Alle 48 Kommentare ansehen</button>
+              <button onclick="igScrollToComment()" class="text-[8px] text-stone-400 mt-1.5 hover:text-stone-600 transition-colors" data-i18n="ig_view_comments">Alle 48 Kommentare ansehen</button>
             </div>
 
             <!-- Comments -->
@@ -1034,7 +1034,7 @@
           <div style="display:flex;justify-content:center;padding:8px 0 2px;flex-shrink:0;"><div style="width:32px;height:4px;background:#d1d5db;border-radius:2px;"></div></div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 12px 6px;border-bottom:1px solid #f1f5f9;flex-shrink:0;">
             <div style="width:18px;"></div>
-            <span style="font-size:10px;font-weight:700;font-family:'Manrope',sans-serif;">Kommentare</span>
+            <span style="font-size:10px;font-weight:700;font-family:'Manrope',sans-serif;" data-i18n="ig_comments">Kommentare</span>
             <button onclick="closeCommentSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
           </div>
           <div class="ig-scroll" style="flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:14px;">
@@ -1049,8 +1049,8 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid #f1f5f9;flex-shrink:0;">
             <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;flex-shrink:0;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></div>
-            <input id="ig-comment-input" type="text" placeholder="Kommentar hinzufügen …" onkeydown="if(event.key==='Enter')igPostComment()" style="font-size:8px;color:#1a1c1a;flex:1;font-family:'Manrope',sans-serif;border:none;outline:none;background:transparent;min-width:0;"/>
-            <button onclick="igPostComment()" style="font-size:8px;color:#3d7dc8;font-weight:600;font-family:'Manrope',sans-serif;">Posten</button>
+            <input id="ig-comment-input" type="text" id="ig-comment-placeholder" placeholder="Kommentar hinzufügen …" onkeydown="if(event.key==='Enter')igPostComment()" style="font-size:8px;color:#1a1c1a;flex:1;font-family:'Manrope',sans-serif;border:none;outline:none;background:transparent;min-width:0;"/>
+            <button onclick="igPostComment()" style="font-size:8px;color:#3d7dc8;font-weight:600;font-family:'Manrope',sans-serif;" data-i18n="ig_post_btn">Posten</button>
           </div>
         </div>
 
@@ -1061,7 +1061,7 @@
             <div style="display:flex;justify-content:center;padding:8px 0 2px;"><div style="width:32px;height:3px;background:#d1d5db;border-radius:2px;"></div></div>
             <div style="margin:6px 10px 8px;background:#f3f4f6;border-radius:10px;display:flex;align-items:center;padding:5px 10px;gap:6px;">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <span style="font-size:8px;color:#9ca3af;font-family:'Manrope',sans-serif;">Suchen</span>
+              <span style="font-size:8px;color:#9ca3af;font-family:'Manrope',sans-serif;" data-i18n="ig_search">Suchen</span>
             </div>
             <!-- People -->
             <div style="display:flex;gap:12px;padding:0 10px 12px;overflow-x:hidden;">
@@ -1074,9 +1074,9 @@
             <!-- Actions -->
             <div style="display:flex;gap:14px;padding:10px 10px 16px;border-top:1px solid #e5e7eb;overflow-x:hidden;">
               <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.5 2C6.262 2 2 6.262 2 11.5c0 1.888.534 3.65 1.456 5.144L2 22l5.52-1.447A9.44 9.44 0 0011.5 21C16.738 21 21 16.738 21 11.5S16.738 2 11.5 2z"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;">WhatsApp</span></div>
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;">In Story</span></div>
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div onclick="closeShareSheet()" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;">Link kopieren</span></div>
-              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;">Teilen</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;" data-i18n="ig_in_story">In Story</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div onclick="closeShareSheet()" style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;" data-i18n="ig_copy_link">Link kopieren</span></div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="1.8"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div><span style="font-size:7px;color:#374151;font-family:'Manrope',sans-serif;" data-i18n="ig_teilen">Teilen</span></div>
             </div>
           </div>
         </div>
@@ -1092,7 +1092,7 @@
                 <div style="width:44px;height:44px;background:#f3f4f6;border-radius:10px;display:flex;align-items:center;justify-content:center;">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
                 </div>
-                <span style="font-size:8px;color:#1a1c1a;font-family:'Manrope',sans-serif;">Speichern</span>
+                <span style="font-size:8px;color:#1a1c1a;font-family:'Manrope',sans-serif;" data-i18n="ig_save">Speichern</span>
               </div>
               <div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;">
                 <div style="width:44px;height:44px;background:#f3f4f6;border-radius:10px;display:flex;align-items:center;justify-content:center;">
@@ -1105,12 +1105,12 @@
             <div style="border-top:1px solid #e5e7eb;margin:0 0 8px;">
               <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span style="font-size:9px;font-family:'Manrope',sans-serif;color:#1a1c1a;">Infos zu diesem Konto</span>
+                <span style="font-size:9px;font-family:'Manrope',sans-serif;color:#1a1c1a;" data-i18n="ig_account_info">Infos zu diesem Konto</span>
               </div>
               <div style="height:1px;background:#f3f4f6;margin:0 14px;"></div>
               <div style="display:flex;align-items:center;gap:10px;padding:11px 14px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <span style="font-size:9px;font-family:'Manrope',sans-serif;color:#ef4444;">Melden</span>
+                <span style="font-size:9px;font-family:'Manrope',sans-serif;color:#ef4444;" data-i18n="ig_report">Melden</span>
               </div>
             </div>
           </div>
@@ -1132,7 +1132,7 @@
               <button onclick="closeReelView()" style="width:26px;height:26px;border-radius:50%;overflow:hidden;border:1.5px solid white;flex-shrink:0;padding:0;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></button>
               <span style="color:white;font-size:9px;font-weight:700;font-family:'Manrope',sans-serif;">alpine_hideaway_resort</span>
             </div>
-            <p style="color:white;font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;">🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨<br/><span style="color:rgba(255,255,255,0.65);">#wellness #alpinehideaway #luxuryresort</span></p>
+            <p style="color:white;font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span data-i18n="ig_reel_caption">🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨</span><br/><span style="color:rgba(255,255,255,0.65);">#wellness #alpinehideaway #luxuryresort</span></p>
             <div style="margin-top:5px;display:flex;align-items:center;gap:4px;">
               <svg width="9" height="9" viewBox="0 0 24 24" fill="white"><path d="M12 3v10.55A4 4 0 1014 17V7h4V3z"/></svg>
               <span style="color:rgba(255,255,255,0.75);font-size:7px;font-family:'Manrope',sans-serif;">Originalton · Alpine Hideaway</span>
@@ -1150,7 +1150,7 @@
             </button>
             <button onclick="openShareSheet()" style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:white;cursor:pointer;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-              <span style="font-size:8px;font-family:'Manrope',sans-serif;">Teilen</span>
+              <span style="font-size:8px;font-family:'Manrope',sans-serif;" data-i18n="ig_teilen">Teilen</span>
             </button>
           </div>
         </div>
@@ -1193,7 +1193,7 @@
                 <svg width="9" height="9" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
             </div>
-            <p style="font-size:11px;color:#6b7280;font-family:Manrope,sans-serif;text-align:center;margin-top:18px;font-style:italic;line-height:1.6;font-weight:500;">Einziges Ergebnis.<br/>Kein Zufall.&nbsp;😉</p>
+            <p style="font-size:11px;color:#6b7280;font-family:Manrope,sans-serif;text-align:center;margin-top:18px;font-style:italic;line-height:1.6;font-weight:500;" data-i18n-html="ig_only_result">Einziges Ergebnis.<br/>Kein Zufall.&nbsp;😉</p>
           </div>
         </div>
 
@@ -1243,7 +1243,7 @@
         <button id="btn-yearly" onclick="setBilling('yearly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:#004B49;color:#fff;" data-i18n="pricing_yearly">Jährlich</button>
         <button id="btn-monthly" onclick="setBilling('monthly')" class="label px-7 py-2.5 rounded-full transition-all duration-300" style="background:transparent;color:#5a5e5a;" data-i18n="pricing_monthly">Monatlich</button>
       </div>
-      <span class="label text-secondary" style="font-size:0.65rem;">Bis zu 15% sparen</span>
+      <span class="label text-secondary" style="font-size:0.65rem;" data-i18n="pricing_save">Bis zu 15% sparen</span>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
@@ -1540,11 +1540,15 @@
     yearly:  { light: '245 €', plus: '415 €', premium: '750 €' },
     monthly: { light: '290 €', plus: '490 €', premium: '890 €' }
   };
+  const billingPricesAUD = {
+    yearly:  { light: 'A$415', plus: 'A$695', premium: 'A$1,250' },
+    monthly: { light: 'A$490', plus: 'A$830', premium: 'A$1,490' }
+  };
   let currentBilling = 'yearly';
   function setBilling(mode) {
     if (mode === currentBilling) return;
     currentBilling = mode;
-    const p = billingPrices[mode];
+    const p = (currentLang === 'en' ? billingPricesAUD : billingPrices)[mode];
     document.getElementById('price-light').textContent   = p.light;
     document.getElementById('price-plus').textContent    = p.plus;
     document.getElementById('price-premium').textContent = p.premium;
@@ -1558,7 +1562,10 @@
       btnY.style.background = 'transparent'; btnY.style.color = '#5a5e5a';
     }
     // Update select option labels and values to match billing mode
-    const billingLabel = mode === 'yearly' ? 'Jahresabo' : 'Monatsabo';
+    const billingLabel = currentLang === 'en'
+      ? (mode === 'yearly' ? 'annual' : 'monthly')
+      : (mode === 'yearly' ? 'Jahresabo' : 'Monatsabo');
+    const perPeriod = currentLang === 'en' ? '/month' : '/Monat';
     const planNames = { light: 'Light', plus: 'Plus', premium: 'Premium' };
     const sel = document.getElementById('plan');
     ['light', 'plus', 'premium'].forEach(planKey => {
@@ -1566,7 +1573,7 @@
       if (!opt) return;
       const prevPlan = opt.value.split('-')[0];
       opt.value = prevPlan + '-' + mode;
-      opt.textContent = `${planNames[planKey]} — ${p[planKey]}/Monat (${billingLabel})`;
+      opt.textContent = `${planNames[planKey]} — ${p[planKey]}${perPeriod} (${billingLabel})`;
     });
     // If a plan is already selected, update its value to the new mode
     if (sel.value && sel.value !== 'individual' && sel.value !== '') {
@@ -1593,31 +1600,40 @@
   // ── Per-post data ───────────────────────────────
   const igPosts = {
     'ig-pool.png':     { likes: '3.412', location: 'Alpine Hideaway Resort',
-      caption:  ' Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨',
+      caption_de: ' Wo der Himmel das Wasser berührt. Unser Infinity Pool mit Blick auf die Alpen — ein Moment der reinen Stille. 🏔️✨',
+      caption_en: ' Where the sky meets the water. Our infinity pool overlooking the Alps — a moment of pure stillness. 🏔️✨',
       hashtags: '#wellness #alpinehideaway #infinitypool #luxuryhotel #spa' },
     'ig-sauna.png':    { likes: '2.187', location: 'Alpine Hideaway Spa',
-      caption:  ' Die Seele atmet auf. Unsere Sauna lädt zur tiefen Entspannung — Stille, Wärme, pures Wohlbefinden. 🧖‍♀️🌿',
+      caption_de: ' Die Seele atmet auf. Unsere Sauna lädt zur tiefen Entspannung — Stille, Wärme, pures Wohlbefinden. 🧖‍♀️🌿',
+      caption_en: ' The soul breathes freely. Our sauna invites deep relaxation — silence, warmth, pure wellbeing. 🧖‍♀️🌿',
       hashtags: '#sauna #wellness #alpinehideaway #spa #luxurylife' },
     'ig-food.png':     { likes: '4.891', location: 'Alpine Hideaway Restaurant',
-      caption:  ' Gourmet auf höchstem Niveau. Unser Küchenchef verwandelt alpine Zutaten in kleine Kunstwerke. 🍽️✨',
+      caption_de: ' Gourmet auf höchstem Niveau. Unser Küchenchef verwandelt alpine Zutaten in kleine Kunstwerke. 🍽️✨',
+      caption_en: ' Gourmet at its finest. Our chef transforms alpine ingredients into small works of art. 🍽️✨',
       hashtags: '#gourmet #finedining #alpinehideaway #luxuryhotel #foodlover' },
     'portfolio-1.png': { likes: '1.956', location: 'Alpine Hideaway Wellness',
-      caption:  ' Licht, Ruhe und Eleganz. Unsere Wellness-Welt — ein Refugium der Stille inmitten der Alpen. 🤍🌿',
+      caption_de: ' Licht, Ruhe und Eleganz. Unsere Wellness-Welt — ein Refugium der Stille inmitten der Alpen. 🤍🌿',
+      caption_en: ' Light, calm and elegance. Our wellness world — a sanctuary of stillness in the heart of the Alps. 🤍🌿',
       hashtags: '#spa #luxury #wellness #alpinehideaway #design' },
     'portfolio-2.png': { likes: '5.234', location: 'Alpine Hideaway Resort',
-      caption:  ' Wo die Berge sprechen und die Zeit stillsteht. Erwachen Sie jeden Morgen mit diesem Ausblick. 🏔️🌅',
+      caption_de: ' Wo die Berge sprechen und die Zeit stillsteht. Erwachen Sie jeden Morgen mit diesem Ausblick. 🏔️🌅',
+      caption_en: ' Where the mountains speak and time stands still. Wake up to this view every morning. 🏔️🌅',
       hashtags: '#alpinehideaway #mountains #luxurytravel #nature #wanderlust' },
     'ruheraum wellnesshotel.jpeg': { likes: '2.743', location: 'Alpine Hideaway',
-      caption:  ' Zwischen Genuss und Natur. Jeder Moment bei uns ist ein unvergessliches Erlebnis. ✨',
+      caption_de: ' Zwischen Genuss und Natur. Jeder Moment bei uns ist ein unvergessliches Erlebnis. ✨',
+      caption_en: ' Between pleasure and nature. Every moment with us is an unforgettable experience. ✨',
       hashtags: '#wellnesshotel #luxuryliving #alpinehideaway #retreat #moments' },
     'portfolio-3.png': { likes: '1.867', location: 'Alpine Hideaway Spa',
-      caption:  ' Natur und Luxus — kein Widerspruch, sondern unser Versprechen an Sie. 🌲🏨',
+      caption_de: ' Natur und Luxus — kein Widerspruch, sondern unser Versprechen an Sie. 🌲🏨',
+      caption_en: ' Nature and luxury — not a contradiction, but our promise to you. 🌲🏨',
       hashtags: '#nature #luxury #alpinehotel #switzerland #sustainability' },
     'portfolio-4.png': { likes: '2.318', location: 'Alpine Hideaway Resort',
-      caption:  ' Traumhafte Aussicht, die Seele baumeln lassen. Jeden Morgen aufwachen und diese Kulisse genießen. 🌄',
+      caption_de: ' Traumhafte Aussicht, die Seele baumeln lassen. Jeden Morgen aufwachen und diese Kulisse genießen. 🌄',
+      caption_en: ' A dreamy view to soothe the soul. Wake up every morning to enjoy this breathtaking scenery. 🌄',
       hashtags: '#view #mountains #alpine #resort #luxurytravel' },
     'portfolio-5.png': { likes: '3.791', location: 'Alpine Hideaway Resort',
-      caption:  ' Stille Momente, die bleiben. Unser Resort — ein Ort, an dem Zeit bedeutungslos wird. 🕊️✨',
+      caption_de: ' Stille Momente, die bleiben. Unser Resort — ein Ort, an dem Zeit bedeutungslos wird. 🕊️✨',
+      caption_en: ' Quiet moments that linger. Our resort — a place where time becomes meaningless. 🕊️✨',
       hashtags: '#alpinehideaway #moments #luxuryhotel #wellness #mountains' }
   };
 
@@ -1633,7 +1649,7 @@
     // Fill in per-post data
     const data = igPosts[imgSrc] || igPosts['ig-pool.png'];
     baseLikes = parseInt(data.likes.replace(/\./g, '')); // "3.412" → 3412
-    document.getElementById('ig-post-caption').textContent  = data.caption;
+    document.getElementById('ig-post-caption').textContent  = (currentLang === 'en' ? data.caption_en : data.caption_de) || data.caption_de;
     document.getElementById('ig-post-hashtags').textContent = data.hashtags;
     document.getElementById('ig-post-location').textContent = data.location;
     // Restore or initialise per-post like/save state
@@ -1653,7 +1669,7 @@
       bm.setAttribute('fill', 'none'); bm.setAttribute('stroke', '#1a1c1a');
     }
     const count = liked ? baseLikes + 1 : baseLikes;
-    document.getElementById('ig-likes').textContent = count.toLocaleString('de-DE') + ' Gefällt mir-Angaben';
+    document.getElementById('ig-likes').textContent = count.toLocaleString(currentLang === 'en' ? 'en-GB' : 'de-DE') + (currentLang === 'en' ? ' likes' : ' Gefällt mir-Angaben');
     // Slide screens (profile always slides away; post sits above feed via z-index)
     igCameFromFeed = !document.getElementById('ig-feed').style.transform.includes('-100%');
     document.getElementById('ig-profile').style.transform = 'translateX(-100%)';
@@ -1686,7 +1702,7 @@
     const data  = igPosts[img] || { likes: '1.000' };
     const base  = parseInt(data.likes.replace(/\./g, ''));
     const count = liked ? base + 1 : base;
-    post.querySelector('.ig-feed-likes').textContent = count.toLocaleString('de-DE') + ' Gefällt mir-Angaben';
+    post.querySelector('.ig-feed-likes').textContent = count.toLocaleString(currentLang === 'en' ? 'en-GB' : 'de-DE') + (currentLang === 'en' ? ' likes' : ' Gefällt mir-Angaben');
     btn.style.transform = 'scale(1.35)';
     setTimeout(() => btn.style.transform = '', 200);
   }
@@ -1817,8 +1833,8 @@
           <button class="ig-feed-save-btn" onclick="igFeedSave(this)" style="transition:transform 0.15s;"><svg class="ig-feed-save-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1a1c1a" stroke-width="1.8"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></button>
         </div>
         <div style="padding:2px 12px 12px;font-family:Manrope,sans-serif;">
-          <p class="ig-feed-likes" style="font-size:8.5px;font-weight:700;margin-bottom:3px;">${d.likes} Gefällt mir-Angaben</p>
-          <p style="font-size:8px;line-height:1.4;"><span style="font-weight:700;">alpine_hideaway_resort</span><span style="color:#374151;">${d.caption}</span></p>
+          <p class="ig-feed-likes" style="font-size:8.5px;font-weight:700;margin-bottom:3px;">${d.likes} ${currentLang === 'en' ? 'likes' : 'Gefällt mir-Angaben'}</p>
+          <p style="font-size:8px;line-height:1.4;"><span style="font-weight:700;">alpine_hideaway_resort</span><span style="color:#374151;">${currentLang === 'en' ? d.caption_en : d.caption_de}</span></p>
           <p style="font-size:7.5px;color:#3d7dc8;margin-top:3px;">${d.hashtags}</p>
         </div>
       `;
@@ -1945,7 +1961,7 @@
 
   function openFollowList(type) {
     const overlay = document.getElementById('ig-followlist');
-    document.getElementById('ig-followlist-title').textContent = type === 'followers' ? 'Follower' : 'Folge ich';
+    document.getElementById('ig-followlist-title').textContent = type === 'followers' ? 'Followers' : (currentLang === 'en' ? 'Following' : 'Folge ich');
     const body = document.getElementById('ig-followlist-body');
     body.innerHTML = followData[type].map(p => `
       <div class="flex items-center gap-2">
@@ -1960,8 +1976,8 @@
   }
 
   function toggleFollowBtn(btn) {
-    const following = btn.textContent === 'Gefolgt';
-    btn.textContent = following ? 'Folgen' : 'Gefolgt';
+    const following = btn.textContent === 'Gefolgt' || btn.textContent === 'Following';
+    btn.textContent = following ? (currentLang === 'en' ? 'Follow' : 'Folgen') : (currentLang === 'en' ? 'Following' : 'Gefolgt');
     btn.style.background = following ? '#0095f6' : '#e5e7eb';
     btn.style.color = following ? 'white' : '#374151';
   }
@@ -2185,7 +2201,7 @@
       heart.setAttribute('stroke', '#1a1c1a');
     }
     const count = liked ? baseLikes + 1 : baseLikes;
-    likes.textContent = count.toLocaleString('de-DE') + ' Gefällt mir-Angaben';
+    likes.textContent = count.toLocaleString(currentLang === 'en' ? 'en-GB' : 'de-DE') + (currentLang === 'en' ? ' likes' : ' Gefällt mir-Angaben');
   }
 
   // ── Follow button ───────────────────────────────
@@ -2425,7 +2441,7 @@
       pricing_h2: 'Unsere Abomodelle',
       pricing_yearly: 'Jährlich',
       pricing_monthly: 'Monatlich',
-      pricing_save: 'Bis zu 6% sparen',
+      pricing_save: 'Bis zu 15% sparen',
       per_month: '/ Monat',
       pricing_light_sub: 'Grundlegende digitale Präsenz.',
       light_f1: '5 Instagram Posts',
@@ -2475,6 +2491,22 @@
       footer_resources: 'Ressourcen',
       footer_legal: 'Rechtliches',
       footer_impressum: 'Impressum',
+      // Instagram mockup UI
+      ig_comments: 'Kommentare',
+      ig_post_btn: 'Posten',
+      ig_view_comments: 'Alle 48 Kommentare ansehen',
+      ig_search: 'Suchen',
+      ig_in_story: 'In Story',
+      ig_copy_link: 'Link kopieren',
+      ig_teilen: 'Teilen',
+      ig_save: 'Speichern',
+      ig_account_info: 'Infos zu diesem Konto',
+      ig_report: 'Melden',
+      ig_follow: 'Folgen',
+      ig_contact_btn: 'Kontakt',
+      ig_bio_line2: 'Spa &amp; Gourmet auf höchstem Niveau.',
+      ig_reel_caption: '🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨',
+      ig_only_result: 'Einziges Ergebnis.<br/>Kein Zufall. 😉',
       footer_portfolio: 'Portfolio',
     },
     en: {
@@ -2519,7 +2551,7 @@
       pricing_h2: 'Our Plans',
       pricing_yearly: 'Annually',
       pricing_monthly: 'Monthly',
-      pricing_save: 'Save up to 6%',
+      pricing_save: 'Save up to 15%',
       per_month: '/ month',
       pricing_light_sub: 'Essential digital presence.',
       light_f1: '5 Instagram Posts',
@@ -2533,7 +2565,7 @@
       plus_f3: '10 WhatsApp Stories',
       plus_f4: 'Extended reporting',
       website_redesign: 'Website Redesign',
-      website_optional: '(optional, one-time 1,490 €)',
+      website_optional: '(optional, one-time A$2,490)',
       pricing_premium_sub: 'Full-service for maximum expansion.',
       prem_f1: '15 Instagram Posts',
       prem_f2: '10 Instagram Stories',
@@ -2556,9 +2588,9 @@
       form_email: 'Email address',
       form_plan_label: 'Interest',
       form_plan_default: 'Select preferred plan',
-      form_plan_light: 'Light — €245/month (annual)',
-      form_plan_plus: 'Plus — €415/month (annual)',
-      form_plan_premium: 'Premium — €750/month (annual)',
+      form_plan_light: 'Light — A$415/month (annual)',
+      form_plan_plus: 'Plus — A$695/month (annual)',
+      form_plan_premium: 'Premium — A$1,250/month (annual)',
       form_plan_individual: 'Custom enquiry',
       form_message_label: 'Your message',
       form_submit: 'Send message',
@@ -2569,6 +2601,22 @@
       footer_resources: 'Resources',
       footer_legal: 'Legal',
       footer_impressum: 'Imprint',
+      // Instagram mockup UI
+      ig_comments: 'Comments',
+      ig_post_btn: 'Post',
+      ig_view_comments: 'View all 48 comments',
+      ig_search: 'Search',
+      ig_in_story: 'Add to Story',
+      ig_copy_link: 'Copy link',
+      ig_teilen: 'Share',
+      ig_save: 'Save',
+      ig_account_info: 'About this account',
+      ig_report: 'Report',
+      ig_follow: 'Follow',
+      ig_contact_btn: 'Contact',
+      ig_bio_line2: 'Spa &amp; Gourmet at its finest.',
+      ig_reel_caption: '🏊 Our outdoor pool at dawn — pure magic. ✨',
+      ig_only_result: 'Only result.<br/>Not a coincidence. 😉',
       footer_portfolio: 'Portfolio',
     }
   };
@@ -2601,6 +2649,33 @@
     currentLang = lang;
 
     // Update active state on flag buttons
+    // Refresh price spans for the new language (bypass setBilling's early-return guard)
+    (function() {
+      const _p = (lang === 'en' ? billingPricesAUD : billingPrices)[currentBilling];
+      if (_p) {
+        document.getElementById('price-light').textContent   = _p.light;
+        document.getElementById('price-plus').textContent    = _p.plus;
+        document.getElementById('price-premium').textContent = _p.premium;
+      }
+      // Also refresh dropdown option labels
+      const _billingLabel = lang === 'en'
+        ? (currentBilling === 'yearly' ? 'annual' : 'monthly')
+        : (currentBilling === 'yearly' ? 'Jahresabo' : 'Monatsabo');
+      const _perPeriod = lang === 'en' ? '/month' : '/Monat';
+      const _planNames = { light: 'Light', plus: 'Plus', premium: 'Premium' };
+      const _sel = document.getElementById('plan');
+      if (_sel && _p) ['light', 'plus', 'premium'].forEach(k => {
+        const _opt = _sel.querySelector(`option[data-plan="${k}"]`);
+        if (_opt) _opt.textContent = `${_planNames[k]} — ${_p[k]}${_perPeriod} (${_billingLabel})`;
+      });
+    })();
+
+    // Update comment placeholder
+    const _ci = document.getElementById('ig-comment-placeholder');
+    if (_ci) _ci.placeholder = lang === 'en' ? 'Add a comment …' : 'Kommentar hinzufügen …';
+    // Re-render feed captions when language changes
+    if (typeof renderFeed === 'function') renderFeed();
+
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);
     });

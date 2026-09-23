@@ -2097,7 +2097,7 @@
     following = false;
     const btn = document.getElementById('ig-follow-btn');
     const el  = document.getElementById('ig-follower-count');
-    btn.textContent       = 'Folgen';
+    btn.textContent       = (translations[currentLang] || translations.de).ig_follow || 'Folgen';
     btn.style.background  = '#0095f6';
     btn.style.color       = 'white';
     btn.style.border      = 'none';
@@ -2218,14 +2218,15 @@
     following = !following;
     const btn = document.getElementById('ig-follow-btn');
     const el  = document.getElementById('ig-follower-count');
+    const T = translations[currentLang] || translations.de;
     if (following) {
-      btn.textContent    = 'Gefolgt';
+      btn.textContent    = T.ig_following || 'Gefolgt';
       btn.style.background  = '#f3f4f6';
       btn.style.color       = '#1f2937';
       btn.style.border      = '1px solid #e5e7eb';
       followerCount++;
     } else {
-      btn.textContent    = 'Folgen';
+      btn.textContent    = T.ig_follow || 'Folgen';
       btn.style.background  = '#0095f6';
       btn.style.color       = 'white';
       btn.style.border      = 'none';
@@ -2578,6 +2579,7 @@
       ig_account_info: 'Infos zu diesem Konto',
       ig_report: 'Melden',
       ig_follow: 'Folgen',
+      ig_following: 'Gefolgt',
       ig_contact_btn: 'Kontakt',
       ig_bio_line2: 'Spa &amp; Gourmet auf höchstem Niveau.',
       ig_reel_caption: '🏊 Unser Outdoor-Pool im Morgengrauen — pure Magie. ✨',
@@ -2693,6 +2695,7 @@
       ig_account_info: 'About this account',
       ig_report: 'Report',
       ig_follow: 'Follow',
+      ig_following: 'Following',
       ig_contact_btn: 'Contact',
       ig_bio_line2: 'Spa &amp; Gourmet at its finest.',
       ig_reel_caption: '🏊 Our outdoor pool at dawn — pure magic. ✨',
@@ -2772,6 +2775,7 @@
       ig_account_info: 'Sobre esta conta',
       ig_report: 'Denunciar',
       ig_follow: 'Seguir',
+      ig_following: 'A seguir',
       ig_contact_btn: 'Contacto',
       ig_bio_line2: 'Spa &amp; Gastronomia ao mais alto nível.',
       ig_reel_caption: '🏊 A nossa piscina ao ar livre ao amanhecer — magia pura. ✨',
@@ -2831,6 +2835,10 @@
           (lang === 'en' ? ' likes' : lang === 'pt' ? ' gostos' : ' Gefällt mir-Angaben');
       }
     }
+
+    // Update follow button text if in 'following' state (data-i18n loop only handles non-following)
+    const _fbtn = document.getElementById('ig-follow-btn');
+    if (_fbtn && following) _fbtn.textContent = (T.ig_following || 'Gefolgt');
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);

@@ -261,9 +261,9 @@
     <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
       <p class="label text-white/30 text-[10px]">© 2026 Hook Visuals.</p>
       <div class="flex gap-6">
-        <a href="impressum.html"      class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Impressum</a>
-        <a href="privacy-policy.html" class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Privacy Policy</a>
-        <a href="cookie-policy.html"  class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Cookie Policy</a>
+        <a id="footer-impressum" href="impressum.html"      class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Impressum</a>
+        <a id="footer-privacy"   href="privacy-policy.html" class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Privacy Policy</a>
+        <a id="footer-cookie"    href="cookie-policy.html"  class="label text-white/40 text-[10px] hover:text-secondary transition-colors">Cookie Policy</a>
       </div>
     </div>
   </footer>
@@ -278,6 +278,13 @@
         el.classList.toggle('visible', el.dataset.langBlock === lang);
       });
       document.getElementById('back-link').textContent = backLabels[lang];
+      // Footer link labels
+      const _fl = { impressum: { de: 'Impressum', en: 'Legal Notice', pt: 'Aviso Legal' },
+                    privacy:   { de: 'Datenschutzerklärung', en: 'Privacy Policy', pt: 'Política de Privacidade' },
+                    cookie:    { de: 'Cookie-Richtlinie', en: 'Cookie Policy', pt: 'Política de Cookies' } };
+      const _fi = document.getElementById('footer-impressum'); if (_fi) _fi.textContent = _fl.impressum[lang] || _fl.impressum.de;
+      const _fp = document.getElementById('footer-privacy');   if (_fp) _fp.textContent = _fl.privacy[lang]   || _fl.privacy.de;
+      const _fc = document.getElementById('footer-cookie');    if (_fc) _fc.textContent = _fl.cookie[lang]    || _fl.cookie.de;
     }
 
     setLang(localStorage.getItem('lang') || 'de');

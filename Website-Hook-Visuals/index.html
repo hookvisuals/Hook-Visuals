@@ -2252,10 +2252,10 @@
 
   // ── Instagram Stories ────────────────────────────
   const storyAccounts = [
-    { name: 'alpine_hideaway_resort', avatar: 'hero.png',          img: 'ig-pool.png',        time: '2 Std.' },
-    { name: 'wellhotel',              avatar: 'wellhotel.png',      img: 'wellhotel.png',      time: '4 Std.' },
-    { name: 'alpenspa',               avatar: 'alpenspa.png',       img: 'alpenspa.png',       time: '1 Std.' },
-    { name: 'familienhotel',          avatar: 'familienhotel.png',  img: 'familienhotel.png',  time: '6 Std.' }
+    { name: 'alpine_hideaway_resort', avatar: 'hero.png',          img: 'ig-pool.png',        hours: 2 },
+    { name: 'wellhotel',              avatar: 'wellhotel.png',      img: 'wellhotel.png',      hours: 4 },
+    { name: 'alpenspa',               avatar: 'alpenspa.png',       img: 'alpenspa.png',       hours: 1 },
+    { name: 'familienhotel',          avatar: 'familienhotel.png',  img: 'familienhotel.png',  hours: 6 }
   ];
   let currentStoryIdx  = 0;
   let storyActivePanel = 'a';
@@ -2296,7 +2296,9 @@
   function setStoryHeader(acc) {
     document.getElementById('ig-story-avatar').src       = acc.avatar;
     document.getElementById('ig-story-name').textContent = acc.name;
-    document.getElementById('ig-story-time').textContent = acc.time;
+    const h = acc.hours ?? parseInt(acc.time);
+    document.getElementById('ig-story-time').textContent =
+      currentLang === 'de' ? h + ' Std.' : h + 'h';
   }
 
   function openAccountStory(idx) {
@@ -2337,7 +2339,7 @@
     document.getElementById('ig-story-img-a').src = frames[0];
     pa.style.transition = 'none'; pa.style.transform = 'translateX(0)'; pa.style.visibility = '';
     pb.style.transition = 'none'; pb.style.transform = 'translateX(100%)'; pb.style.visibility = 'hidden';
-    setStoryHeader({ avatar: 'hero.png', name: 'alpine_hideaway_resort', time: '2 Std.' });
+    setStoryHeader({ avatar: 'hero.png', name: 'alpine_hideaway_resort', hours: 2 });
     document.getElementById('ig-story').style.transform = 'translateY(0)';
     startStoryBar(0);
     clearTimeout(storyTimer);

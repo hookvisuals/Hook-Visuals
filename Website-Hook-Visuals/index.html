@@ -1045,7 +1045,7 @@
           </div>
           <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid #f1f5f9;flex-shrink:0;">
             <div style="width:24px;height:24px;border-radius:50%;overflow:hidden;flex-shrink:0;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></div>
-            <input id="ig-comment-input" type="text" id="ig-comment-placeholder" placeholder="Kommentar hinzufügen …" onkeydown="if(event.key==='Enter')igPostComment()" style="font-size:8px;color:#1a1c1a;flex:1;font-family:'Manrope',sans-serif;border:none;outline:none;background:transparent;min-width:0;"/>
+            <input id="ig-comment-input" type="text" placeholder="Kommentar hinzufügen …" onkeydown="if(event.key==='Enter')igPostComment()" style="font-size:8px;color:#1a1c1a;flex:1;font-family:'Manrope',sans-serif;border:none;outline:none;background:transparent;min-width:0;"/>
             <button onclick="igPostComment()" style="font-size:8px;color:#3d7dc8;font-weight:600;font-family:'Manrope',sans-serif;" data-i18n="ig_post_btn">Posten</button>
           </div>
         </div>
@@ -1996,22 +1996,53 @@
     openCommentSheet();
   }
 
+  const _myComments = [];
+  try { _myComments.push(...JSON.parse(localStorage.getItem('hv_ig_comments') || '[]')); } catch(e) {}
+
+  function _buildCommentEl(text) {
+    const you  = currentLang === 'en' ? 'you' : currentLang === 'pt' ? 'você' : 'du';
+    const now  = currentLang === 'en' ? 'Now'  : currentLang === 'pt' ? 'Agora' : 'Jetzt';
+    const div = document.createElement('div');
+    div.dataset.userComment = '1';
+    div.style.cssText = 'display:flex;align-items:flex-start;gap:8px;';
+    div.innerHTML = `
+      <div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;overflow:hidden;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></div>
+      <div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">${you}</span> <span style="color:#374151;">${text.replace(/</g,'&lt;')}</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">${now}</span></div></div>
+      <button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+    `;
+    return div;
+  }
+
   function igPostComment() {
     const input = document.getElementById('ig-comment-input');
     const text = input.value.trim();
     if (!text) return;
+    _myComments.push(text);
+    try { localStorage.setItem('hv_ig_comments', JSON.stringify(_myComments)); } catch(e) {}
     const list = document.querySelector('#ig-comment-sheet .ig-scroll');
-    const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:flex-start;gap:8px;';
-    div.innerHTML = `
-      <div style="width:24px;height:24px;border-radius:50%;flex-shrink:0;overflow:hidden;"><img src="hero.png" style="width:100%;height:100%;object-fit:cover;"/></div>
-      <div style="flex:1;"><p style="font-size:8px;line-height:1.4;font-family:'Manrope',sans-serif;"><span style="font-weight:700;">du</span> <span style="color:#374151;">${text.replace(/</g,'&lt;')}</span></p><div style="display:flex;gap:12px;margin-top:2px;"><span style="font-size:7px;color:#9ca3af;">Jetzt</span></div></div>
-      <button onclick="toggleCommentLike(this)" style="flex-shrink:0;padding-top:2px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    `;
-    list.appendChild(div);
+    list.appendChild(_buildCommentEl(text));
     list.scrollTop = list.scrollHeight;
     input.value = '';
+    // Brief "sent" visual on button
+    const btn = input.nextElementSibling;
+    if (btn) { const orig = btn.textContent; btn.textContent = '✓'; setTimeout(() => btn.textContent = orig, 800); }
   }
+
+  // Re-render username/timestamp labels on existing user comments when lang changes
+  function _refreshUserCommentLabels() {
+    const you = currentLang === 'en' ? 'you' : currentLang === 'pt' ? 'você' : 'du';
+    const now = currentLang === 'en' ? 'Now'  : currentLang === 'pt' ? 'Agora' : 'Jetzt';
+    document.querySelectorAll('[data-user-comment] span[style*="font-weight:700"]').forEach(el => el.textContent = you);
+    document.querySelectorAll('[data-user-comment] span[style*="color:#9ca3af"]').forEach(el => el.textContent = now);
+  }
+
+  // Restore persisted comments on load
+  (function() {
+    if (!_myComments.length) return;
+    const list = document.querySelector('#ig-comment-sheet .ig-scroll');
+    if (!list) return;
+    _myComments.forEach(t => list.appendChild(_buildCommentEl(t)));
+  })();
 
   // ── Instagram auto-demo sequence ────────────────
   const igIphone   = document.querySelector('.iphone.bg-white');
@@ -2823,7 +2854,7 @@
     applyBillingUI(lang);
 
     // Update comment placeholder
-    const _ci = document.getElementById('ig-comment-placeholder');
+    const _ci = document.getElementById('ig-comment-input');
     if (_ci) _ci.placeholder = lang === 'en' ? 'Add a comment …' : lang === 'pt' ? 'Adicionar um comentário …' : 'Kommentar hinzufügen …';
     // Re-render feed captions when language changes
     if (typeof buildFeedPosts === 'function') { const c = document.getElementById('ig-feed-posts'); if (c) c.innerHTML = ''; buildFeedPosts(); }
@@ -2840,6 +2871,9 @@
           (lang === 'en' ? ' likes' : lang === 'pt' ? ' gostos' : ' Gefällt mir-Angaben');
       }
     }
+
+    // Refresh user-posted comment labels
+    if (typeof _refreshUserCommentLabels === 'function') _refreshUserCommentLabels();
 
     // Update follow button text if in 'following' state (data-i18n loop only handles non-following)
     const _fbtn = document.getElementById('ig-follow-btn');

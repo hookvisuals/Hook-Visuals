@@ -632,13 +632,10 @@ body {
   font-style: italic;
 }
 
-/* Cell pop anim */
-@keyframes cellPop {
-  0%   { opacity: 0.3; transform: scale(0.88); }
-  65%  { transform: scale(1.03); }
-  100% { opacity: 1;   transform: scale(1); }
-}
-.cell-pop { animation: cellPop 0.32s ease forwards; }
+/* (Kachel-Einblend-Animation entfernt — verursachte verblasste Bilder im PDF-Export) */
+/* Sicherheitsnetz: im Off-Screen-Export-Klon werden ALLE Animationen/Transitions
+   abgeschaltet, damit html2canvas niemals einen Zwischenzustand rastert. */
+.hv-export-holder * { animation: none !important; transition: none !important; }
 
 /* ═══════════════════════════════════════════
    MODALS
@@ -900,6 +897,7 @@ body {
        onerror="this.style.display='none'">
   <div class="app-sep"></div>
   <span class="app-title">Akquise Brief Generator</span>
+  <span style="margin-left:10px;font-size:0.7rem;color:#8a8f98;font-weight:600;letter-spacing:.03em">Stand 29.09.2026 · Version 4</span>
 </header>
 
 <!-- ═══════════ TOOLBAR ═══════════ -->
@@ -1132,7 +1130,7 @@ body {
       </p>
 
       <p contenteditable="true" style="margin-bottom:12px">
-        es ist beeindruckend, mit wie viel Qualitätsbewusstsein das
+        es ist beeindruckend, mit wie viel Qualitätsbewusstsein <span id="t-artikel1">das</span>
         <strong id="t-hotel1">{{Hotelname}}</strong> geführt wird.
       </p>
 
@@ -1414,7 +1412,17 @@ document.addEventListener('DOMContentLoaded', () => {
   updateClock();
   setInterval(updateClock, 30000);
   restoreConfig();
+  restoreHotelStates(); // gespeicherte Brief-Bearbeitungen laden (vor der DB-Wiederherstellung)
   restoreHotelDB();     // Hoteldatenbank bleibt über Refresh erhalten (ohne Vorauswahl)
+
+  // Bearbeitungen automatisch sichern (auch OHNE Hotelwechsel), damit ein Neuladen
+  // nichts verliert — kurz verzögert, um beim Tippen nicht ständig zu schreiben.
+  let _autoSaveT = null;
+  document.getElementById('letterCanvas')?.addEventListener('input', () => {
+    clearTimeout(_autoSaveT);
+    _autoSaveT = setTimeout(() => { captureCurrentState(); }, 700);
+  });
+  window.addEventListener('beforeunload', () => { try { captureCurrentState(); } catch (_) {} });
   restoreSheetUrl();    // Google-Sheets-Link bleibt erhalten (Default vorbelegt)
   restoreOAuthClientId(); // Google OAuth Client-ID bleibt erhalten
   restorePortraits();   // Fotos von Laura & Jonas bleiben ebenfalls erhalten
@@ -1924,8 +1932,10 @@ function restoreHotelDB() {
       const hotel = S.excelRows.find(r => hotelIdOf(r) === curId);
       if (hotel) {
         S.hotel = hotel;
-        fillLetter(hotel, false);      // Text füllen, aber NICHT aus Drive nachladen
-        restoreCurrentAssets();        // Mockup aus gespeicherten Bildern/Bio wiederherstellen
+        // Gespeicherte Bearbeitungen (Text/Layout) bevorzugen; sonst frisch aus Sheet.
+        const hadEdits = restoreHotelState(curId);
+        restoreCurrentAssets();        // Bild-Pool aus Cache (Mockup + Shuffle)
+        if (!hadEdits) fillLetter(hotel, false);   // keine Bearbeitung → Text aus Sheet
         const dd = document.getElementById('hotelDropdown'); if (dd) dd.value = curId;
         const ii = document.getElementById('kundenIdInput'); if (ii) ii.value = curId;
       }
@@ -1936,7 +1946,8 @@ function restoreHotelDB() {
 }
 
 function clearHotelDB() {
-  ['hv_hotels','hv_current_hotel','hv_assets'].forEach(k => localStorage.removeItem(k));
+  ['hv_hotels','hv_current_hotel','hv_assets','hv_states'].forEach(k => localStorage.removeItem(k));
+  S.hotelStates = {};
   S.excelRows = [];
   document.getElementById('hotelDropdown').innerHTML =
     '<option value="">— Erst Excel laden, dann hier wählen —</option>';
@@ -2028,12 +2039,61 @@ function captureCurrentState() {
   if (!S.hotel) return;
   const id = hotelIdOf(S.hotel);
   S.hotelStates[id] = {
+    savedAt: Date.now(),
     html: document.getElementById('letterCanvas').innerHTML,
     assets: {
       profilePics: S.profilePics, postImages: S.postImages, bios: S.bios,
       curPosts: S.curPosts, curProfIdx: S.curProfIdx, curBioIdx: S.curBioIdx
     }
   };
+  persistHotelStates();   // dauerhaft sichern (überlebt Neuladen)
+}
+
+/* ── Bearbeitungen dauerhaft speichern (überleben das Neuladen) ──
+   Gespeichert wird der bearbeitete Brief-HTML je Hotel. Die großen Bild-Pools
+   für den Shuffle werden aus Platzgründen NICHT mitgespeichert (die angezeigten
+   Bilder stecken ohnehin schon im HTML). Reicht der Browser-Speicher nicht für
+   alle Hotels, werden die am längsten nicht bearbeiteten verworfen — die zuletzt
+   bearbeiteten bleiben also erhalten. */
+const HV_STATES_KEY = 'hv_states';
+const HV_STATES_BUDGET = 4200000;   // ~4 MB (unter dem ~5 MB localStorage-Limit)
+
+function persistHotelStates() {
+  const entries = Object.entries(S.hotelStates)
+    .sort((a, b) => (b[1].savedAt || 0) - (a[1].savedAt || 0));   // zuletzt bearbeitet zuerst
+  // So viele der neuesten Hotels behalten, wie in den Browser-Speicher passen.
+  // Ist der Speicher voll (Quota), schrittweise reduzieren — aber mindestens das
+  // aktuellste Hotel wird gespeichert (sonst „geht Speichern gar nicht").
+  let keep = entries.length;
+  while (true) {
+    const slim = {}; let size = 0;
+    for (let i = 0; i < keep && i < entries.length; i++) {
+      const [id, st] = entries[i];
+      const lean = { savedAt: st.savedAt || 0, html: st.html };
+      const s = JSON.stringify([id, lean]).length + 4;
+      if (size + s > HV_STATES_BUDGET) break;                     // Budget-Deckel
+      slim[id] = lean; size += s;
+    }
+    try {
+      localStorage.setItem(HV_STATES_KEY, JSON.stringify(slim));
+      return;   // erfolgreich gespeichert
+    } catch (e) {
+      const savedCount = Object.keys(slim).length;
+      keep = Math.floor((savedCount || keep) / 2);              // weniger Hotels versuchen
+      if (keep < 1) {
+        try { localStorage.removeItem(HV_STATES_KEY); } catch (_) {}
+        console.warn('Bearbeitungen konnten nicht gespeichert werden (Speicher voll):', e);
+        return;
+      }
+    }
+  }
+}
+
+function restoreHotelStates() {
+  try {
+    const raw = localStorage.getItem(HV_STATES_KEY);
+    if (raw) { const o = JSON.parse(raw); if (o && typeof o === 'object') S.hotelStates = o; }
+  } catch (_) {}
 }
 
 /* Gesicherten Zustand eines Hotels wiederherstellen (falls vorhanden). */
@@ -2310,7 +2370,7 @@ const I18N = {
     greetHerr: n => `Sehr geehrter Herr <strong>${n}</strong>,`,
     greetPersonal: full => `Guten Tag <strong>${full}</strong>,`,
     body:
-      `<p contenteditable="true" style="margin-bottom:12px">es ist beeindruckend, mit wie viel Qualitätsbewusstsein das <strong id="t-hotel1">{{Hotelname}}</strong> geführt wird.</p>` +
+      `<p contenteditable="true" style="margin-bottom:12px">es ist beeindruckend, mit wie viel Qualitätsbewusstsein <span id="t-artikel1">das</span> <strong id="t-hotel1">{{Hotelname}}</strong> geführt wird.</p>` +
       `<p contenteditable="true" style="margin-bottom:12px">Bei der Betrachtung Ihres Online-Auftritts ist uns jedoch aufgefallen: Hier steckt noch ungenutztes Potenzial. Mit einer maßgeschneiderten digitalen Präsenz sprechen Sie gezielter Ihre <strong>kaufkräftigen Wunschgäste</strong> an, steigern Ihre <strong>Direktbuchungen</strong> und <strong>sparen Provisionen</strong> an Buchungsplattformen.</p>` +
       `<p contenteditable="true" style="margin-bottom:8px">Mit <em>Hook Visuals</em> heben wir dieses Potenzial:</p>` +
       `<ul contenteditable="true" style="margin-bottom:12px"><li><strong>Kanäle aktivieren:</strong> zielgruppengerechte Beiträge und visuelle Einblicke für soziale Netzwerke</li><li><strong>Google-Präsenz schärfen:</strong> maximale Auffindbarkeit bei Suchanfragen</li><li><strong>Markenästhetik verkörpern:</strong> Anpassung Ihres visuellen Gesamterscheinungsbildes, damit die Atmosphäre Ihres Hotels online spürbar wird</li></ul>` +
@@ -2372,6 +2432,7 @@ function setLanguage(lang) {
   S.lang = (lang === 'en') ? 'en' : 'de';
   try { localStorage.setItem('hv_lang', S.lang); } catch (_) {}
   S.hotelStates = {};   // gespeicherte Text-Snapshots sind sprachspezifisch → verwerfen
+  try { localStorage.removeItem('hv_states'); } catch (_) {}
   applyLanguage();
   toast(S.lang === 'en' ? '🌐 Language: English' : '🌐 Sprache: Deutsch');
 }
@@ -2425,6 +2486,11 @@ function fillLetter(h, loadAssets = true) {
   const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = `<strong>${val}</strong>`; };
   setTxt('t-hotel1', hotelname || '{{Hotelname}}');
   setTxt('t-hotel2', hotelname || '{{Hotelname}}');
+
+  /* Artikel im ersten Satz: „der Gasthof …" statt „das …", wenn der Hotelname
+     mit „Gasthof" beginnt (nur Deutsch; im Englischen bleibt „the"). */
+  const art = document.getElementById('t-artikel1');
+  if (art) art.textContent = /^\s*gasthof/i.test(hotelname || '') ? 'der' : 'das';
 
   /* Optionales Detail (Besonderheit) — aktuell nicht genutzt → ausblenden */
   const optEl = document.getElementById('optDetail');
@@ -2745,10 +2811,9 @@ function renderGrid(animate = false) {
       const img = document.createElement('img');
       img.src = S.curPosts[i];
       img.alt = `Post ${i+1}`;
-      if (animate) {
-        cell.classList.add('cell-pop');
-        cell.style.animationDelay = (i * 0.04) + 's';
-      }
+      // KEINE Einblend-Animation mehr: der Off-Screen-Klon beim PDF-Export startet
+      // die Animation sonst neu und html2canvas erwischt sie am Anfang (verblasst/
+      // verkleinert) → Bilder sehen im PDF schlecht aus.
       cell.appendChild(img);
     } else {
       cell.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -2792,7 +2857,10 @@ async function fixCoverImages(root, live) {
       im.src = src;
       if (im.decode) { await im.decode().catch(()=>{}); }
       const sw = im.naturalWidth, sh = im.naturalHeight;
-      if (!sw || !sh) return;
+      // Defektes/nicht dekodierbares Bild → im Export KOMPLETT entfernen (display:none),
+      // sonst versucht html2canvas es zu zeichnen und wirft IndexSizeError (0×0-Bild).
+      // visibility:hidden reicht NICHT — html2canvas rastert es trotzdem.
+      if (!sw || !sh) { img.removeAttribute('src'); img.style.display = 'none'; return; }
       const targetAR = boxW / boxH, srcAR = sw / sh;
       let sCropW, sCropH;
       if (srcAR > targetAR) { sCropH = sh; sCropW = sh * targetAR; }   // Quelle breiter → seitlich beschneiden
@@ -2897,7 +2965,14 @@ function collectLetterRuns(letter){
     const flush = () => { if (seg){ const t = seg.text.replace(/\s+$/,''); if (t.trim()){
       const lineH = Math.max(seg.bottom - seg.top, asc+desc);
       const baseFromTop = (lineH - (asc+desc))/2 + asc;
-      runs.push({ text: t, xMm:(seg.left-lr.left)*_PX2MM, yMm:(seg.top-lr.top+baseFromTop)*_PX2MM, sizePt, fontStyle, color });
+      const xMm = (seg.left-lr.left)*_PX2MM;
+      const yMm = (seg.top-lr.top+baseFromTop)*_PX2MM;
+      // Nur gültige, plausible Koordinaten übernehmen — sonst wirft jsPDF beim
+      // Zeichnen einen RangeError und der ganze Export schlägt fehl.
+      if (Number.isFinite(xMm) && Number.isFinite(yMm) && Number.isFinite(sizePt) &&
+          sizePt > 0 && sizePt < 200 && xMm > -60 && xMm < 320 && yMm > -60 && yMm < 420) {
+        runs.push({ text: t, xMm, yMm, sizePt, fontStyle, color });
+      }
     }} seg=null; };
     for (let c=0;c<text.length;c++){
       const ch = text[c];
@@ -2954,10 +3029,15 @@ function hideLetterTextsInClone(clone){
 /* Vektortext-Fragmente auf die (schon platzierte) jsPDF-Seite zeichnen. */
 function drawLetterRuns(pdf, runs){
   runs.forEach(r => {
-    pdf.setFont('Inter', r.fontStyle);
-    pdf.setFontSize(r.sizePt);
-    pdf.setTextColor(r.color[0], r.color[1], r.color[2]);
-    pdf.text(r.text, r.xMm, r.yMm, { baseline:'alphabetic' });
+    if (!r || !Number.isFinite(r.xMm) || !Number.isFinite(r.yMm) ||
+        !Number.isFinite(r.sizePt) || r.sizePt <= 0) return;   // ungültigen Run überspringen
+    try {
+      pdf.setFont('Inter', r.fontStyle);
+      pdf.setFontSize(r.sizePt);
+      const c = r.color || [0,0,0];
+      pdf.setTextColor(c[0]||0, c[1]||0, c[2]||0);
+      pdf.text(String(r.text), r.xMm, r.yMm, { baseline:'alphabetic' });
+    } catch (_) { /* einzelnen Run überspringen, Rest weiterzeichnen */ }
   });
 }
 
@@ -3082,6 +3162,7 @@ async function prepareLetterClone() {
   await new Promise(r => setTimeout(r, 150));
 
   const holder = document.createElement('div');
+  holder.className = 'hv-export-holder';   // schaltet Animationen/Transitions im Klon ab
   holder.style.cssText = 'position:absolute; left:-10000px; top:0; width:794px; height:1123px; margin:0; padding:0; background:#fff;';
   const clone = source.cloneNode(true);
   clone.id=''; clone.style.width='794px'; clone.style.height='1123px'; clone.style.overflow='hidden';
@@ -3090,7 +3171,40 @@ async function prepareLetterClone() {
   if (ls && cs) { cs.style.height = ls.offsetHeight + 'px'; cs.style.aspectRatio = 'auto'; }
   await fixCoverImages(clone, source);
   holder.appendChild(clone); document.body.appendChild(holder);
+  // Final absichern: jede Kachel/jedes Bild im Klon muss vollständig dekodiert sein,
+  // bevor gerastert wird. Lieber etwas länger warten als eine halbe Kachel im PDF.
+  await Promise.all(Array.from(clone.querySelectorAll('img')).map(async img => {
+    if (!img.getAttribute('src')) return;
+    try {
+      if (!img.complete) {
+        await new Promise(res => { img.addEventListener('load',res,{once:true}); img.addEventListener('error',res,{once:true}); setTimeout(res,8000); });
+      }
+      if (img.decode) await Promise.race([ img.decode().catch(()=>{}), new Promise(r=>setTimeout(r,3000)) ]);
+    } catch(_) {}
+  }));
+  // SICHERHEITSNETZ gegen IndexSizeError: html2canvas wirft diesen Fehler, sobald es
+  // ein <img> zeichnen will, das zwar ein src hat, aber 0×0 groß ist (defekt / nicht
+  // fertig dekodiert). Auch Bilder im Instagram-Mockup (die fixCoverImages NICHT
+  // zuschneidet) sind hier erfasst. Solche Bilder komplett aus dem Klon entfernen –
+  // lieber eine leere Kachel als ein fehlgeschlagener Export.
+  clone.querySelectorAll('img').forEach(img => {
+    try {
+      const hasSrc = !!img.getAttribute('src');
+      const broken = !hasSrc || !img.complete || !img.naturalWidth || !img.naturalHeight;
+      if (broken) { img.removeAttribute('src'); img.style.display = 'none'; }
+    } catch (_) { try { img.style.display = 'none'; } catch(__){} }
+  });
+  await new Promise(r => setTimeout(r, 120));   // kurze Setzpause
   return { holder, clone };
+}
+
+/* html2canvas kann in seltenen Fällen intern hängen bleiben (kein throw, keine
+   Auflösung) → das würde den Export einfrieren und S._exporting nie zurücksetzen.
+   Dieser Watchdog erzwingt nach t ms einen Fehler, der sauber gefangen wird. */
+function withTimeout(promise, ms, label) {
+  let tm;
+  const guard = new Promise((_, rej) => { tm = setTimeout(() => rej(new Error((label||'Zeitüberschreitung') + ' (Timeout)')), ms); });
+  return Promise.race([promise, guard]).finally(() => clearTimeout(tm));
 }
 
 const _fnClean = (s) => String(s || '').trim().replace(/[\/\\:*?"<>|]+/g,'').replace(/\s+/g,' ').trim();
@@ -3106,10 +3220,13 @@ async function exportBatch(ids) {
   if (typeof html2pdf === 'undefined') {
     toast('PDF-Bibliothek nicht geladen — Seite neu laden', true); return;
   }
+  if (S._exporting) { toast('Export läuft bereits …'); return; }   // Doppel-Start verhindern
+  S._exporting = true;
+
   const single = !ids;
   const list   = single ? [null] : ids;
   const saved  = localStorage.getItem('hv_current_hotel');
-  let ok = 0;
+  let ok = 0, fail = 0, lastErr = null, lastFailHotel = '';
   const scrollX0 = window.pageXOffset, scrollY0 = window.pageYOffset;   // Scroll merken
 
   // Bearbeitungen des aktuell angezeigten Hotels zuerst sichern
@@ -3119,27 +3236,42 @@ async function exportBatch(ids) {
     for (let i = 0; i < list.length; i++) {
       const id = list[i];
       let hotel = S.hotel;
-      if (id) {
-        toast(`Erstelle PDF … (${i + 1}/${list.length})`);
-        hotel = findHotelById(id);
-        if (!hotel) continue;
-        S.hotel = hotel;
-        // Gesicherten Zustand (mit deinen Bearbeitungen) nutzen, sonst frisch laden
-        if (!restoreHotelState(id)) {
-          fillLetter(hotel, false);
-          await loadHotelAssets(getF(hotel,'Drive_Link','DriveLink','Drive','Ordner','Google_Drive'));
-        }
-      } else {
-        toast('PDF wird erstellt …');
-      }
-
-      // Texte VOR dem Klonen an der Live-Vorschau vermessen (exakte Positionen)
-      const runs = (window.INTER_TTF) ? collectLetterRuns(document.getElementById('letterCanvas')) : null;
-      const { holder, clone } = await prepareLetterClone();
+      let holder = null;
+      // Fehler bei EINEM Brief darf den Rest nicht abbrechen und nichts hängen lassen.
       try {
+        if (id) {
+          toast(`Erstelle PDF … (${i + 1}/${list.length})`);
+          hotel = findHotelById(id);
+          if (!hotel) continue;
+          S.hotel = hotel;
+          // Gesicherten Zustand (mit deinen Bearbeitungen) nutzen, sonst frisch laden
+          if (!restoreHotelState(id)) {
+            fillLetter(hotel, false);
+            await loadHotelAssets(getF(hotel,'Drive_Link','DriveLink','Drive','Ordner','Google_Drive'));
+          }
+        } else {
+          toast('PDF wird erstellt …');
+        }
+
+        // Texte VOR dem Klonen an der Live-Vorschau vermessen (exakte Positionen).
+        // Schlägt die Vektor-Messung fehl → sauberer Fallback auf reinen Raster-Export,
+        // der Brief wird trotzdem erzeugt (Text dann als Bild statt Vektor).
+        let runs = null;
+        if (window.INTER_TTF) {
+          try { runs = collectLetterRuns(document.getElementById('letterCanvas')); }
+          catch (e) { console.warn('Vektor-Text übersprungen → Raster-Fallback:', e); runs = null; }
+        }
+        const prepared = await prepareLetterClone();
+        holder = prepared.holder;
+        const clone = prepared.clone;
         const fname = pdfNameFor(hotel) + '.pdf';
-        if (runs) hideLetterTextsInClone(clone);   // Texte im Raster ausblenden → nur Grafik
-        const pdf = await html2pdf().set(exportOptFor(fname)).from(clone).toPdf().get('pdf');
+        if (runs) { try { hideLetterTextsInClone(clone); } catch (_) { runs = null; } }  // Text nur ausblenden, wenn Vektor sicher kommt
+        // Watchdog: falls html2canvas intern hängt, nach 60 s sauber abbrechen
+        // (Fehler wird gefangen → finally räumt auf → UI bleibt bedienbar).
+        const pdf = await withTimeout(
+          html2pdf().set(exportOptFor(fname)).from(clone).toPdf().get('pdf'),
+          60000, 'PDF-Render'
+        );
         // Genau EINE Seite: überzählige (durch minimalen Rundungs-Überlauf) entfernen
         let _pgGuard = 0;
         while (pdf.internal.getNumberOfPages() > 1 && _pgGuard++ < 20) pdf.deletePage(pdf.internal.getNumberOfPages());
@@ -3147,23 +3279,40 @@ async function exportBatch(ids) {
         if (runs && registerInterFonts(pdf)) { pdf.setPage(1); drawLetterRuns(pdf, runs); }
         pdf.save(fname);
         ok++;
-      } finally { holder.remove(); }
+      } catch (e) {
+        fail++;
+        lastErr = e;
+        lastFailHotel = hotel ? (getF(hotel,'Hotelname','Hotel','Name') || hotelIdOf(hotel)) : '';
+        console.error('Export-Fehler bei einem Brief:', e);
+        // weiter mit dem nächsten Brief
+      } finally {
+        if (holder) holder.remove();   // Export-Klon dieses Briefs entfernen
+      }
 
       // kleine Pause, damit der Browser mehrere Downloads hintereinander zulässt
       if (i < list.length - 1) await new Promise(r => setTimeout(r, 500));
     }
 
-    toast(`✅ ${ok} PDF${ok === 1 ? '' : 's'} gespeichert!`);
+    const errTxt = lastErr ? (lastErr.name ? lastErr.name + ': ' : '') + (lastErr.message || String(lastErr)) : '';
+    if (fail && !ok)   toast('PDF-Fehler' + (lastFailHotel ? ' (' + lastFailHotel + ')' : '') + ': ' + errTxt, true);
+    else if (fail)     toast(`✅ ${ok} gespeichert · ${fail} fehlgeschlagen — ${errTxt}`, true);
+    else               toast(`✅ ${ok} PDF${ok === 1 ? '' : 's'} gespeichert!`);
   } catch(e) {
     console.error('PDF-Export Fehler:', e);
     toast('PDF-Fehler: ' + (e.message || e), true);
   } finally {
+    // GARANTIERT aufräumen, damit die Oberfläche NIE hängen bleibt und man direkt
+    // weiterarbeiten kann — egal was schiefging:
+    try { document.querySelectorAll('.hv-export-holder').forEach(el => el.remove()); } catch(_) {}         // verwaiste Export-Klone
+    try { document.querySelectorAll('.overlay.open').forEach(el => el.classList.remove('open')); } catch(_) {} // steckengebliebene Dialoge
+    try { document.body.style.pointerEvents = ''; document.documentElement.style.pointerEvents = ''; } catch(_) {}  // Klicks wieder erlauben
     // ursprünglich angezeigtes Hotel wieder anzeigen (mit seinen Bearbeitungen)
     if (!single && saved) {
       const h = findHotelById(saved);
-      if (h) { S.hotel = h; if (!restoreHotelState(saved)) { fillLetter(h, false); restoreCurrentAssets(); } }
+      if (h) { try { S.hotel = h; if (!restoreHotelState(saved)) { fillLetter(h, false); restoreCurrentAssets(); } } catch(_) {} }
     }
-    window.scrollTo(scrollX0, scrollY0);   // Scrollposition wiederherstellen
+    try { window.scrollTo(scrollX0, scrollY0); } catch(_) {}
+    S._exporting = false;
   }
 }
 
@@ -3174,7 +3323,8 @@ function toast(msg, err = false) {
   el.textContent = msg;
   el.className   = 'toast show' + (err ? ' err' : '');
   clearTimeout(toastTm);
-  toastTm = setTimeout(() => { el.classList.remove('show'); }, 3200);
+  // Fehlermeldungen länger stehen lassen, damit man sie in Ruhe lesen kann.
+  toastTm = setTimeout(() => { el.classList.remove('show'); }, err ? 12000 : 3200);
 }
 
 /* ── Excel drag/drop on drop zone ────────── */

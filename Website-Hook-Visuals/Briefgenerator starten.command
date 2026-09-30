@@ -5,7 +5,16 @@
 cd "$(dirname "$0")" || exit 1
 
 PORT=8000
-URL="http://localhost:${PORT}/akquise-generator.html"
+
+# WICHTIG: einen evtl. noch laufenden alten Server auf diesem Port beenden.
+# Sonst würde der neue (cache-freie) Server den Port nicht bekommen und der
+# Browser landet weiter auf der ALTEN, gecachten Version.
+lsof -ti "tcp:${PORT}" 2>/dev/null | xargs kill -9 2>/dev/null
+sleep 1
+
+# Eindeutige Adresse mit Zeitstempel → der Browser MUSS die frische Datei laden
+# (eine neue URL kann er nicht aus dem Cache nehmen).
+URL="http://localhost:${PORT}/akquise-generator.html?v=$(date +%s)"
 
 # Browser kurz nach dem Start öffnen
 ( sleep 1; open "$URL" ) &
@@ -19,5 +28,5 @@ echo "  Dieses Fenster offen lassen, solange du arbeitest."
 echo "  Zum Beenden: dieses Fenster schließen oder Strg+C."
 echo "───────────────────────────────────────────────"
 
-# Falls Port belegt ist, den nächsten freien probieren
-python3 -m http.server "$PORT" 2>/dev/null || python3 -m http.server 8001
+# Server OHNE Caching starten (sonst zeigt der Browser beim Reload alte Versionen).
+python3 briefgenerator_serve.py "$PORT"

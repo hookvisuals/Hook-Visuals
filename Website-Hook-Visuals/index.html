@@ -1253,8 +1253,6 @@
       </div>
       <span class="label text-secondary" style="font-size:0.65rem;" data-i18n="pricing_save">Bis zu 15% sparen</span>
     </div>
-    <p class="text-center mt-3" style="font-size:0.7rem;color:#5a5e5a;" data-i18n="pricing_min_term">* Bei monatlicher Abrechnung gilt eine Mindestlaufzeit von 3 Monaten.</p>
-
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
 
       <!-- Light -->
@@ -1262,7 +1260,7 @@
         <h3 class="text-2xl text-primary mb-2">Light</h3>
         <p class="text-on-muted text-sm mb-8" data-i18n="pricing_light_sub">Grundlegende digitale Präsenz.</p>
         <div class="mb-10">
-          <span id="price-light" class="text-4xl text-primary font-serif font-bold">245 €</span>
+          <span id="price-light" class="text-4xl text-primary font-serif font-bold">285 €</span>
           <span class="label text-on-muted ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1282,7 +1280,7 @@
         <h3 class="text-3xl text-white mb-2">Plus</h3>
         <p class="text-white/70 text-sm mb-8" data-i18n="pricing_plus_sub">Umfassendes Marketing.</p>
         <div class="mb-10">
-          <span id="price-plus" class="text-5xl text-white font-serif font-bold">415 €</span>
+          <span id="price-plus" class="text-5xl text-white font-serif font-bold">480 €</span>
           <span class="label text-white/60 ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1302,7 +1300,7 @@
         <h3 class="text-2xl text-primary mb-2">Premium</h3>
         <p class="text-on-muted text-sm mb-8" data-i18n="pricing_premium_sub">Full-Service für maximale Expansion.</p>
         <div class="mb-10">
-          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">750 €</span>
+          <span id="price-premium" class="text-4xl text-primary font-serif font-bold">870 €</span>
           <span class="label text-on-muted ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
@@ -1323,6 +1321,8 @@
       </div>
 
     </div>
+
+    <p class="text-center mt-10" style="font-size:0.75rem;color:#5a5e5a;" data-i18n="pricing_min_term">* Bei monatlicher Abrechnung gilt eine Mindestlaufzeit von 3 Monaten.</p>
 
 
   </div>
@@ -1397,9 +1397,9 @@
           <div class="field">
             <select id="plan" name="plan">
               <option value="" data-i18n="form_plan_default">Gewünschtes Modell wählen</option>
-              <option value="light-yearly"   data-plan="light" data-i18n="form_plan_light">Light — 245 €/Monat (Jahresabo)</option>
-              <option value="plus-yearly"    data-plan="plus" data-i18n="form_plan_plus">Plus — 415 €/Monat (Jahresabo)</option>
-              <option value="premium-yearly" data-plan="premium" data-i18n="form_plan_premium">Premium — 750 €/Monat (Jahresabo)</option>
+              <option value="light-yearly"   data-plan="light" data-i18n="form_plan_light">Light — 285 €/Monat (Jahresabo)</option>
+              <option value="plus-yearly"    data-plan="plus" data-i18n="form_plan_plus">Plus — 480 €/Monat (Jahresabo)</option>
+              <option value="premium-yearly" data-plan="premium" data-i18n="form_plan_premium">Premium — 870 €/Monat (Jahresabo)</option>
               <option value="individual" data-i18n="form_plan_individual">Individuelle Anfrage</option>
             </select>
             <label for="plan" data-i18n="form_plan_label">Interesse</label>
@@ -1561,12 +1561,12 @@
 
   // ── Billing Toggle ─────────────────────────────
   const billingPrices = {
-    yearly:  { light: '245 €', plus: '415 €', premium: '750 €' },
-    monthly: { light: '290 €', plus: '490 €', premium: '890 €' }
+    yearly:  { light: '285 €', plus: '480 €', premium: '870 €' },
+    monthly: { light: '335 €', plus: '565 €', premium: '1.025 €' }
   };
   const billingPricesAUD = {
-    yearly:  { light: 'A$415', plus: 'A$695', premium: 'A$1,250' },
-    monthly: { light: 'A$490', plus: 'A$830', premium: 'A$1,490' }
+    yearly:  { light: 'A$480', plus: 'A$800', premium: 'A$1,450' },
+    monthly: { light: 'A$570', plus: 'A$960', premium: 'A$1,720' }
   };
   let currentBilling = 'yearly';
   function setBilling(mode) {
@@ -2622,9 +2622,9 @@
       form_phone: 'Ihre Telefonnummer',
       form_plan_label: 'Interesse',
       form_plan_default: 'Gewünschtes Modell wählen',
-      form_plan_light: 'Light — 245 €/Monat (Jahresabo)',
-      form_plan_plus: 'Plus — 415 €/Monat (Jahresabo)',
-      form_plan_premium: 'Premium — 750 €/Monat (Jahresabo)',
+      form_plan_light: 'Light — 285 €/Monat (Jahresabo)',
+      form_plan_plus: 'Plus — 480 €/Monat (Jahresabo)',
+      form_plan_premium: 'Premium — 870 €/Monat (Jahresabo)',
       form_plan_individual: 'Individuelle Anfrage',
       form_message_label: 'Ihre Nachricht',
       form_submit: 'Nachricht senden',
@@ -2746,9 +2746,9 @@
       form_phone: 'Your phone number',
       form_plan_label: 'Interest',
       form_plan_default: 'Select preferred plan',
-      form_plan_light: 'Light — A$415/month (annual)',
-      form_plan_plus: 'Plus — A$695/month (annual)',
-      form_plan_premium: 'Premium — A$1,250/month (annual)',
+      form_plan_light: 'Light — A$480/month (annual)',
+      form_plan_plus: 'Plus — A$800/month (annual)',
+      form_plan_premium: 'Premium — A$1,450/month (annual)',
       form_plan_individual: 'Custom enquiry',
       form_message_label: 'Your message',
       form_submit: 'Send message',
@@ -2835,9 +2835,9 @@
       form_phone: 'O seu número de telefone',
       form_plan_label: 'Interesse',
       form_plan_default: 'Selecionar plano preferido',
-      form_plan_light: 'Light — 245 €/mês (anual)',
-      form_plan_plus: 'Plus — 415 €/mês (anual)',
-      form_plan_premium: 'Premium — 750 €/mês (anual)',
+      form_plan_light: 'Light — 285 €/mês (anual)',
+      form_plan_plus: 'Plus — 480 €/mês (anual)',
+      form_plan_premium: 'Premium — 870 €/mês (anual)',
       form_plan_individual: 'Pedido personalizado',
       form_message_label: 'A sua mensagem', form_submit: 'Enviar mensagem',
       footer_brand_sub: 'A agência especializada em marketing de wellness.',

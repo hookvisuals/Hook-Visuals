@@ -340,11 +340,20 @@
       <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_partnership">Partnerschaft</a>
     </div>
 
-    <!-- Lang switcher -->
-    <div class="hidden sm:flex items-center gap-0.5">
-      <button onclick="setLang('de')" data-lang="de" class="lang-btn text-base leading-none px-1.5 py-0.5 rounded-md hover:bg-stone-100 transition-all duration-150" title="Deutsch">🇩🇪</button>
-      <button onclick="setLang('en')" data-lang="en" class="lang-btn text-base leading-none px-1.5 py-0.5 rounded-md hover:bg-stone-100 transition-all duration-150" title="English">🇦🇺</button>
-      <button onclick="setLang('pt')" data-lang="pt" class="lang-btn text-base leading-none px-1.5 py-0.5 rounded-md hover:bg-stone-100 transition-all duration-150" title="Português">🇵🇹</button>
+    <!-- Lang switcher dropdown -->
+    <div class="hidden sm:block relative" id="lang-dropdown-wrapper">
+      <button id="lang-dropdown-btn" onclick="toggleLangDropdown(event)"
+        class="flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-stone-100 transition-all duration-150" style="cursor:pointer;">
+        <span id="lang-current-flag" class="text-xl leading-none">🇩🇪</span>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:#9ca3af;flex-shrink:0;">
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-stone-100 overflow-hidden" style="z-index:60;min-width:52px;">
+        <button onclick="setLang('de')" data-lang="de" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇩🇪</button>
+        <button onclick="setLang('en')" data-lang="en" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇦🇺</button>
+        <button onclick="setLang('pt')" data-lang="pt" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇵🇹</button>
+      </div>
     </div>
     <!-- CTA -->
     <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block" data-i18n="nav_cta">
@@ -390,7 +399,7 @@
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-44 pb-20">
     <div class="flex justify-center mb-8">
-      <img src="Hook-Logo-weiß.png" alt="Hook Visuals" class="w-auto" style="height:clamp(56px,10vw,96px);filter:drop-shadow(0 4px 20px rgba(0,0,0,0.45));" />
+      <img src="Hook-Logo-weiß.png" alt="Hook Visuals" class="w-auto" style="height:clamp(88px,16vw,180px);filter:drop-shadow(0 4px 24px rgba(0,0,0,0.5));" />
     </div>
     <p class="label text-secondary mb-6 tracking-[0.3em]" style="text-shadow:0 2px 8px rgba(0,0,0,0.4)">
       <span data-i18n="hero_eyebrow">Exzellenz im Marketing</span>
@@ -408,7 +417,7 @@
          class="label bg-primary text-white px-10 py-5 rounded-md hover:bg-primary-dark transition-all duration-300 shadow-xl" data-i18n="nav_cta">
         Jetzt starten
       </a>
-      <a href="#zusammenarbeit"
+      <a href="#social"
          class="label text-white border-b-2 border-secondary px-6 py-5 hover:text-secondary transition-colors duration-300"
          style="text-shadow:0 2px 8px rgba(0,0,0,0.35)" data-i18n="hero_vision">
         Unsere Vision entdecken
@@ -1345,11 +1354,11 @@
           </div>
           <div class="flex items-center gap-5">
             <div class="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-secondary">location_on</span>
+              <span class="material-symbols-outlined text-secondary">phone</span>
             </div>
             <div>
-              <p class="label text-on-muted mb-1" data-i18n="contact_office_label">Office</p>
-              <p class="text-primary font-semibold" data-i18n="contact_location">Im Zentrum von München</p>
+              <p class="label text-on-muted mb-1" data-i18n="contact_phone_label">Telefon</p>
+              <a href="tel:+4915679071205" class="text-primary font-semibold hover:text-secondary transition-colors">+49 156 79071205</a>
             </div>
           </div>
         </div>
@@ -1380,6 +1389,10 @@
           <div class="field">
             <input type="email" id="email"   name="email"   placeholder=" " required />
             <label for="email" data-i18n="form_email">E-Mail Adresse</label>
+          </div>
+          <div class="field">
+            <input type="tel" id="phone" name="phone" placeholder=" " />
+            <label for="phone" data-i18n="form_phone">Ihre Telefonnummer</label>
           </div>
           <div class="field">
             <select id="plan" name="plan">
@@ -1529,10 +1542,18 @@
     menu.classList.add('hidden');
     menu.classList.remove('flex');
   }
-  // Close menu when clicking outside
+  // Close menu + lang dropdown when clicking outside
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !btn.contains(e.target)) closeMenu();
+    const _dw = document.getElementById('lang-dropdown-wrapper');
+    const _dd = document.getElementById('lang-dropdown');
+    if (_dd && _dw && !_dw.contains(e.target)) _dd.classList.add('hidden');
   });
+
+  function toggleLangDropdown(e) {
+    e.stopPropagation();
+    document.getElementById('lang-dropdown').classList.toggle('hidden');
+  }
 
   function selectPlan(plan) {
     document.getElementById('plan').value = plan + '-' + currentBilling;
@@ -2590,6 +2611,7 @@
       cookie_decline: 'Ablehnen',
       cookie_accept: 'Akzeptieren',
       no_photos: 'Keine Fotos',
+      contact_phone_label: 'Telefon',
       contact_email_label: 'E-Mail',
       contact_office_label: 'Office',
       contact_location: 'Im Zentrum von München',
@@ -2597,6 +2619,7 @@
       form_success_p: 'Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.',
       form_name: 'Name des Hotels',
       form_email: 'E-Mail Adresse',
+      form_phone: 'Ihre Telefonnummer',
       form_plan_label: 'Interesse',
       form_plan_default: 'Gewünschtes Modell wählen',
       form_plan_light: 'Light — 245 €/Monat (Jahresabo)',
@@ -2712,6 +2735,7 @@
       cookie_decline: 'Decline',
       cookie_accept: 'Accept',
       no_photos: 'No Photos',
+      contact_phone_label: 'Phone',
       contact_email_label: 'Email',
       contact_office_label: 'Office',
       contact_location: 'In the heart of Munich',
@@ -2719,6 +2743,7 @@
       form_success_p: 'Thank you for your enquiry. We will get back to you within 24 hours.',
       form_name: 'Hotel name',
       form_email: 'Email address',
+      form_phone: 'Your phone number',
       form_plan_label: 'Interest',
       form_plan_default: 'Select preferred plan',
       form_plan_light: 'Light — A$415/month (annual)',
@@ -2801,11 +2826,13 @@
       cookie_decline: 'Recusar',
       cookie_accept: 'Aceitar',
       no_photos: 'Sem Fotos',
-      contact_email_label: 'E-mail', contact_office_label: 'Escritório',
+      contact_phone_label: 'Telefone',
+      contact_email_label: 'E-mail',
       contact_location: 'No centro de Munique',
       form_success_h3: 'Mensagem enviada!',
       form_success_p: 'Obrigado pelo seu pedido. Entraremos em contacto consigo em 24 horas.',
       form_name: 'Nome do hotel', form_email: 'Endereço de e-mail',
+      form_phone: 'O seu número de telefone',
       form_plan_label: 'Interesse',
       form_plan_default: 'Selecionar plano preferido',
       form_plan_light: 'Light — 245 €/mês (anual)',
@@ -2901,6 +2928,11 @@
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('lang-btn-active', btn.dataset.lang === lang);
     });
+    const _flags = {de: '🇩🇪', en: '🇦🇺', pt: '🇵🇹'};
+    const _flagEl = document.getElementById('lang-current-flag');
+    if (_flagEl) _flagEl.textContent = _flags[lang] || '🌐';
+    const _langDd = document.getElementById('lang-dropdown');
+    if (_langDd) _langDd.classList.add('hidden');
 
     // Restore scroll so the viewport-center element stays in place
     // (bypass scroll-smooth so the correction is instant and invisible)

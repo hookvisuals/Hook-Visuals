@@ -389,6 +389,9 @@
   <div class="hero-overlay"></div>
 
   <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-44 pb-20">
+    <div class="flex justify-center mb-8">
+      <img src="Hook-Logo-weiß.png" alt="Hook Visuals" class="w-auto" style="height:clamp(56px,10vw,96px);filter:drop-shadow(0 4px 20px rgba(0,0,0,0.45));" />
+    </div>
     <p class="label text-secondary mb-6 tracking-[0.3em]" style="text-shadow:0 2px 8px rgba(0,0,0,0.4)">
       <span data-i18n="hero_eyebrow">Exzellenz im Marketing</span>
     </p>
@@ -1241,6 +1244,7 @@
       </div>
       <span class="label text-secondary" style="font-size:0.65rem;" data-i18n="pricing_save">Bis zu 15% sparen</span>
     </div>
+    <p class="text-center mt-3" style="font-size:0.7rem;color:#5a5e5a;" data-i18n="pricing_min_term">* Bei monatlicher Abrechnung gilt eine Mindestlaufzeit von 3 Monaten.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
 
@@ -1254,7 +1258,6 @@
         </div>
         <ul class="space-y-4 mb-10 flex-1">
           <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f1">5 Instagram Posts</span></li>
-          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f2">Vorhandenes Material</span></li>
           <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="light_f3">Basis Reporting</span></li>
         </ul>
         <a onclick="selectPlan('light')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
@@ -1274,10 +1277,11 @@
           <span class="label text-white/60 ml-1" data-i18n="per_month">/ Monat</span>
         </div>
         <ul class="space-y-4 mb-10 flex-1">
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f1">10 Instagram Posts</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f1">5 Instagram Posts</span></li>
           <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f2">10 Instagram Stories</span></li>
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f3">10 WhatsApp Stories</span></li>
-          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f4">Erweitertes Reporting</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f3">2 Videos/Reels pro Monat</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f4">Jahreszeitenspezifische Posts</span></li>
+          <li class="flex items-center gap-3 text-sm text-white"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="plus_f5">Erweitertes Reporting</span></li>
         </ul>
         <a onclick="selectPlan('plus')" href="#contact" class="label block w-full text-center py-4 bg-secondary text-white rounded-md hover:opacity-90 transition-opacity mt-auto cursor-pointer">
           <span data-i18n="plan_btn">Plan wählen</span>
@@ -1300,6 +1304,9 @@
           <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f5">Eventbasierte Postings</span></li>
           <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f6">Strategiereporting &amp; Konkurrenzanalyse</span></li>
           <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f7">Monatlicher Strategiecall</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f8">Drohnenaufnahmen</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f9">Zielgruppenspezifische Posts</span></li>
+          <li class="flex items-center gap-3 text-sm"><span class="material-symbols-outlined text-secondary text-lg">check_circle</span><span data-i18n="prem_f10">Jahreszeitenspezifische Posts</span></li>
         </ul>
         <a onclick="selectPlan('premium')" href="#contact" class="label block w-full text-center py-4 border border-primary/30 rounded-md hover:bg-primary hover:text-white transition-all duration-300 mt-auto cursor-pointer">
           <span data-i18n="plan_btn">Plan wählen</span>
@@ -1357,7 +1364,7 @@
             <span class="material-symbols-outlined text-secondary text-3xl">check_circle</span>
           </div>
           <div>
-            <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="form_success_h3">Nachricht erhalten!</h3>
+            <h3 class="font-serif text-2xl text-primary mb-2" data-i18n="form_success_h3">Nachricht gesendet!</h3>
             <p class="text-on-muted text-sm leading-relaxed" data-i18n="form_success_p">Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.</p>
           </div>
         </div>
@@ -2505,10 +2512,10 @@
   const translations = {
     de: {
       // Nav
-      nav_collab: 'Zusammenarbeit',
-      nav_social: 'Social Media',
-      nav_pricing: 'Abomodelle',
-      nav_partnership: 'Partnerschaft',
+      nav_collab: 'Partnerschaft',
+      nav_social: 'Leistungen',
+      nav_pricing: 'Preise',
+      nav_partnership: 'Kontakt',
       nav_cta: 'Jetzt starten',
       // Hero
       hero_eyebrow: 'Exzellenz im Marketing',
@@ -2527,7 +2534,7 @@
       pos_p3: 'Wir verstehen, worauf es bei Gastfreundschaft ankommt – und übersetzen das in Bilder und Beiträge, die Gäste wirklich ansprechen.',
       // Zusammenarbeit
       zus_eyebrow: 'Unsere gemeinsame Vision',
-      zus_h2: 'Ihre Zusammenarbeit<br class="hidden sm:block"> mit Hook Visuals',
+      zus_h2: 'Ihre nächsten Schritte<br class="hidden sm:block"> zum Erfolg',
       zus_sub: 'In drei Schritten zu mehr Buchungen für Ihr Hotel.',
       step1_h3: 'Setup',
       step1_p: 'Instagram-Account mit Ihren Fotos.',
@@ -2555,10 +2562,11 @@
       plan_btn: 'Plan wählen',
       pricing_recommended: 'Empfohlen',
       pricing_plus_sub: 'Umfassendes Marketing.',
-      plus_f1: '10 Instagram Posts',
+      plus_f1: '5 Instagram Posts',
       plus_f2: '10 Instagram Stories',
-      plus_f3: '10 WhatsApp Stories',
-      plus_f4: 'Erweitertes Reporting',
+      plus_f3: '2 Videos/Reels pro Monat',
+      plus_f4: 'Jahreszeitenspezifische Posts',
+      plus_f5: 'Erweitertes Reporting',
       website_redesign: 'Website-Redesign',
       website_optional: '(optional für einmalig 1.490 €)',
       pricing_premium_sub: 'Full-Service für maximale Expansion.',
@@ -2569,9 +2577,13 @@
       prem_f5: 'Eventbasierte Postings',
       prem_f6: 'Strategiereporting & Konkurrenzanalyse',
       prem_f7: 'Monatlicher Strategiecall',
+      prem_f8: 'Drohnenaufnahmen',
+      prem_f9: 'Zielgruppenspezifische Posts',
+      prem_f10: 'Jahreszeitenspezifische Posts',
       pricing_disclaimer: 'Preis exklusive Domain- und Hostinggebühren der Website.',
+      pricing_min_term: '* Bei monatlicher Abrechnung gilt eine Mindestlaufzeit von 3 Monaten.',
       // Contact
-      contact_eyebrow: 'Partnerschaft',
+      contact_eyebrow: 'Kontakt',
       contact_h2: 'Lassen Sie uns wachsen',
       contact_sub: 'Bereit, Ihre Buchungszahlen auf das nächste Level zu heben? Unser Team aus Experten wartet darauf, Ihr Wellnesshotel digital zum Strahlen zu bringen.',
       cookie_text: 'Wir nutzen <strong>Google Analytics</strong>, um zu verstehen, wie Besucher unsere Website nutzen. Die Daten werden anonym erfasst. Mehr dazu in unserer <a href="cookie-policy.html">Cookie Policy</a> und <a href="privacy-policy.html">Datenschutzerklärung</a>.',
@@ -2581,7 +2593,7 @@
       contact_email_label: 'E-Mail',
       contact_office_label: 'Office',
       contact_location: 'Im Zentrum von München',
-      form_success_h3: 'Nachricht erhalten!',
+      form_success_h3: 'Nachricht gesendet!',
       form_success_p: 'Vielen Dank für Ihre Anfrage. Wir melden uns innerhalb von 24 Stunden bei Ihnen.',
       form_name: 'Name des Hotels',
       form_email: 'E-Mail Adresse',
@@ -2622,10 +2634,10 @@
     },
     en: {
       // Nav
-      nav_collab: 'Collaboration',
-      nav_social: 'Social Media',
-      nav_pricing: 'Plans',
-      nav_partnership: 'Partnership',
+      nav_collab: 'Partnership',
+      nav_social: 'Services',
+      nav_pricing: 'Pricing',
+      nav_partnership: 'Contact',
       nav_cta: 'Get Started',
       // Hero
       hero_eyebrow: 'Excellence in Marketing',
@@ -2644,7 +2656,7 @@
       pos_p3: 'We understand what matters in hospitality — and translate that into images and posts that truly resonate with guests.',
       // Zusammenarbeit
       zus_eyebrow: 'Our Shared Vision',
-      zus_h2: 'Your Partnership<br class="hidden sm:block"> with Hook Visuals',
+      zus_h2: 'Your Next Steps<br class="hidden sm:block"> to Success',
       zus_sub: 'In three steps to more bookings for your hotel.',
       step1_h3: 'Setup',
       step1_p: 'Instagram account set up with your photos.',
@@ -2672,10 +2684,11 @@
       plan_btn: 'Choose plan',
       pricing_recommended: 'Recommended',
       pricing_plus_sub: 'Comprehensive marketing.',
-      plus_f1: '10 Instagram Posts',
+      plus_f1: '5 Instagram Posts',
       plus_f2: '10 Instagram Stories',
-      plus_f3: '10 WhatsApp Stories',
-      plus_f4: 'Extended reporting',
+      plus_f3: '2 Videos/Reels per month',
+      plus_f4: 'Seasonal posts',
+      plus_f5: 'Extended reporting',
       website_redesign: 'Website Redesign',
       website_optional: '(optional, one-time A$2,490)',
       pricing_premium_sub: 'Full-service for maximum expansion.',
@@ -2686,9 +2699,13 @@
       prem_f5: 'Event-based postings',
       prem_f6: 'Strategy reporting & competitor analysis',
       prem_f7: 'Monthly strategy call',
+      prem_f8: 'Drone footage',
+      prem_f9: 'Target-group-specific posts',
+      prem_f10: 'Seasonal posts',
       pricing_disclaimer: 'Price excluding domain and hosting fees for the website.',
+      pricing_min_term: '* A minimum term of 3 months applies for monthly billing.',
       // Contact
-      contact_eyebrow: 'Partnership',
+      contact_eyebrow: 'Contact',
       contact_h2: "Let's Grow Together",
       contact_sub: 'Ready to take your booking numbers to the next level? Our team of experts is ready to make your wellness hotel shine digitally.',
       cookie_text: 'We use <strong>Google Analytics</strong> to understand how visitors use our website. Data is collected anonymously. Learn more in our <a href="cookie-policy.html">Cookie Policy</a> and <a href="privacy-policy.html">Privacy Policy</a>.',
@@ -2698,7 +2715,7 @@
       contact_email_label: 'Email',
       contact_office_label: 'Office',
       contact_location: 'In the heart of Munich',
-      form_success_h3: 'Message received!',
+      form_success_h3: 'Message sent!',
       form_success_p: 'Thank you for your enquiry. We will get back to you within 24 hours.',
       form_name: 'Hotel name',
       form_email: 'Email address',
@@ -2738,8 +2755,8 @@
       footer_portfolio: 'Portfolio',
     },
     pt: {
-      nav_collab: 'Colaboração', nav_social: 'Redes Sociais', nav_pricing: 'Planos',
-      nav_partnership: 'Parceria', nav_cta: 'Começar',
+      nav_collab: 'Parceria', nav_social: 'Serviços', nav_pricing: 'Preços',
+      nav_partnership: 'Contacto', nav_cta: 'Começar',
       hero_eyebrow: 'Excelência em Marketing',
       hero_h1: 'A Sua Excelência<br class="hidden sm:block" /> Merece Visibilidade.',
       hero_sub: 'Marketing de excelência para destinos wellness extraordinários. Transformamos a tranquilidade da sua propriedade num desejo digital que gera resultados mensuráveis.',
@@ -2752,7 +2769,7 @@
       pos_p2: 'Em vez de ser uma agência de marketing genérica, fomos all-in numa única indústria. Isso significa um conhecimento mais profundo, melhores resultados e uma parceria que realmente compreende o seu negócio.',
       pos_p3: 'Compreendemos o que importa na hospitalidade: autenticidade, estética e a arte de comunicar experiências de luxo a um público exigente.',
       zus_eyebrow: 'A Nossa Visão Partilhada',
-      zus_h2: 'A Sua Parceria<br class="hidden sm:block"> com a Hook Visuals',
+      zus_h2: 'Os Seus Próximos Passos<br class="hidden sm:block"> para o Sucesso',
       zus_sub: 'Em três passos para mais reservas no seu hotel.',
       step1_h3: 'Configuração', step1_p: 'Conta de Instagram configurada com as suas fotos.',
       step2_h3: 'Publicações nas Redes Sociais', step2_p: 'Publicações regulares no Instagram e atualizações para si.',
@@ -2767,16 +2784,18 @@
       light_f1: '5 Publicações no Instagram', light_f2: 'Material existente', light_f3: 'Relatório básico',
       plan_btn: 'Escolher plano', pricing_recommended: 'Recomendado',
       pricing_plus_sub: 'Marketing abrangente.',
-      plus_f1: '10 Publicações no Instagram', plus_f2: '10 Histórias no Instagram',
-      plus_f3: '10 Histórias no WhatsApp', plus_f4: 'Relatório alargado',
+      plus_f1: '5 Publicações no Instagram', plus_f2: '10 Histórias no Instagram',
+      plus_f3: '2 Vídeos/Reels por mês', plus_f4: 'Publicações Sazonais', plus_f5: 'Relatório alargado',
       website_redesign: 'Redesign do Website', website_optional: '(opcional, uma vez 1.490 €)',
       pricing_premium_sub: 'Serviço completo para expansão máxima.',
       prem_f1: '15 Publicações no Instagram', prem_f2: '10 Histórias no Instagram',
       prem_f3: 'Profissionalização da presença no Google',
       prem_f4: 'Horários e frequência de publicação otimizados', prem_f5: 'Publicações baseadas em eventos',
       prem_f6: 'Relatório de estratégia e análise da concorrência', prem_f7: 'Chamada de estratégia mensal',
+      prem_f8: 'Filmagens com Drone', prem_f9: 'Publicações por Público-Alvo', prem_f10: 'Publicações Sazonais',
       pricing_disclaimer: 'Preço excluindo taxas de domínio e alojamento do website.',
-      contact_eyebrow: 'Parceria', contact_h2: 'Vamos Crescer Juntos',
+      pricing_min_term: '* Para faturação mensal aplica-se um período mínimo de 3 meses.',
+      contact_eyebrow: 'Contacto', contact_h2: 'Vamos Crescer Juntos',
       contact_sub: 'Pronto para levar os seus números de reservas ao próximo nível? Vamos criar algo extraordinário juntos.',
       cookie_text: 'Utilizamos o <strong>Google Analytics</strong> para compreender como os visitantes utilizam o nosso website. Os dados são recolhidos de forma anónima. Saiba mais na nossa <a href="cookie-policy.html">Política de Cookies</a> e <a href="privacy-policy.html">Política de Privacidade</a>.',
       cookie_decline: 'Recusar',
@@ -2784,7 +2803,7 @@
       no_photos: 'Sem Fotos',
       contact_email_label: 'E-mail', contact_office_label: 'Escritório',
       contact_location: 'No centro de Munique',
-      form_success_h3: 'Mensagem recebida!',
+      form_success_h3: 'Mensagem enviada!',
       form_success_p: 'Obrigado pelo seu pedido. Entraremos em contacto consigo em 24 horas.',
       form_name: 'Nome do hotel', form_email: 'Endereço de e-mail',
       form_plan_label: 'Interesse',

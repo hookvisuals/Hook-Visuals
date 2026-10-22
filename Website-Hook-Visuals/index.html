@@ -322,9 +322,9 @@
      NAV
 ════════════════════════════════════════════ -->
 <header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-4">
-  <nav class="glass w-full max-w-7xl rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.08)] flex items-center justify-between px-8 py-1.5">
+  <nav class="glass w-full max-w-7xl rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.08)] grid px-8 py-1.5" style="grid-template-columns:1fr auto 1fr;">
 
-    <!-- Logo -->
+    <!-- Logo (left) -->
     <a href="index.html" class="select-none flex items-center">
       <picture>
         <source srcset="Hook-Logo-weiß.png" media="(prefers-color-scheme: dark)">
@@ -332,7 +332,7 @@
       </picture>
     </a>
 
-    <!-- Desktop links -->
+    <!-- Desktop links (center) -->
     <div class="hidden md:flex items-center gap-8">
       <a href="#zusammenarbeit"  class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_collab">Zusammenarbeit</a>
       <a href="#social"     class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_social">Social Media</a>
@@ -340,25 +340,27 @@
       <a href="#contact"    class="label text-primary hover:text-secondary hover:underline hover:underline-offset-4 hover:-translate-y-0.5 transition-all duration-200" data-i18n="nav_partnership">Partnerschaft</a>
     </div>
 
-    <!-- Lang switcher dropdown -->
-    <div class="hidden sm:block relative" id="lang-dropdown-wrapper">
-      <button id="lang-dropdown-btn" onclick="toggleLangDropdown(event)"
-        class="flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-stone-100 transition-all duration-150" style="cursor:pointer;">
-        <span id="lang-current-flag" class="text-xl leading-none">🇩🇪</span>
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:#9ca3af;flex-shrink:0;">
-          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-stone-100 overflow-hidden" style="z-index:60;min-width:52px;">
-        <button onclick="setLang('de')" data-lang="de" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇩🇪</button>
-        <button onclick="setLang('en')" data-lang="en" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇦🇺</button>
-        <button onclick="setLang('pt')" data-lang="pt" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇵🇹</button>
+    <!-- Right: CTA + Lang switcher -->
+    <div class="flex items-center justify-end gap-3">
+      <!-- CTA -->
+      <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block" data-i18n="nav_cta">
+        Jetzt starten
+      </a>
+      <!-- Lang switcher dropdown -->
+      <div class="hidden sm:block relative" id="lang-dropdown-wrapper">
+        <button id="lang-dropdown-btn" onclick="toggleLangDropdown(event)"
+          class="flex items-center gap-1.5 px-2 py-1.5 rounded-md hover:bg-stone-100 transition-all duration-150" style="cursor:pointer;">
+          <span id="lang-current-flag" class="text-xl leading-none">🇩🇪</span>
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="color:#9ca3af;flex-shrink:0;">
+            <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white rounded-xl shadow-lg border border-stone-100 overflow-hidden" style="z-index:60;min-width:52px;">
+          <button onclick="setLang('de')" data-lang="de" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇩🇪</button>
+          <button onclick="setLang('en')" data-lang="en" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇦🇺</button>
+          <button onclick="setLang('pt')" data-lang="pt" class="lang-btn block w-full text-center text-xl leading-none px-3 py-2.5 hover:bg-stone-50 transition-colors">🇵🇹</button>
+        </div>
       </div>
-    </div>
-    <!-- CTA -->
-    <a href="#contact" class="label bg-primary text-white px-6 py-2.5 rounded-full hover:bg-primary-dark transition-colors duration-300 hidden sm:block" data-i18n="nav_cta">
-      Jetzt starten
-    </a>
 
     <!-- Mobile hamburger (visual only — menu below) -->
     <button id="menu-btn" class="sm:hidden flex flex-col gap-1.5 p-2" aria-label="Menü">
